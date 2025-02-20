@@ -1,3 +1,51 @@
 = 项目通用框架
 
+这是一个包含后台服务端、后台管理前端、PC前端、uniapp移动端的通用框架。
 
+== 目录结构
+
+[source, bash]
+----
+├─ server  //服务端根目录（管理后台、接口）
+│  ├─ app  //应用目录
+│  │  ├─ admin_api  //管理后台 api
+│  │  ├─ common  //通用代码
+│  │  ├─ front_api  //前端后台 api
+│  │  ├─ index  //前端入口控制器
+│  ├─ public  //WEB目录（对外访问目录）
+│  │  ├─ index.php  //php入口文件
+│  │  ├─ admin  //已编译的后台前端代码入口（上线运行）
+│  │  ├─ install  //安装程序目录
+│  │  ├─ mobile  //已编译的uniapp前端代码入口（上线运行）
+│  │  ├─ pc  //已编译的pc前端代码入口（上线运行）
+│  │  ├─ resource  //网页图片资源文件
+│  │  ├─ static  //网页静态资源文件
+│  │  ├─ uploads  //图片上传目录
+│  ├─ .env  //项目环境配置文件（最优化读取配置）
+│
+├─ admin  //管理后台前端源码
+│  ├─ scripts //打包发布脚本
+│  ├─ src //源码
+│  ├─ typings //类型声明
+│  ├─ .env.development.example //开发环境接口地址配置文件模板
+│  ├─ .env.production.example //生产环境接口地址配置文件模板
+├─ docker  //docer配置文件
+├─ pc  //pc网页目录
+├─ uniapp  //uniapp目录
+----
+
+== 服务端
+
+* [ ] TODO
+
+== 后台前端
+
+* [ ] TODO
+
+== uniapp
+
+* [ ] TODO
+
+== pc
+
+* [ ] TODO

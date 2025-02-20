@@ -110,8 +110,8 @@ class WorkbenchLogic extends BaseLogic
             'name' => ConfigService::get('website', 'name'),
             'based' => 'vue3.x、ElementUI、MySQL',
             'channel' => [
-                'website' => 'https://www.likeadmin.cn',
-                'gitee' => 'https://gitee.com/likeadmin/likeadmin_php',
+                'website' => 'https://github.com/lzh06550107',
+                'gitee' => 'https://github.com/application-scaffold/admin_php',
             ]
         ];
     }
