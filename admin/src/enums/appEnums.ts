@@ -6,9 +6,9 @@ export enum ThemeEnum {
 
 // 菜单类型
 export enum MenuEnum {
-    CATALOGUE = 'M',
-    MENU = 'C',
-    BUTTON = 'A'
+    CATALOGUE = 'M', // 目录
+    MENU = 'C', // 菜单
+    BUTTON = 'A' // 按钮
 }
 
 // 屏幕

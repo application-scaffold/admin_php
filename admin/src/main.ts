@@ -1,9 +1,7 @@
 // 引入权限控制模块
 import './permission'
-
 // 引入全局样式
 import './styles/index.scss'
-
 // 注册SVG图标
 import 'virtual:svg-icons-register'
 
@@ -12,10 +10,8 @@ import { createApp } from 'vue'
 
 // 引入获取配置的API方法
 import { getConfig } from './api/app'
-
 // 引入根组件
 import App from './App.vue'
-
 // 引入自定义插件
 import install from './install'
 
@@ -42,7 +38,7 @@ getConfig().then((res) => {
 
     // 在控制台输出版本信息，带有自定义样式
     console.log(
-        `%c likeadmin %c v${res.version} `,
+        `%c admin_php %c v${res.version} `,
         'padding: 4px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #bbb; font-weight: bold;',
         'padding: 4px 1px; border-radius: 0 3px 3px 0; color: #fff; background: #4A5DFF; font-weight: bold;'
     )

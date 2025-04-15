@@ -1,9 +1,15 @@
 {
+    // 继承自Vue提供的Node.js环境的TypeScript配置
     "extends": "@vue/tsconfig/tsconfig.node.json",
+    // 指定需要包含在编译中的文件或文件夹
     "include": ["vite.config.*"],
+    // TypeScript编译器选项
     "compilerOptions": {
+        // 忽略指定版本的弃用警告
         "ignoreDeprecations": "5.0",
+        // 启用项目编译模式，允许增量编译
         "composite": true,
+        // 指定需要包含的类型声明文件
         "types": ["@types/node"]
     }
 }

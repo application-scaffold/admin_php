@@ -10,25 +10,18 @@ import NProgress from 'nprogress'
 
 // 引入配置文件
 import config from './config'
-
 // 引入页面枚举
 import { PageEnum } from './enums/pageEnum'
-
 // 引入路由配置和工具函数
 import router, { findFirstValidRoute } from './router'
-
 // 引入默认路由配置
 import { INDEX_ROUTE, INDEX_ROUTE_NAME } from './router/routes'
-
 // 引入多标签页状态管理
 import useTabsStore from './stores/modules/multipleTabs'
-
 // 引入用户状态管理
 import useUserStore from './stores/modules/user'
-
 // 引入清除认证信息的工具函数
 import { clearAuthInfo } from './utils/auth'
-
 // 引入验证工具函数
 import { isExternal } from './utils/validate'
 

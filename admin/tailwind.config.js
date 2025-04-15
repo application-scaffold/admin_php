@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    // 指定Tailwind CSS需要扫描的文件路径，以便提取类名
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+    // 定义主题配置
     theme: {
+        // 定义颜色变量
         colors: {
+            // 白色
             white: 'var(--color-white)',
+            // 主要颜色及其不同亮度和暗度的变体
             primary: {
                 DEFAULT: 'var(--el-color-primary)',
                 'light-3': 'var(--el-color-primary-light-3)',
@@ -13,6 +18,7 @@ module.exports = {
                 'light-9': 'var(--el-color-primary-light-9)',
                 'dark-2': 'var(--el-color-primary-dark-2)'
             },
+            // 成功颜色及其不同亮度和暗度的变体
             success: {
                 DEFAULT: 'var(--el-color-success)',
                 'light-3': 'var(--el-color-success-light-3)',
@@ -22,6 +28,7 @@ module.exports = {
                 'light-9': 'var(--el-color-success-light-9)',
                 'dark-2': 'var(--el-color-success-dark-2)'
             },
+            // 警告颜色及其不同亮度和暗度的变体
             warning: {
                 DEFAULT: 'var(--el-color-warning)',
                 'light-3': 'var(--el-color-warning-light-3)',
@@ -31,6 +38,7 @@ module.exports = {
                 'light-9': 'var(--el-color-warning-light-9)',
                 'dark-2': 'var(--el-color-warning-dark-2)'
             },
+            // 危险颜色及其不同亮度和暗度的变体
             danger: {
                 DEFAULT: 'var(--el-color-danger)',
                 'light-3': 'var(--el-color-danger-light-3)',
@@ -40,6 +48,7 @@ module.exports = {
                 'light-9': 'var(--el-color-danger-light-9)',
                 'dark-2': 'var(--el-color-danger-dark-2)'
             },
+            // 错误颜色及其不同亮度和暗度的变体
             error: {
                 DEFAULT: 'var(--el-color-error)',
                 'light-3': 'var(--el-color-error-light-3)',
@@ -49,6 +58,7 @@ module.exports = {
                 'light-9': 'var(--el-color-error-light-9)',
                 'dark-2': 'var(--el-color-error-dark-2)'
             },
+            // 信息颜色及其不同亮度和暗度的变体
             info: {
                 DEFAULT: 'var(--el-color-info)',
                 'light-3': 'var(--el-color-info-light-3)',
@@ -58,31 +68,39 @@ module.exports = {
                 'light-9': 'var(--el-color-info-light-9)',
                 'dark-2': 'var(--el-color-info-dark-2)'
             },
+            // 背景色
             body: 'var(--el-bg-color)',
             page: 'var(--el-bg-color-page)',
+            // 文本颜色
             'tx-primary': 'var(--el-text-color-primary)',
             'tx-regular': 'var(--el-text-color-regular)',
             'tx-secondary': 'var(--el-text-color-secondary)',
             'tx-placeholder': 'var(--el-text-color-placeholder)',
             'tx-disabled': 'var(--el-text-color-disabled)',
+            // 边框颜色
             br: 'var(--el-border-color)',
             'br-light': 'var(--el-border-color-light)',
             'br-extra-light': 'var(--el-border-color-extra-light)',
             'br-dark': 'var( --el-border-color-dark)',
+            // 填充颜色
             fill: 'var(--el-fill-color)',
             'fill-light': 'var(--el-fill-color-light)',
             'fill-lighter': 'var(--el-fill-color-lighter)',
+            // 遮罩颜色
             mask: 'var(--el-mask-color)'
         },
+        // 定义字体系列
         fontFamily: {
             sans: ['PingFang SC', 'Arial', 'Hiragino Sans GB', 'Microsoft YaHei', 'sans-serif']
         },
+        // 定义阴影效果
         boxShadow: {
             DEFAULT: 'var(--el-box-shadow)',
             light: 'var(--el-box-shadow-light)',
             lighter: 'var(--el-box-shadow-lighter)',
             dark: 'var(--el-box-shadow-dark)'
         },
+        // 定义字体大小
         fontSize: {
             xs: 'var(--el-font-size-extra-small)',
             sm: 'var( --el-font-size-small)',
@@ -98,6 +116,7 @@ module.exports = {
             '8xl': '48px',
             '9xl': '60px'
         },
+        // 定义间距
         spacing: {
             px: '1px',
             0: '0px',
@@ -135,6 +154,7 @@ module.exports = {
             80: '320px',
             96: '384px'
         },
+        // 定义行高
         lineHeight: {
             none: '1',
             tight: '1.25',

@@ -32,7 +32,6 @@ class GeneratorController extends BaseAdminApiController
         return $this->dataLists(new DataTableLists());
     }
 
-
     /**
      * 获取已选择的数据表
      * @return \think\response\Json

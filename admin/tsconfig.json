@@ -1,5 +1,7 @@
 {
+    // 继承自Vue提供的Web环境的TypeScript配置
     "extends": "@vue/tsconfig/tsconfig.web.json",
+    // 指定需要包含在编译中的文件或文件夹
     "include": [
         "global.d.ts",
         "src/**/*",
@@ -8,15 +10,22 @@
         "auto-imports.d.ts",
         "typings/**/*.d.ts"
     ],
+    // TypeScript编译器选项
     "compilerOptions": {
+        // 忽略指定版本的弃用警告
         "ignoreDeprecations": "5.0",
+        // 启用隔离模块，确保每个文件都是一个独立的模块
         "isolatedModules": true,
+        // 设置模块解析的基准目录
         "baseUrl": ".",
+        // 配置路径别名
         "paths": {
             "@/*": ["./src/*"]
         },
+        // 启用所有严格类型检查选项
         "strict": true
     },
+    // 项目引用，指向其他tsconfig文件
     "references": [
         {
             "path": "./tsconfig.config.json"

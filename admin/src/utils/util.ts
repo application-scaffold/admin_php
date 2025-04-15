@@ -2,29 +2,33 @@ import { isObject } from '@vue/shared'
 import { cloneDeep } from 'lodash'
 
 /**
- * @description 添加单位
- * @param {String | Number} value 值 100
- * @param {String} unit 单位 px em rem
+ * 为数值添加单位
+ *
+ * @param value {string | number} - 要添加单位的值，例如100
+ * @param unit {string} - 单位，默认为'px'，可选值有'px', 'em', 'rem'等
+ * @returns {string} - 添加单位后的字符串
  */
 export const addUnit = (value: string | number, unit = 'px') => {
     return !Object.is(Number(value), NaN) ? `${value}${unit}` : value
 }
 
 /**
- * @description 添加单位
- * @param {unknown} value
- * @return {Boolean}
+ * 检查值是否为空
+ *
+ * @param value {unknown} - 要检查的值
+ * @returns {boolean} - 如果值为null或undefined，则返回true；否则返回false
  */
 export const isEmpty = (value: unknown) => {
     return value == null && typeof value == 'undefined'
 }
 
 /**
- * @description 树转数组，队列实现广度优先遍历
- * @param {Array} data  数据
- * @param {Object} props `{ children: 'children' }`
+ * 将树结构数据转换为数组，使用队列实现广度优先遍历
+ *
+ * @param data {any[]} - 树结构数据
+ * @param props {Object} - 配置对象，默认为`{ children: 'children' }`
+ * @returns {any[]} - 转换后的数组
  */
-
 export const treeToArray = (data: any[], props = { children: 'children' }) => {
     data = cloneDeep(data)
     const { children } = props
@@ -43,11 +47,12 @@ export const treeToArray = (data: any[], props = { children: 'children' }) => {
 }
 
 /**
- * @description 数组转
- * @param {Array} data  数据
- * @param {Object} props `{ parent: 'pid', children: 'children' }`
+ * 将数组转换为树结构数据
+ *
+ * @param data {any[]} - 数组数据
+ * @param props {Object} - 配置对象，默认为`{ id: 'id', parentId: 'pid', children: 'children' }`
+ * @returns {any[]} - 转换后的树结构数据
  */
-
 export const arrayToTree = (
     data: any[],
     props = { id: 'id', parentId: 'pid', children: 'children' }
@@ -70,8 +75,10 @@ export const arrayToTree = (
 }
 
 /**
- * @description 获取正确的路经
- * @param {String} path  数据
+ * 获取标准化的路径
+ *
+ * @param path {string} - 路径字符串
+ * @returns {string} - 标准化后的路径
  */
 export function getNormalPath(path: string) {
     if (path.length === 0 || !path || path == 'undefined') {
@@ -86,9 +93,10 @@ export function getNormalPath(path: string) {
 }
 
 /**
- * @description对象格式化为Query语法
- * @param { Object } params
- * @return {string} Query语法
+ * 将对象格式化为Query语法字符串
+ *
+ * @param params {Record<string, any>} - 对象参数
+ * @returns {string} - Query语法字符串
  */
 export function objectToQuery(params: Record<string, any>): string {
     let query = ''
@@ -113,10 +121,11 @@ export function objectToQuery(params: Record<string, any>): string {
 }
 
 /**
- * @description 时间格式化
- * @param dateTime { number } 时间戳
- * @param fmt { string } 时间格式
- * @return { string }
+ * 格式化时间
+ *
+ * @param dateTime {number} - 时间戳，单位为毫秒
+ * @param fmt {string} - 时间格式，默认为'yyyy-mm-dd'
+ * @returns {string} - 格式化后的时间字符串
  */
 // yyyy:mm:dd|yyyy:mm|yyyy年mm月dd日|yyyy年mm月dd日 hh时MM分等,可自定义组合
 export const timeFormat = (dateTime: number, fmt = 'yyyy-mm-dd') => {
@@ -151,9 +160,10 @@ export const timeFormat = (dateTime: number, fmt = 'yyyy-mm-dd') => {
 }
 
 /**
- * @description 获取不重复的id
- * @param length { Number } id的长度
- * @return { String } id
+ * 生成不重复的ID
+ *
+ * @param length {number} - ID的长度，默认为8
+ * @returns {string} - 生成的ID
  */
 export const getNonDuplicateID = (length = 8) => {
     let idStr = Date.now().toString(36)
@@ -162,7 +172,11 @@ export const getNonDuplicateID = (length = 8) => {
 }
 
 /**
- * 计算颜色透明度减淡
+ * 计算颜色的透明度
+ *
+ * @param color {string} - 颜色值，支持hex、rgb和rgba格式
+ * @param opacity {number} - 透明度值，范围为0到1
+ * @returns {string} - 计算后的rgba颜色值
  */
 export const calcColor = (color: string, opacity: number): string => {
     // 规范化透明度值在 0 ~ 1 之间
