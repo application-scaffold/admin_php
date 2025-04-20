@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\recharge;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\recharge\RechargeLists;
 use app\admin_api\logic\recharge\RechargeLogic;
 use app\admin_api\validate\recharge\RechargeRefundValidate;
+use think\response\Json;
 
 /**
  * 充值控制器
@@ -19,11 +21,11 @@ class RechargeController extends BaseAdminApiController
 
     /**
      * 获取充值设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function getConfig()
+    public function getConfig(): Json
     {
         $result = RechargeLogic::getConfig();
         return $this->data($result);
@@ -32,11 +34,11 @@ class RechargeController extends BaseAdminApiController
 
     /**
      * 充值设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function setConfig()
+    public function setConfig(): Json
     {
         $params = $this->request->post();
         $result = RechargeLogic::setConfig($params);
@@ -48,11 +50,11 @@ class RechargeController extends BaseAdminApiController
 
     /**
      * 充值记录
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new RechargeLists());
     }
@@ -60,11 +62,11 @@ class RechargeController extends BaseAdminApiController
 
     /**
      * 退款
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function refund()
+    public function refund(): Json
     {
         $params = (new RechargeRefundValidate())->post()->goCheck('refund');
         $result = RechargeLogic::refund($params, $this->adminId);
@@ -77,11 +79,11 @@ class RechargeController extends BaseAdminApiController
 
     /**
      * 重新退款
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function refundAgain()
+    public function refundAgain(): Json
     {
         $params = (new RechargeRefundValidate())->post()->goCheck('again');
         $result = RechargeLogic::refundAgain($params, $this->adminId);

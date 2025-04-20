@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\article;
 
@@ -83,7 +84,7 @@ class ArticleCateLists extends BaseAdminDataLists implements ListsSearchInterfac
         return ArticleCate::where($this->searchWhere)->count();
     }
 
-    public function extend()
+    public function extend(): array
     {
         return [];
     }

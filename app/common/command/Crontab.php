@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\command;
 
@@ -22,7 +23,7 @@ class Crontab extends Command
     /**
      * 配置命令名称和描述
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('crontab') // 设置命令名称为 'crontab'
             ->setDescription('定时任务'); // 设置命令描述为 '定时任务'
@@ -33,8 +34,9 @@ class Crontab extends Command
      * @param Input $input 输入对象
      * @param Output $output 输出对象
      * @return bool 如果没有任何任务执行，返回false
+     * @throws \Exception
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): bool
     {
         // 获取所有状态为“启动”的定时任务
         $lists = CrontabModel::where('status', CrontabEnum::START)->select()->toArray();
@@ -67,13 +69,14 @@ class Crontab extends Command
             // 执行任务
             self::start($item);
         }
+        return true;
     }
 
     /**
      * 执行单个定时任务
      * @param array $item 任务信息
      */
-    public static function start($item)
+    public static function start(array $item): void
     {
         // 记录任务开始时间
         $startTime = microtime(true);

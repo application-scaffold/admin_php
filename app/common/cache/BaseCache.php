@@ -22,7 +22,7 @@ abstract class BaseCache extends Cache
      * 2. 页面更新时，通过标签统一清除所有模块缓存
      * @var string
      */
-    protected $tagName;
+    protected string $tagName;
 
     public function __construct()
     {
@@ -34,12 +34,12 @@ abstract class BaseCache extends Cache
      * 重写父类set，自动打上标签
      * @param string $key
      * @param mixed $value
-     * @param null $ttl
+     * @param mixed $ttl
      * @return bool
      * @author LZH
      * @date 2025/2/18
      */
-    public function set($key, $value, $ttl = null): bool
+    public function set(string $key, mixed $value, mixed $ttl = null): bool
     {
         return $this->store()->tag($this->tagName)->set($key, $value, $ttl);
     }

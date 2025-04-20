@@ -7,23 +7,29 @@ namespace app\front_api\http\middleware;
 use app\common\cache\UserTokenCache;
 use app\common\service\JsonService;
 use app\front_api\service\UserTokenService;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Config;
+use think\Request;
+use think\response\Json;
 
 class LoginMiddleware
 {
 
     /**
      * 登录验证
-     * @param $request
+     * @param Request $request
      * @param \Closure $next
-     * @return mixed|\think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @return mixed|Json
+     * @throws \DateMalformedStringException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         $token = $request->header('token');
         //判断接口是否免登录

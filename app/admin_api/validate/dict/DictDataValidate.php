@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\dict;
 
@@ -42,7 +43,7 @@ class DictDataValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): DictDataValidate
     {
         return $this->remove('id', true);
     }
@@ -54,7 +55,7 @@ class DictDataValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneId()
+    public function sceneId(): DictDataValidate
     {
         return $this->only(['id']);
     }
@@ -66,19 +67,19 @@ class DictDataValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneEdit()
+    public function sceneEdit(): DictDataValidate
     {
         return $this->remove('type_id', true);
     }
 
     /**
      * 校验字典数据
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkDictData($value)
+    protected function checkDictData(string $value): bool|string
     {
         $article = DictData::findOrEmpty($value);
         if ($article->isEmpty()) {
@@ -90,12 +91,12 @@ class DictDataValidate extends BaseValidate
 
     /**
      * 校验字典类型
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkDictType($value)
+    protected function checkDictType(string $value): bool|string
     {
         $type = DictType::findOrEmpty($value);
         if ($type->isEmpty()) {

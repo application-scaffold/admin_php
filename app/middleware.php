@@ -1,4 +1,7 @@
 <?php
+
+declare (strict_types = 1);
+
 // 全局中间件定义文件
 return [
     // 全局请求缓存

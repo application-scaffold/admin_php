@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage\engine;
 
@@ -15,15 +16,15 @@ use Qcloud\Cos\Client;
  */
 class Qcloud extends Server
 {
-    private $config;
-    private $cosClient;
+    private array $config;
+    private Client $cosClient;
 
     /**
      * 构造方法
      * Qcloud constructor.
-     * @param $config
+     * @param array $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         parent::__construct();
         $this->config = $config;
@@ -37,7 +38,7 @@ class Qcloud extends Server
      * @author LZH
      * @date 2025/2/19
      */
-    private function createCosClient()
+    private function createCosClient(): void
     {
         $this->cosClient = new Client([
             'region' => $this->config['region'],
@@ -50,12 +51,12 @@ class Qcloud extends Server
 
     /**
      * 执行上传
-     * @param $save_dir
+     * @param string $save_dir
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function upload($save_dir)
+    public function upload(string $save_dir): bool
     {
         // 上传文件
         // putObject(上传接口，最大支持上传5G文件)
@@ -74,13 +75,14 @@ class Qcloud extends Server
 
     /**
      * 抓取远程资源(最大支持上传5G文件)
-     * @param $url
-     * @param $key
+     * @param string $url
+     * @param string|null $key
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function fetch($url, $key=null) {
+    public function fetch(string $url, string $key=null): bool
+    {
         try {
             $this->cosClient->putObject([
                 'Bucket' => $this->config['bucket'],
@@ -96,12 +98,12 @@ class Qcloud extends Server
 
     /**
      * 删除文件
-     * @param $fileName
+     * @param string $fileName
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function delete($fileName)
+    public function delete(string $fileName): bool
     {
         try {
             $this->cosClient->deleteObject(array(
@@ -117,11 +119,11 @@ class Qcloud extends Server
 
     /**
      * 返回文件路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }

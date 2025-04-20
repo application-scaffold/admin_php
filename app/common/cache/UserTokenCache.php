@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\cache;
 
 use app\common\model\user\User;
 use app\common\model\user\UserSession;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 用户token缓存
@@ -15,19 +19,20 @@ use app\common\model\user\UserSession;
 class UserTokenCache extends BaseCache
 {
 
-    private $prefix = 'token_user_';
+    private string $prefix = 'token_user_';
 
     /**
      * 通过token获取缓存用户信息
-     * @param $token
+     * @param string $token
      * @return array|false|mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \DateMalformedStringException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/18
      */
-    public function getUserInfo($token)
+    public function getUserInfo(string $token): mixed
     {
         //直接从缓存获取
         $userInfo = $this->get($this->prefix . $token);
@@ -46,16 +51,16 @@ class UserTokenCache extends BaseCache
 
     /**
      * 通过有效token设置用户信息缓存
-     * @param $token
+     * @param string $token
      * @return array|false|mixed
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @throws \DateMalformedStringException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/18
      */
-    public function setUserInfo($token)
+    public function setUserInfo(string $token): mixed
     {
         $userSession = UserSession::where([['token', '=', $token], ['expire_time', '>', time()]])->find();
         if (empty($userSession)) {
@@ -83,12 +88,12 @@ class UserTokenCache extends BaseCache
 
     /**
      * 删除缓存
-     * @param $token
+     * @param string $token
      * @return bool
      * @author LZH
      * @date 2025/2/18
      */
-    public function deleteUserInfo($token)
+    public function deleteUserInfo(string $token): bool
     {
         return $this->delete($this->prefix . $token);
     }

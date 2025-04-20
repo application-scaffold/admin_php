@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\finance;
 
@@ -38,7 +39,7 @@ class AccountLogLists extends BaseAdminDataLists implements ListsSearchInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryWhere()
+    public function queryWhere(): array
     {
         $where = [];
         // 用户余额

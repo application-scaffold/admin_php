@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace app\common\service\pay;
 
@@ -11,13 +12,13 @@ class BasePayService
      * 错误信息
      * @var string
      */
-    protected $error;
+    protected string $error;
 
     /**
      * 返回状态码
      * @var int
      */
-    protected $returnCode = 0;
+    protected int $returnCode = 0;
 
 
     /**
@@ -26,7 +27,7 @@ class BasePayService
      * @author LZH
      * @date 2025/2/19
      */
-    public function getError()
+    public function getError(): string
     {
         if (false === self::hasError()) {
             return '系统错误';
@@ -41,7 +42,7 @@ class BasePayService
      * @author LZH
      * @date 2025/2/19
      */
-    public function setError($error)
+    public function setError($error): void
     {
         $this->error = $error;
     }
@@ -53,7 +54,7 @@ class BasePayService
      * @author LZH
      * @date 2025/2/19
      */
-    public function hasError()
+    public function hasError(): bool
     {
         return !empty($this->error);
     }
@@ -66,7 +67,7 @@ class BasePayService
      * @author LZH
      * @date 2025/2/19
      */
-    public function setReturnCode($code)
+    public function setReturnCode($code): void
     {
         $this->returnCode = $code;
     }
@@ -78,7 +79,7 @@ class BasePayService
      * @author LZH
      * @date 2025/2/19
      */
-    public function getReturnCode()
+    public function getReturnCode(): int
     {
         return $this->returnCode;
     }

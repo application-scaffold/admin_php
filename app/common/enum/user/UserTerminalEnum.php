@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum\user;
 
@@ -31,12 +32,12 @@ class UserTerminalEnum
 
     /**
      * 获取终端
-     * @param $from
+     * @param bool $from
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTermInalDesc($from = true)
+    public static function getTermInalDesc(bool $from = true): array|string
     {
         $desc = [
             self::WECHAT_MMP    => '微信小程序',

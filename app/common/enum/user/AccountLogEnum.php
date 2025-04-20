@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum\user;
 
@@ -64,13 +65,13 @@ class AccountLogEnum
 
     /**
      * 动作描述
-     * @param $action
-     * @param $flag
+     * @param string $action
+     * @param bool $flag
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getActionDesc($action, $flag = false)
+    public static function getActionDesc(string $action, bool $flag = false): array|string
     {
         $desc = [
             self::DEC => '减少',
@@ -84,13 +85,13 @@ class AccountLogEnum
 
     /**
      * 变动类型描述
-     * @param $changeType
-     * @param $flag
+     * @param string $changeType
+     * @param bool $flag
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getChangeTypeDesc($changeType, $flag = false)
+    public static function getChangeTypeDesc(string $changeType, bool $flag = false): array|string
     {
         $desc = [
             self::UM_DEC_ADMIN => '平台减少余额',
@@ -111,7 +112,7 @@ class AccountLogEnum
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getUserMoneyChangeTypeDesc()
+    public static function getUserMoneyChangeTypeDesc(): array|string
     {
         $UMChangeType = self::getUserMoneyChangeType();
         $changeTypeDesc = self::getChangeTypeDesc('', true);
@@ -135,12 +136,12 @@ class AccountLogEnum
 
     /**
      * 获取变动对象
-     * @param $changeType
+     * @param int $changeType
      * @return false|int
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getChangeObject($changeType)
+    public static function getChangeObject(int $changeType): bool|int
     {
         // 用户余额
         $um = self::getUserMoneyChangeType();

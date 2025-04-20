@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\setting;
 
@@ -6,6 +7,9 @@ namespace app\admin_api\validate\setting;
 use app\common\enum\PayEnum;
 use app\common\model\pay\PayConfig;
 use app\common\validate\BaseValidate;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 
 class PayConfigValidate extends BaseValidate
@@ -28,7 +32,7 @@ class PayConfigValidate extends BaseValidate
         'config.require' => '支付参数缺失',
     ];
 
-    public function sceneGet()
+    public function sceneGet(): PayConfigValidate
     {
         return $this->only(['id']);
     }
@@ -36,17 +40,17 @@ class PayConfigValidate extends BaseValidate
 
     /**
      * 校验支付配置记录
-     * @param $config
-     * @param $rule
-     * @param $data
+     * @param array $config
+     * @param string $rule
+     * @param array $data
      * @return string|true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkConfig($config, $rule, $data)
+    public function checkConfig(array $config, string $rule, array $data): bool|string
     {
         $result = PayConfig::where('id', $data['id'])->find();
         if (empty($result)) {
@@ -99,14 +103,14 @@ class PayConfigValidate extends BaseValidate
 
     /**
      * 校验支付名
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkName($value, $rule, $data)
+    public function checkName(string $value, string $rule, array $data): bool|string
     {
         $result = PayConfig::where('name', $value)
             ->where('id', '<>', $data['id'])

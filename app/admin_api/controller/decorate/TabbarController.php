@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\decorate;
 
 use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\logic\decorate\DecorateTabbarLogic;
+use think\db\exception\DataNotFoundException;
+use think\response\Json;
 
 /**
  * 装修-底部导航
@@ -17,14 +20,14 @@ class TabbarController extends BaseAdminApiController
 
     /**
      * 底部导航详情
-     * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
+     * @return Json
+     * @throws DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $data = DecorateTabbarLogic::detail();
         return $this->success('', $data);
@@ -32,12 +35,12 @@ class TabbarController extends BaseAdminApiController
 
     /**
      * 底部导航保存
-     * @return \think\response\Json
+     * @return Json
      * @throws \Exception
      * @author LZH
      * @date 2025/2/20
      */
-    public function save()
+    public function save(): Json
     {
         $params = $this->request->post();
         DecorateTabbarLogic::save($params);

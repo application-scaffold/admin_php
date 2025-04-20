@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace app\common\model\recharge;
 
 use app\common\enum\PayEnum;
@@ -17,30 +19,30 @@ class RechargeOrder extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
     /**
      * 支付方式
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getPayWayTextAttr($value, $data)
+    public function getPayWayTextAttr(mixed $value, array $data): array|string
     {
         return PayEnum::getPayDesc($data['pay_way']);
     }
 
     /**
      * 支付状态
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getPayStatusTextAttr($value, $data)
+    public function getPayStatusTextAttr(mixed $value, array $data): array|string
     {
         return PayEnum::getPayStatusDesc($data['pay_status']);
     }

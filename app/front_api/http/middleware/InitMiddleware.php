@@ -8,20 +8,21 @@ use app\common\exception\ControllerExtendException;
 use app\front_api\controller\BaseApiController;
 use think\exception\ClassNotFoundException;
 use think\exception\HttpException;
+use think\Request;
 
 class InitMiddleware
 {
 
     /**
      * 初始化
-     * @param $request
+     * @param Request $request
      * @param \Closure $next
      * @return mixed
      * @throws ControllerExtendException
      * @author LZH
      * @date 2025/2/19
      */
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next): mixed
     {
         //获取控制器
         try {

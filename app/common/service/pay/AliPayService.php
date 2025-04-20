@@ -1,16 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\pay;
 
 use Alipay\EasySDK\Kernel\Factory;
 use Alipay\EasySDK\Kernel\Config;
+use Alipay\EasySDK\Payment\Common\Models\AlipayTradeFastpayRefundQueryResponse;
+use Alipay\EasySDK\Payment\Common\Models\AlipayTradeQueryResponse;
+use Alipay\EasySDK\Payment\Common\Models\AlipayTradeRefundResponse;
 use app\common\enum\PayEnum;
 use app\common\enum\user\UserTerminalEnum;
 use app\common\logic\PayNotifyLogic;
-use app\common\model\member\MemberOrder;
 use app\common\model\pay\PayConfig;
 use app\common\model\recharge\RechargeOrder;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Log;
+use Alipay\EasySDK\Kernel\Payment;
 
 /**
  * 支付宝支付
@@ -26,20 +33,20 @@ class AliPayService extends BasePayService
      * 用户客户端
      * @var
      */
-    protected $terminal;
+    protected mixed $terminal;
 
     /**
      * 支付实例
      * @var
      */
-    protected $pay;
+    protected Payment $pay;
 
     /**
      * 初始化设置
      * AliPayService constructor.
      * @throws \Exception
      */
-    public function __construct($terminal = null)
+    public function __construct(mixed $terminal = null)
     {
         //设置用户终端
         $this->terminal = $terminal;
@@ -52,13 +59,13 @@ class AliPayService extends BasePayService
     /**
      * 支付设置
      * @return Config
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function getOptions()
+    public function getOptions(): Config
     {
         $config = (new PayConfig())->where(['pay_way' => PayEnum::ALI_PAY])->find();
         if (empty($config)) {
@@ -122,13 +129,13 @@ class AliPayService extends BasePayService
 
     /**
      * 支付
-     * @param $from //订单来源;order-商品订单;recharge-充值订单
-     * @param $order //订单信息
+     * @param string $from //订单来源;order-商品订单;recharge-充值订单
+     * @param array $order //订单信息
      * @return array|bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function pay($from, $order): array|bool
+    public function pay(object $from, array $order): array|bool
     {
         try {
             $result = match ($this->terminal) {
@@ -149,12 +156,12 @@ class AliPayService extends BasePayService
 
     /**
      * 支付回调
-     * @param $data
+     * @param array $data
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function notify($data)
+    public function notify(array $data): bool
     {
         try {
             $verify = $this->pay->common()->verifyNotify($data);
@@ -191,16 +198,15 @@ class AliPayService extends BasePayService
         }
     }
 
-
     /**
      * PC支付
-     * @param $attach //附加参数(在回调时会返回)
-     * @param $order //订单信息
-     * @return mixed
+     * @param object $attach //附加参数(在回调时会返回)
+     * @param array $order //订单信息
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function pagePay($attach, $order)
+    public function pagePay(object $attach, array $order): string
     {
         $domain = request()->domain();
         $result = $this->pay->page()->optional('passback_params', $attach)->pay(
@@ -214,13 +220,13 @@ class AliPayService extends BasePayService
 
     /**
      * APP支付
-     * @param $attach //附加参数(在回调时会返回)
-     * @param $order //订单信息
-     * @return mixed
+     * @param object $attach //附加参数(在回调时会返回)
+     * @param array $order //订单信息
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function appPay($attach, $order)
+    public function appPay(object $attach, array $order): string
     {
         $result = $this->pay->app()->optional('passback_params', $attach)->pay(
             $order['sn'],
@@ -232,13 +238,13 @@ class AliPayService extends BasePayService
 
     /**
      * 手机网页支付
-     * @param $attach //附加参数(在回调时会返回)
-     * @param $order //订单信息
-     * @return mixed
+     * @param object $attach //附加参数(在回调时会返回)
+     * @param array $order //订单信息
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function wapPay($attach, $order)
+    public function wapPay(object $attach,array $order): string
     {
         $domain = request()->domain();
         $url = $domain . '/mobile' . $order['redirect_url'] .'?id=' . $order['id'] . '&from='. $attach . '&checkPay=true';;
@@ -254,26 +260,28 @@ class AliPayService extends BasePayService
 
     /**
      * 查询订单
-     * @param $orderSn
-     * @return mixed
+     * @param string $orderSn
+     * @return AlipayTradeQueryResponse
+     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkPay($orderSn)
+    public function checkPay(string $orderSn): AlipayTradeQueryResponse
     {
         return $this->pay->common()->query($orderSn);
     }
 
     /**
      * 退款
-     * @param $orderSn
-     * @param $orderAmount
-     * @param $outRequestNo
-     * @return mixed
+     * @param string $orderSn
+     * @param int $orderAmount
+     * @param object $outRequestNo
+     * @return AlipayTradeRefundResponse
+     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function refund($orderSn, $orderAmount, $outRequestNo)
+    public function refund(string $orderSn, int $orderAmount, object $outRequestNo): AlipayTradeRefundResponse
     {
         return $this->pay->common()->optional('out_request_no', $outRequestNo)->refund($orderSn, $orderAmount);
     }
@@ -281,13 +289,14 @@ class AliPayService extends BasePayService
 
     /**
      * 查询退款
-     * @param $orderSn
-     * @param $refundSn
-     * @return mixed
+     * @param string $orderSn
+     * @param string $refundSn
+     * @return AlipayTradeFastpayRefundQueryResponse
+     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryRefund($orderSn, $refundSn)
+    public function queryRefund(string $orderSn, string $refundSn): AlipayTradeFastpayRefundQueryResponse
     {
         return $this->pay->common()->queryRefund($orderSn, $refundSn);
     }
@@ -295,13 +304,13 @@ class AliPayService extends BasePayService
 
     /**
      * 捕获错误
-     * @param $result
+     * @param array $result
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkResultFail($result)
+    public function checkResultFail(array $result): void
     {
         if (isset($result['alipay_trade_precreate_response']['code']) && 10000 != $result['alipay_trade_precreate_response']['code']) {
             throw new \Exception('支付宝:' . $result['alipay_trade_precreate_response']['msg']);
@@ -311,13 +320,13 @@ class AliPayService extends BasePayService
 
     /**
      * 转账到支付宝账号
-     * @param $withdraw
+     * @param array $withdraw
      * @return array|mixed
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function transfer($withdraw)
+    public function transfer(array $withdraw): mixed
     {
         //请求参数
         $data = [
@@ -346,12 +355,13 @@ class AliPayService extends BasePayService
 
     /**
      * 转账查询
-     * @param $withdraw
+     * @param array $withdraw
      * @return array|mixed
+     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function transferQuery($withdraw)
+    public function transferQuery(array $withdraw): mixed
     {
         //请求参数
         $data = [

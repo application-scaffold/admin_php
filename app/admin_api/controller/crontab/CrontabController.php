@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\crontab;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\crontab\CrontabLists;
 use app\admin_api\logic\crontab\CrontabLogic;
 use app\admin_api\validate\crontab\CrontabValidate;
+use think\response\Json;
 
 /**
  * 定时任务控制器
@@ -19,11 +21,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 定时任务列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new CrontabLists());
     }
@@ -31,11 +33,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 添加定时任务
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new CrontabValidate())->post()->goCheck('add');
         $result = CrontabLogic::add($params);
@@ -48,11 +50,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 查看定时任务详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new CrontabValidate())->goCheck('detail');
         $result = CrontabLogic::detail($params);
@@ -62,11 +64,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 编辑定时任务
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new CrontabValidate())->post()->goCheck('edit');
         $result = CrontabLogic::edit($params);
@@ -79,17 +81,17 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * @notes 删除定时任务
-     * @return \think\response\Json
+     * @return Json
      * @author 段誉
      * @date 2022/3/29 14:27
      */
     /**
      * 删除定时任务
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new CrontabValidate())->post()->goCheck('delete');
         $result = CrontabLogic::delete($params);
@@ -101,11 +103,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 操作定时任务
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function operate()
+    public function operate(): Json
     {
         $params = (new CrontabValidate())->post()->goCheck('operate');
         $result = CrontabLogic::operate($params);
@@ -118,11 +120,11 @@ class CrontabController extends BaseAdminApiController
 
     /**
      * 获取规则执行时间
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function expression()
+    public function expression(): Json
     {
         $params = (new CrontabValidate())->goCheck('expression');
         $result = CrontabLogic::expression($params);

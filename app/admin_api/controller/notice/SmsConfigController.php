@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\notice;
 
 use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\logic\notice\SmsConfigLogic;
 use app\admin_api\validate\notice\SmsConfigValidate;
+use think\response\Json;
 
 /**
  * 短信配置控制器
@@ -18,11 +20,11 @@ class SmsConfigController extends BaseAdminApiController
 
     /**
      * 获取短信配置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function getConfig()
+    public function getConfig(): Json
     {
         $result = SmsConfigLogic::getConfig();
         return $this->data($result);
@@ -30,11 +32,11 @@ class SmsConfigController extends BaseAdminApiController
 
     /**
      * 短信配置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function setConfig()
+    public function setConfig(): Json
     {
         $params = (new SmsConfigValidate())->post()->goCheck('setConfig');
         SmsConfigLogic::setConfig($params);
@@ -43,11 +45,11 @@ class SmsConfigController extends BaseAdminApiController
 
     /**
      * 查看短信配置详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new SmsConfigValidate())->goCheck('detail');
         $result = SmsConfigLogic::detail($params);

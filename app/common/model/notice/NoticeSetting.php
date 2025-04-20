@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\notice;
 
@@ -11,13 +12,13 @@ class NoticeSetting extends BaseModel
 
     /**
      * 短信通知状态
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getSmsStatusDescAttr($value,$data)
+    public function getSmsStatusDescAttr(mixed $value, array $data): array|string
     {
         if ($data['sms_notice']) {
             $sms_text = json_decode($data['sms_notice'],true);
@@ -29,25 +30,25 @@ class NoticeSetting extends BaseModel
 
     /**
      * 通知类型
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getTypeDescAttr($value,$data)
+    public function getTypeDescAttr(mixed $value, array $data): array|string
     {
         return NoticeEnum::getTypeDesc($data['type']);
     }
 
     /**
      * 接收者描述获取器
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getRecipientDescAttr($value)
+    public function getRecipientDescAttr(string $value): string
     {
         $desc = [
             1 => '买家',
@@ -58,48 +59,48 @@ class NoticeSetting extends BaseModel
 
     /**
      * 系统通知获取器
-     * @param $value
+     * @param string $value
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getSystemNoticeAttr($value)
+    public function getSystemNoticeAttr(string $value): mixed
     {
         return empty($value) ? [] : json_decode($value, true);
     }
 
     /**
      * 短信通知获取器
-     * @param $value
+     * @param string $value
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getSmsNoticeAttr($value)
+    public function getSmsNoticeAttr(string $value): mixed
     {
         return empty($value) ? [] : json_decode($value, true);
     }
 
     /**
      * 公众号通知获取器
-     * @param $value
+     * @param string $value
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getOaNoticeAttr($value)
+    public function getOaNoticeAttr(string $value): mixed
     {
         return empty($value) ? [] : json_decode($value, true);
     }
 
     /**
      * 小程序通知获取器
-     * @param $value
+     * @param string $value
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getMnpNoticeAttr($value)
+    public function getMnpNoticeAttr(string $value): mixed
     {
         return empty($value) ? [] : json_decode($value, true);
     }

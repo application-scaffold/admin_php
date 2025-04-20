@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -21,7 +22,7 @@ class OpenSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             'app_id' => ConfigService::get('open_platform', 'app_id', ''),
@@ -34,12 +35,12 @@ class OpenSettingLogic extends BaseLogic
 
     /**
      * 微信开放平台设置
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): void
     {
         ConfigService::set('open_platform', 'app_id', $params['app_id'] ?? '');
         ConfigService::set('open_platform', 'app_secret', $params['app_secret'] ?? '');

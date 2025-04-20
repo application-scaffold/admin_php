@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\cache;
 
@@ -12,7 +13,7 @@ namespace app\common\cache;
 class WebScanLoginCache extends BaseCache
 {
     // 缓存前缀，用于区分扫码登录相关的缓存
-    private $prefix = 'web_scan_';
+    private string $prefix = 'web_scan_';
 
     /**
      * 获取扫码登录状态标记
@@ -21,7 +22,7 @@ class WebScanLoginCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function getScanLoginState($state)
+    public function getScanLoginState(string $state): mixed
     {
         // 根据状态标识从缓存中获取扫码登录状态
         return $this->get($this->prefix . $state);
@@ -34,7 +35,7 @@ class WebScanLoginCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function setScanLoginState($state)
+    public function setScanLoginState(string $state): mixed
     {
         // 将扫码登录状态保存到缓存，并设置过期时间为600秒（10分钟）
         $this->set($this->prefix . $state, $state, 600);
@@ -49,7 +50,7 @@ class WebScanLoginCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function deleteLoginState($state)
+    public function deleteLoginState(string $state): bool
     {
         // 根据状态标识删除扫码登录状态缓存
         return $this->delete($this->prefix . $state);

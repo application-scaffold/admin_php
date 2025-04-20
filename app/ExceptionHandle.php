@@ -1,4 +1,7 @@
 <?php
+
+declare (strict_types = 1);
+
 namespace app;
 
 use think\db\exception\DataNotFoundException;
@@ -9,6 +12,7 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
 use Throwable;
+use think\Request;
 
 /**
  * 应用异常处理类
@@ -44,11 +48,11 @@ class ExceptionHandle extends Handle
      * Render an exception into an HTTP response.
      *
      * @access public
-     * @param \think\Request   $request
+     * @param Request $request
      * @param Throwable $e
      * @return Response
      */
-    public function render($request, Throwable $e): Response
+    public function render(Request $request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
 

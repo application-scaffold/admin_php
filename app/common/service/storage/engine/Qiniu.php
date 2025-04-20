@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage\engine;
 
@@ -17,14 +18,14 @@ use Qiniu\Storage\BucketManager;
  */
 class Qiniu extends Server
 {
-    private $config;
+    private array $config;
 
     /**
      * 构造方法
      * Qiniu constructor.
      * @param $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         parent::__construct();
         $this->config = $config;
@@ -32,12 +33,12 @@ class Qiniu extends Server
 
     /**
      * 执行上传
-     * @param $save_dir
+     * @param string $save_dir
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function upload($save_dir)
+    public function upload(string $save_dir): bool
     {
         // 要上传图片的本地路径
         $realPath = $this->getRealPath();
@@ -69,13 +70,13 @@ class Qiniu extends Server
 
     /**
      * 抓取远程资源
-     * @param $url
-     * @param $key
+     * @param string $url
+     * @param string|null $key
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function fetch($url, $key=null)
+    public function fetch(string $url, string $key=null): bool
     {
         try {
             if (substr($url, 0, 1) !== '/' || strstr($url, 'http://') || strstr($url, 'https://')) {
@@ -103,12 +104,12 @@ class Qiniu extends Server
 
     /**
      * 删除文件
-     * @param $fileName
+     * @param string $fileName
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function delete($fileName)
+    public function delete(string $fileName): bool
     {
         // 构建鉴权对象
         $auth = new Auth($this->config['access_key'], $this->config['secret_key']);
@@ -130,11 +131,11 @@ class Qiniu extends Server
 
     /**
      * 返回文件路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }

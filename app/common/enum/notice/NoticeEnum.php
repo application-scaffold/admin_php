@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum\notice;
 
@@ -47,12 +48,12 @@ class NoticeEnum
 
     /**
      * 通知类型
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTypeDesc($value = true)
+    public static function getTypeDesc(bool $value = true): array|string
     {
         $data = [
             self::BUSINESS_NOTIFICATION => '业务通知',
@@ -68,12 +69,12 @@ class NoticeEnum
     /**
      * 获取场景描述
      * @param $sceneId
-     * @param $flag
+     * @param bool $flag
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSceneDesc($sceneId, $flag = false)
+    public static function getSceneDesc($sceneId, bool $flag = false): array|string
     {
         $desc = [
             self::LOGIN_CAPTCHA => '登录验证码',
@@ -92,12 +93,12 @@ class NoticeEnum
 
     /**
      * 更具标记获取场景
-     * @param $tag
+     * @param string $tag
      * @return int|string
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSceneByTag($tag)
+    public static function getSceneByTag(string $tag): int|string
     {
         $scene = [
             // 手机验证码登录
@@ -115,13 +116,13 @@ class NoticeEnum
 
     /**
      * 获取场景变量
-     * @param $sceneId
-     * @param $flag
+     * @param string $sceneId
+     * @param bool $flag
      * @return array|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getVars($sceneId, $flag = false)
+    public static function getVars(string $sceneId, bool $flag = false): array
     {
         $desc = [
             self::LOGIN_CAPTCHA => '验证码:code',
@@ -139,13 +140,13 @@ class NoticeEnum
 
     /**
      * 获取系统通知示例
-     * @param $sceneId
-     * @param $flag
+     * @param string $sceneId
+     * @param bool $flag
      * @return array
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSystemExample($sceneId, $flag = false)
+    public static function getSystemExample(string $sceneId, bool $flag = false): array
     {
         $desc = [];
 
@@ -153,19 +154,20 @@ class NoticeEnum
             return $desc;
         }
 
+        // TODO Array is always empty at this point
         return isset($desc[$sceneId]) ? [$desc[$sceneId]] : [];
     }
 
 
     /**
      * 获取短信通知示例
-     * @param $sceneId
-     * @param $flag
+     * @param string $sceneId
+     * @param bool $flag
      * @return array|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSmsExample($sceneId, $flag = false)
+    public static function getSmsExample(string $sceneId, bool $flag = false): array
     {
         $desc = [
             self::LOGIN_CAPTCHA => '您正在登录，验证码${code}，切勿将验证码泄露于他人，本条验证码有效期5分钟。',
@@ -183,13 +185,13 @@ class NoticeEnum
 
     /**
      * 获取公众号模板消息示例
-     * @param $sceneId
-     * @param $flag
+     * @param string $sceneId
+     * @param bool $flag
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getOaExample($sceneId, $flag = false)
+    public static function getOaExample(string $sceneId, bool $flag = false): mixed
     {
         $desc = [];
 
@@ -197,19 +199,20 @@ class NoticeEnum
             return $desc;
         }
 
+        // TODO Array is always empty at this point
         return $desc[$sceneId] ?? [];
     }
 
 
     /**
      * 获取小程序订阅消息示例
-     * @param $sceneId
-     * @param $flag
+     * @param string $sceneId
+     * @param bool $flag
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getMnpExample($sceneId, $flag = false)
+    public static function getMnpExample(string $sceneId, bool $flag = false): mixed
     {
         $desc = [];
 
@@ -217,24 +220,26 @@ class NoticeEnum
             return $desc;
         }
 
+        // TODO Array is always empty at this point
         return $desc[$sceneId] ?? [];
     }
 
 
     /**
      * 提示
-     * @param $type
-     * @param $sceneId
+     * @param NoticeEnum $type
+     * @param string $sceneId
      * @return array|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getOperationTips($type, $sceneId)
+    public static function getOperationTips(NoticeEnum $type, string $sceneId): array
     {
         // 场景变量
         $vars = self::getVars($sceneId);
         // 其他提示
         $other = [];
+        $example = [];
         // 示例
         switch ($type) {
             case self::SYSTEM:
@@ -254,8 +259,6 @@ class NoticeEnum
                 $example = self::getMnpExample($sceneId);
                 break;
         }
-        $tips = array_merge($vars, $example, $other);
-
-        return $tips;
+        return array_merge($vars, $example, $other);
     }
 }

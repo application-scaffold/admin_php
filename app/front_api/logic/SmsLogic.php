@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -17,12 +18,12 @@ class SmsLogic extends BaseLogic
 
     /**
      * 发送验证码
-     * @param $params
+     * @param array $params
      * @return false|mixed
      * @author LZH
      * @date 2025/2/20
      */
-    public static function sendCode($params)
+    public static function sendCode(array $params): mixed
     {
         try {
             $scene = NoticeEnum::getSceneByTag($params['scene']);

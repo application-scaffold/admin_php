@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\decorate;
 
@@ -18,24 +19,24 @@ class DecoratePageLogic extends BaseLogic
 
     /**
      * 获取详情
-     * @param $id
+     * @param string $id
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getDetail($id)
+    public static function getDetail(string $id): array
     {
         return DecoratePage::findOrEmpty($id)->toArray();
     }
 
     /**
      * 保存装修配置
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function save($params)
+    public static function save(array $params): bool
     {
         $pageData = DecoratePage::where(['id' => $params['id']])->findOrEmpty();
         if ($pageData->isEmpty()) {

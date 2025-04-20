@@ -21,7 +21,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -70,7 +70,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getCreateDataContent()
+    public function getCreateDataContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -92,7 +92,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUpdateDataContent()
+    public function getUpdateDataContent(): string
     {
         $columnContent = '';
         foreach ($this->tableColumn as $column) {
@@ -119,7 +119,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function addEditColumn($column)
+    public function addEditColumn($column): string
     {
         if ($column['column_type'] == 'int' && $column['view_type'] == 'datetime') {
             // 物理类型为int，显示类型选择日期的情况
@@ -137,7 +137,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getNameSpaceContent()
+    public function getNameSpaceContent(): string
     {
         if (!empty($this->classDir)) {
             return "namespace app\\" . $this->moduleName . "\\logic\\" . $this->classDir . ';';
@@ -151,7 +151,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUseContent()
+    public function getUseContent(): string
     {
         $tpl = "use app\\common\\model\\" . $this->getUpperCamelName() . ';';
         if (!empty($this->classDir)) {
@@ -167,7 +167,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getClassCommentContent()
+    public function getClassCommentContent(): string
     {
         if (!empty($this->tableData['class_comment'])) {
             $tpl = $this->tableData['class_comment'] . '逻辑';
@@ -184,7 +184,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPackageNameContent()
+    public function getPackageNameContent(): string
     {
         return !empty($this->classDir) ? '\\' . $this->classDir : '';
     }
@@ -196,7 +196,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->basePath . $this->moduleName . '/logic/';
         if (!empty($this->classDir)) {
@@ -213,7 +213,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'php/app/' . $this->moduleName . '/logic/';
         $this->checkDir($dir);
@@ -231,7 +231,7 @@ class LogicGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getUpperCamelName() . 'Logic.php';
     }

@@ -1,8 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\service;
 
 use app\common\enum\YesNoEnum;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use app\common\model\user\{User, UserAuth};
 use app\common\enum\user\UserTerminalEnum;
 use app\common\service\{ConfigService, storage\Driver as StorageDriver};
@@ -36,12 +40,12 @@ class WechatUserService
 
     /**
      * 设置微信返回的用户信息
-     * @param $response
+     * @param array $response
      * @return void
      * @author LZH
      * @date 2025/2/20
      */
-    private function setParams($response): void
+    private function setParams(array $response): void
     {
         $this->response = $response;
         $this->openid = $response['openid'];
@@ -78,16 +82,17 @@ class WechatUserService
 
     /**
      * 获取用户信息
-     * @param $isCheck 是否验证账号是否可用
+     * @param bool $isCheck 是否验证账号是否可用
      * @return array
      * @throws Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \DateMalformedStringException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function getUserInfo($isCheck = true): array
+    public function getUserInfo(bool $isCheck = true): array
     {
         if (!$this->user->isEmpty() && $isCheck) {
             $this->checkAccount();
@@ -105,7 +110,7 @@ class WechatUserService
      * @author LZH
      * @date 2025/2/20
      */
-    private function checkAccount()
+    private function checkAccount(): void
     {
         if ($this->user->is_disable) {
             throw new Exception('您的账号异常，请联系客服。');

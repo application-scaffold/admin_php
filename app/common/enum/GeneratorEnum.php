@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -37,12 +38,12 @@ class GeneratorEnum
 
     /**
      * 获取模板类型描述
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTemplateTypeDesc($value = true)
+    public static function getTemplateTypeDesc(bool $value = true): array|string
     {
         $data = [
             self::TEMPLATE_TYPE_SINGLE => '单表(增删改查)',

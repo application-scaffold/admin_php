@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\lists;
 
@@ -16,13 +17,13 @@ trait ListsSortTrait
 
     /**
      * 生成排序条件
-     * @param $sortField
-     * @param $defaultOrder
-     * @return mixed|string[]
+     * @param array $sortField
+     * @param array $defaultOrder
+     * @return array
      * @author LZH
      * @date 2025/2/18
      */
-    private function createOrder($sortField, $defaultOrder)
+    private function createOrder(array $sortField, array $defaultOrder): array
     {
         if (empty($sortField) || empty($this->orderBy) || empty($this->field) || !in_array($this->field, array_keys($sortField))) {
             return $defaultOrder;

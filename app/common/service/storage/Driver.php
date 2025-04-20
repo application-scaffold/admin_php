@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage;
 
@@ -13,17 +14,17 @@ use think\Exception;
  */
 class Driver
 {
-    private $config;    // upload 配置
-    private $engine;    // 当前存储引擎类
+    private array $config;    // upload 配置
+    private object $engine;    // 当前存储引擎类
 
     /**
      * 构造方法
      * Driver constructor.
-     * @param $config
-     * @param null|string $storage 指定存储方式，如不指定则为系统默认
+     * @param array $config
+     * @param string|null $storage 指定存储方式，如不指定则为系统默认
      * @throws Exception
      */
-    public function __construct($config, $storage = null)
+    public function __construct(array $config, string $storage = null)
     {
         $this->config = $config;
         $this->engine = $this->getEngineClass($storage);
@@ -34,7 +35,7 @@ class Driver
      * @param string $name
      * @return mixed
      */
-    public function setUploadFile($name = 'iFile')
+    public function setUploadFile(string $name = 'iFile'): mixed
     {
         return $this->engine->setUploadFile($name);
     }
@@ -44,57 +45,58 @@ class Driver
      * @param string $filePath
      * @return mixed
      */
-    public function setUploadFileByReal($filePath)
+    public function setUploadFileByReal(string $filePath): mixed
     {
         return $this->engine->setUploadFileByReal($filePath);
     }
 
     /**
      * 执行文件上传
-     * @param $save_dir (保存路径)
+     * @param string $save_dir (保存路径)
      * @return mixed
      */
-    public function upload($save_dir)
+    public function upload(string $save_dir): mixed
     {
         return $this->engine->upload($save_dir);
     }
 
     /**
      * 抓取网络资源
-     * @param $url
-     * @param $key
+     * @param string $url
+     * @param string $key
      * @return mixed
      * @author LZH
      * @date 2025/2/19
      */
-    public function fetch($url, $key) {
+    public function fetch(string $url, string $key): mixed
+    {
         return $this->engine->fetch($url, $key);
     }
 
     /**
      * 执行文件删除
-     * @param $fileName
+     * @param string $fileName
      * @return mixed
      */
-    public function delete($fileName)
+    public function delete(string $fileName): mixed
     {
         return $this->engine->delete($fileName);
     }
 
     /**
      * 获取错误信息
-     * @return mixed
+     * @return string
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->engine->getError();
     }
 
     /**
      * 获取文件路径
-     * @return mixed
+     * @return string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->engine->getFileName();
     }
@@ -103,18 +105,18 @@ class Driver
      * 返回文件信息
      * @return mixed
      */
-    public function getFileInfo()
+    public function getFileInfo(): mixed
     {
         return $this->engine->getFileInfo();
     }
 
     /**
      * 获取当前的存储引擎
-     * @param null|string $storage 指定存储方式，如不指定则为系统默认
+     * @param string|null $storage 指定存储方式，如不指定则为系统默认
      * @return mixed
      * @throws Exception
      */
-    private function getEngineClass($storage = null)
+    private function getEngineClass(string $storage = null): mixed
     {
         $engineName = is_null($storage) ? $this->config['default'] : $storage;
         $classSpace = __NAMESPACE__ . '\\engine\\' . ucfirst($engineName);

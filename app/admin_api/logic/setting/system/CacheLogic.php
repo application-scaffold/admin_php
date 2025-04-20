@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\system;
 
@@ -21,7 +22,7 @@ class CacheLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function clear()
+    public static function clear(): void
     {
        Cache::clear();
        del_target_dir(app()->getRootPath().'runtime/file',true);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\notice;
 
@@ -18,12 +19,12 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 查看通知设置详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params)
+    public static function detail(array $params): array
     {
         $field = 'id,type,scene_id,scene_name,scene_desc,system_notice,sms_notice,oa_notice,mnp_notice,support';
         $noticeSetting = NoticeSetting::field($field)->findOrEmpty($params['id'])->toArray();
@@ -80,12 +81,12 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 通知设置
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function set($params)
+    public static function set(array $params): bool
     {
         try {
             // 校验参数
@@ -106,13 +107,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 校验参数
-     * @param $params
+     * @param array $params
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkSet($params)
+    public static function checkSet(array $params): void
     {
         $noticeSetting = NoticeSetting::findOrEmpty($params['id'] ?? 0);
 
@@ -155,13 +156,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 校验系统通知参数
-     * @param $item
+     * @param array $item
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkSystem($item)
+    public static function checkSystem(array $item): void
     {
         if (!isset($item['title']) || !isset($item['content']) || !isset($item['status'])) {
             throw new \Exception('系统通知必填参数：title、content、status');
@@ -170,13 +171,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 校验短信通知必填参数
-     * @param $item
+     * @param array $item
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkSms($item)
+    public static function checkSms(array $item): void
     {
         if (!isset($item['template_id']) || !isset($item['content']) || !isset($item['status'])) {
             throw new \Exception('短信通知必填参数：template_id、content、status');
@@ -185,13 +186,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 校验微信模板消息参数
-     * @param $item
+     * @param array $item
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkOa($item)
+    public static function checkOa(array $item): void
     {
         if (!isset($item['template_id']) || !isset($item['template_sn']) || !isset($item['name']) || !isset($item['first']) || !isset($item['remark']) || !isset($item['tpl']) || !isset($item['status'])) {
             throw new \Exception('微信模板消息必填参数：template_id、template_sn、name、first、remark、tpl、status');
@@ -200,13 +201,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 校验微信小程序提醒必填参数
-     * @param $item
+     * @param array $item
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkMnp($item)
+    public static function checkMnp(array $item): void
     {
         if (!isset($item['template_id']) || !isset($item['template_sn']) || !isset($item['name']) || !isset($item['tpl']) || !isset($item['status'])) {
             throw new \Exception('微信模板消息必填参数：template_id、template_sn、name、tpl、status');

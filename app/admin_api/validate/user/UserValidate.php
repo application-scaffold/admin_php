@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\user;
 
 use app\common\model\user\User;
 use app\common\validate\BaseValidate;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 用户验证
@@ -33,24 +37,24 @@ class UserValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): UserValidate
     {
         return $this->only(['id']);
     }
 
     /**
      * 用户信息校验
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param mixed $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkUser($value, $rule, $data)
+    public function checkUser(mixed $value, string $rule, array $data): bool|string
     {
         $userIds = is_array($value) ? $value : [$value];
 
@@ -65,14 +69,14 @@ class UserValidate extends BaseValidate
 
     /**
      * 校验是否可更新信息
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkField($value, $rule, $data)
+    public function checkField(string $value, string $rule, array $data): bool|string
     {
         $allowField = ['account', 'sex', 'mobile', 'real_name'];
 

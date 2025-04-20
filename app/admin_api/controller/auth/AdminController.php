@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\auth;
 
@@ -7,6 +8,7 @@ use app\admin_api\lists\auth\AdminLists;
 use app\admin_api\validate\auth\AdminValidate;
 use app\admin_api\logic\auth\AdminLogic;
 use app\admin_api\validate\auth\editSelfValidate;
+use think\response\Json;
 
 /**
  * 管理员控制器
@@ -20,11 +22,11 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 查看管理员列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new AdminLists());
     }
@@ -32,11 +34,11 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 添加管理员
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new AdminValidate())->post()->goCheck('add');
         $result = AdminLogic::add($params);
@@ -48,11 +50,11 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 编辑管理员
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new AdminValidate())->post()->goCheck('edit');
         $result = AdminLogic::edit($params);
@@ -65,11 +67,11 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 删除管理员
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new AdminValidate())->post()->goCheck('delete');
         $result = AdminLogic::delete($params);
@@ -82,14 +84,14 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 查看管理员详情
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new AdminValidate())->goCheck('detail');
         $result = AdminLogic::detail($params);
@@ -99,14 +101,14 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 获取当前管理员信息
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function mySelf()
+    public function mySelf(): Json
     {
         $result = AdminLogic::detail(['id' => $this->adminId], 'auth');
         return $this->data($result);
@@ -115,11 +117,11 @@ class AdminController extends BaseAdminApiController
 
     /**
      * 编辑超级管理员信息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function editSelf()
+    public function editSelf(): Json
     {
         $params = (new editSelfValidate())->post()->goCheck('', ['admin_id' => $this->adminId]);
         $result = AdminLogic::editSelf($params);

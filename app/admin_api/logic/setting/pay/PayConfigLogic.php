@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\pay;
 
@@ -7,6 +8,9 @@ use app\common\enum\PayEnum;
 use app\common\logic\BaseLogic;
 use app\common\model\pay\PayConfig;
 use app\common\service\FileService;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 支付配置
@@ -28,7 +32,7 @@ class PayConfigLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): mixed
     {
         $payConfig = PayConfig::find($params['id']);
 
@@ -67,15 +71,15 @@ class PayConfigLogic extends BaseLogic
 
     /**
      * 获取配置
-     * @param $params
+     * @param array $params
      * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig($params)
+    public static function getConfig(array $params): mixed
     {
         $payConfig = PayConfig::find($params['id'])->toArray();
         $payConfig['icon'] = FileService::getFileUrl($payConfig['icon']);

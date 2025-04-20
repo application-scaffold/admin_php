@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\dict;
-
 
 use app\common\model\dict\DictData;
 use app\common\model\dict\DictType;
 use app\common\validate\BaseValidate;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 字典类型验证
@@ -42,7 +45,7 @@ class DictTypeValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): DictTypeValidate
     {
         return $this->remove('id', true);
     }
@@ -53,7 +56,7 @@ class DictTypeValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): DictTypeValidate
     {
         return $this->only(['id']);
     }
@@ -70,7 +73,7 @@ class DictTypeValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): DictTypeValidate
     {
         return $this->only(['id'])
             ->append('id', 'checkAbleDelete');
@@ -78,12 +81,12 @@ class DictTypeValidate extends BaseValidate
 
     /**
      * 检查字典类型是否存在
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkDictType($value)
+    protected function checkDictType(string $value): bool|string
     {
         $dictType = DictType::findOrEmpty($value);
         if ($dictType->isEmpty()) {
@@ -94,15 +97,15 @@ class DictTypeValidate extends BaseValidate
 
     /**
      * 验证是否可删除
-     * @param $value
+     * @param string $value
      * @return string|true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkAbleDelete($value)
+    protected function checkAbleDelete(string $value): bool|string
     {
         $dictData = DictData::whereIn('type_id', $value)->select();
 

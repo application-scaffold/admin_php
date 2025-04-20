@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\article;
 
@@ -36,7 +37,7 @@ class ArticleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): ArticleValidate
     {
         return $this->remove(['id'])
             ->remove('id','require|checkArticle');
@@ -48,7 +49,7 @@ class ArticleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): ArticleValidate
     {
         return $this->only(['id']);
     }
@@ -59,7 +60,7 @@ class ArticleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneStatus()
+    public function sceneStatus(): ArticleValidate
     {
         return $this->only(['id', 'is_show']);
     }
@@ -74,19 +75,19 @@ class ArticleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): ArticleValidate
     {
         return $this->only(['id']);
     }
 
     /**
      * 检查指定资讯是否存在
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkArticle($value)
+    public function checkArticle(string $value): bool|string
     {
         $article = Article::findOrEmpty($value);
         if ($article->isEmpty()) {

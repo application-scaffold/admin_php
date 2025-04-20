@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\recharge;
 
@@ -32,7 +33,7 @@ class RechargeLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             'status' => ConfigService::get('recharge', 'status', 0),
@@ -44,12 +45,12 @@ class RechargeLogic extends BaseLogic
 
     /**
      * 充值设置
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): bool
     {
         try {
             if (isset($params['status'])) {
@@ -67,13 +68,13 @@ class RechargeLogic extends BaseLogic
 
     /**
      * 退款
-     * @param $params
-     * @param $adminId
+     * @param array $params
+     * @param int $adminId
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function refund($params, $adminId)
+    public static function refund(array $params, int $adminId): array
     {
         Db::startTrans();
         try {
@@ -137,13 +138,13 @@ class RechargeLogic extends BaseLogic
 
     /**
      * 重新退款
-     * @param $params
-     * @param $adminId
+     * @param array $params
+     * @param int $adminId
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function refundAgain($params, $adminId)
+    public static function refundAgain(array $params, int $adminId): array
     {
         Db::startTrans();
         try {

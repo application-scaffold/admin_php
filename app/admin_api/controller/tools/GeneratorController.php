@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\tools;
 
@@ -8,6 +9,7 @@ use app\admin_api\lists\tools\GenerateTableLists;
 use app\admin_api\logic\tools\GeneratorLogic;
 use app\admin_api\validate\tools\EditTableValidate;
 use app\admin_api\validate\tools\GenerateTableValidate;
+use think\response\Json;
 
 /**
  * 代码生成器控制器
@@ -23,22 +25,22 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 获取数据库中所有数据表信息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function dataTable()
+    public function dataTable(): Json
     {
         return $this->dataLists(new DataTableLists());
     }
 
     /**
      * 获取已选择的数据表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function generateTable()
+    public function generateTable(): Json
     {
         return $this->dataLists(new GenerateTableLists());
     }
@@ -46,11 +48,11 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 选择数据表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function selectTable()
+    public function selectTable(): Json
     {
         $params = (new GenerateTableValidate())->post()->goCheck('select');
         $result = GeneratorLogic::selectTable($params, $this->adminId);
@@ -63,7 +65,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 生成代码
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -79,7 +81,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 下载文件
-     * @return \think\response\File|\think\response\Json
+     * @return \think\response\File|Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -95,7 +97,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 预览代码
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -111,7 +113,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 同步字段
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -128,7 +130,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 编辑表信息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -144,7 +146,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 获取已选择的数据表详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -158,7 +160,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 删除已选择的数据表信息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
@@ -174,7 +176,7 @@ class GeneratorController extends BaseAdminApiController
 
     /**
      * 获取模型
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */

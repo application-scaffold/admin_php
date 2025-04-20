@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\article;
 
@@ -85,7 +86,7 @@ class ArticleLists extends BaseAdminDataLists implements ListsSearchInterface, L
         return Article::where($this->searchWhere)->count();
     }
 
-    public function extend()
+    public function extend(): array
     {
         return [];
     }

@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\file;
 
@@ -9,5 +10,5 @@ use think\model\concern\SoftDelete;
 class FileCate extends BaseModel
 {
     use SoftDelete;
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 }

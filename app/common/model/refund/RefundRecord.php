@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\refund;
 
@@ -17,13 +18,13 @@ class RefundRecord extends BaseModel
 
     /**
      * 退款类型描述
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getRefundTypeTextAttr($value, $data)
+    public function getRefundTypeTextAttr(mixed $value, array $data): array|string
     {
         return RefundEnum::getTypeDesc($data['refund_type']);
     }
@@ -31,13 +32,13 @@ class RefundRecord extends BaseModel
 
     /**
      * 退款状态描述
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getRefundStatusTextAttr($value, $data)
+    public function getRefundStatusTextAttr(mixed $value, array $data): array|string
     {
         return RefundEnum::getStatusDesc($data['refund_status']);
     }
@@ -45,13 +46,13 @@ class RefundRecord extends BaseModel
 
     /**
      * 退款方式描述
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getRefundWayTextAttr($value, $data)
+    public function getRefundWayTextAttr(mixed $value, array $data): array|string
     {
         return RefundEnum::getWayDesc($data['refund_way']);
     }

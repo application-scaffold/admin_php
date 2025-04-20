@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\listener;
 
@@ -14,7 +15,7 @@ use think\facade\Log;
  */
 class NoticeListener
 {
-    public function handle($params)
+    public function handle(array $params): bool|string
     {
         try {
             if (empty($params['scene_id'])) {

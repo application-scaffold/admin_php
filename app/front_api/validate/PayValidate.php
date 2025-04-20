@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -35,7 +36,7 @@ class PayValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function scenePayway()
+    public function scenePayway(): PayValidate
     {
         return $this->only(['from', 'order_id']);
     }
@@ -46,7 +47,7 @@ class PayValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneStatus()
+    public function sceneStatus(): PayValidate
     {
         return $this->only(['from', 'order_id']);
     }

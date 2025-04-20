@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\command;
 
@@ -25,7 +26,7 @@ class QueryRefund extends Command
     /**
      * 配置命令名称和描述
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('query_refund') // 设置命令名称为 'query_refund'
             ->setDescription('订单退款状态处理'); // 设置命令描述为 '订单退款状态处理'
@@ -37,7 +38,7 @@ class QueryRefund extends Command
      * @param Output $output 输出对象
      * @return bool 如果没有退款记录，返回false
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): bool
     {
         try {
             // 查找退款中的退款记录（微信、支付宝支付）
@@ -79,7 +80,7 @@ class QueryRefund extends Command
      * @author LZH
      * @date 2025/2/18
      */
-    public function handleRechargeOrder($refundRecords)
+    public function handleRechargeOrder(array $refundRecords): void
     {
         // 获取所有退款记录对应的订单ID
         $orderIds = array_unique(array_column($refundRecords, 'order_id'));
@@ -114,7 +115,7 @@ class QueryRefund extends Command
      * @author LZH
      * @date 2025/2/18
      */
-    public function checkReFundStatus($refundData)
+    public function checkReFundStatus(array $refundData): bool
     {
         $result = null;
         switch ($refundData['pay_way']) {
@@ -146,7 +147,7 @@ class QueryRefund extends Command
      * @author LZH
      * @date 2025/2/18
      */
-    public function checkWechatRefund($orderTerminal, $refundLogSn)
+    public function checkWechatRefund(string $orderTerminal, string $refundLogSn): bool|string|null
     {
         // 根据商户退款单号查询退款状态
         $result = (new WeChatPayService($orderTerminal))->queryRefund($refundLogSn);
@@ -171,7 +172,7 @@ class QueryRefund extends Command
      * @author LZH
      * @date 2025/2/18
      */
-    public function updateRefundSuccess($logId, $recordId)
+    public function updateRefundSuccess(int $logId, int $recordId): void
     {
         // 更新退款日志为成功状态
         RefundLog::update([
@@ -193,7 +194,7 @@ class QueryRefund extends Command
      * @author LZH
      * @date 2025/2/18
      */
-    public function updateRefundMsg($logId, $msg)
+    public function updateRefundMsg(int $logId, string $msg): void
     {
         // 更新退款日志的错误信息
         RefundLog::update([

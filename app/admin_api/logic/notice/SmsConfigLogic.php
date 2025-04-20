@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\notice;
 
@@ -21,7 +22,7 @@ class SmsConfigLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             ConfigService::get('sms', 'ali', ['type' => 'ali', 'name' => '阿里云短信', 'status' => 1]),
@@ -33,12 +34,12 @@ class SmsConfigLogic extends BaseLogic
 
     /**
      * 短信配置
-     * @param $params
+     * @param array $params
      * @return true|void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params)
     {
         $type = $params['type'];
         $params['name'] = self::getNameDesc(strtoupper($type));
@@ -63,12 +64,12 @@ class SmsConfigLogic extends BaseLogic
 
     /**
      * 查看短信配置详情
-     * @param $params
+     * @param array $params
      * @return array|int|mixed|string
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params)
+    public static function detail(array $params): mixed
     {
         $default = [];
         switch ($params['type']) {
@@ -99,12 +100,12 @@ class SmsConfigLogic extends BaseLogic
 
     /**
      * 获取短信平台名称
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getNameDesc($value)
+    public static function getNameDesc(string $value): string
     {
         $desc = [
             'ALI' => '阿里云短信',

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
@@ -7,6 +8,7 @@ use app\common\enum\user\UserTerminalEnum;
 use app\common\logic\PaymentLogic;
 use app\common\service\pay\AliPayService;
 use app\common\service\pay\WeChatPayService;
+use think\response\Json;
 
 /**
  * 支付
@@ -22,11 +24,11 @@ class PayController extends BaseApiController
 
     /**
      * 支付方式
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function payWay()
+    public function payWay(): Json
     {
         $params = (new PayValidate())->goCheck('payway');
         $result = PaymentLogic::getPayWay($this->userId, $this->userInfo['terminal'], $params);
@@ -38,12 +40,12 @@ class PayController extends BaseApiController
 
     /**
      * 预支付
-     * @return \think\response\Json
+     * @return Json
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function prepay()
+    public function prepay(): Json
     {
         $params = (new PayValidate())->post()->goCheck();
         //订单信息
@@ -62,11 +64,11 @@ class PayController extends BaseApiController
 
     /**
      * 获取支付状态
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function payStatus()
+    public function payStatus(): Json
     {
         $params = (new PayValidate())->goCheck('status', ['user_id' => $this->userId]);
         $result = PaymentLogic::getPayStatus($params);
@@ -83,7 +85,7 @@ class PayController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function notifyMnp()
+    public function notifyMnp(): mixed
     {
         return (new WeChatPayService(UserTerminalEnum::WECHAT_MMP))->notify();
     }
@@ -94,7 +96,7 @@ class PayController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function notifyOa()
+    public function notifyOa(): mixed
     {
         return (new WeChatPayService(UserTerminalEnum::WECHAT_OA))->notify();
     }
@@ -105,7 +107,7 @@ class PayController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function aliNotify()
+    public function aliNotify(): void
     {
         $params = $this->request->post();
         $result = (new AliPayService())->notify($params);

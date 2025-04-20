@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
@@ -23,7 +24,7 @@ class UploadController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function image()
+    public function image(): Json
     {
         try {
             $result = UploadService::image(0, $this->userId,FileEnum::SOURCE_USER);

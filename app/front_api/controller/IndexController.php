@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
@@ -84,7 +85,7 @@ class IndexController extends BaseApiController
      *     )
      * )
      */
-    public function index()
+    public function index(): Json
     {
         $result = IndexLogic::getIndexData();
         return $this->data($result);
@@ -100,7 +101,7 @@ class IndexController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function config()
+    public function config(): Json
     {
         $result = IndexLogic::getConfigData();
         return $this->data($result);
@@ -113,7 +114,7 @@ class IndexController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function policy()
+    public function policy(): Json
     {
         $type = $this->request->get('type/s', '');
         $result = IndexLogic::getPolicyByType($type);
@@ -126,7 +127,7 @@ class IndexController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function decorate()
+    public function decorate(): Json
     {
         $id = $this->request->get('id/d');
         $result = IndexLogic::getDecorate($id);

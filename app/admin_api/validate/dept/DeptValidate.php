@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\dept;
 
@@ -44,7 +45,7 @@ class DeptValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): DeptValidate
     {
         return $this->remove('id', true)->append('pid', 'checkDept');
     }
@@ -55,7 +56,7 @@ class DeptValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): DeptValidate
     {
         return $this->only(['id']);
     }
@@ -66,7 +67,7 @@ class DeptValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneEdit()
+    public function sceneEdit(): DeptValidate
     {
         return $this->append('pid', 'checkPid');
     }
@@ -78,7 +79,7 @@ class DeptValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): DeptValidate
     {
         return $this->only(['id'])->append('id', 'checkAbleDetele');
     }
@@ -86,12 +87,12 @@ class DeptValidate extends BaseValidate
 
     /**
      * 校验部门
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkDept($value)
+    public function checkDept(string $value): bool|string
     {
         $dept = Dept::findOrEmpty($value);
         if ($dept->isEmpty()) {
@@ -102,12 +103,12 @@ class DeptValidate extends BaseValidate
 
     /**
      * 校验能否删除
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkAbleDetele($value)
+    public function checkAbleDetele(string $value): bool|string
     {
         $hasLower = Dept::where(['pid' => $value])->findOrEmpty();
         if (!$hasLower->isEmpty()) {
@@ -129,14 +130,14 @@ class DeptValidate extends BaseValidate
 
     /**
      * 校验部门
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkPid($value, $rule, $data = [])
+    public function checkPid(string $value, string $rule, array $data = []): bool|string
     {
         // 当前编辑的部门id信息是否存在
         $dept = Dept::findOrEmpty($data['id']);

@@ -15,14 +15,15 @@ use think\Exception;
  */
 class ControllerExtendException extends Exception
 {
+    private string $model;
+
     /**
      * 构造方法
      * @access public
      * @param string $message
      * @param string $model
-     * @param array $config
      */
-    public function __construct(string $message, string $model = '', array $config = [])
+    public function __construct(string $message, string $model = '')
     {
         $this->message = '控制器需要继承模块的基础控制器：' . $message;
         $this->model = $model;

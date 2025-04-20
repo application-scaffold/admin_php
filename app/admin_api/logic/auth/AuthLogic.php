@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace app\admin_api\logic\auth;
 
@@ -25,7 +25,7 @@ class AuthLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllAuth()
+    public static function getAllAuth(): mixed
     {
         return SystemMenu::distinct(true)
             ->where([
@@ -42,7 +42,7 @@ class AuthLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getBtnAuthByRoleId($admin)
+    public static function getBtnAuthByRoleId(array $admin): array
     {
         if ($admin['root']) {
             return ['*'];

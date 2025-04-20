@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\dept;
 
 use app\common\enum\YesNoEnum;
 use app\common\logic\BaseLogic;
 use app\common\model\dept\Dept;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 
 /**
@@ -19,15 +23,15 @@ class DeptLogic extends BaseLogic
 
     /**
      * 部门列表
-     * @param $params
+     * @param array $params
      * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function lists($params)
+    public static function lists(array $params): array
     {
         $where = [];
         if (!empty($params['name'])) {
@@ -51,14 +55,14 @@ class DeptLogic extends BaseLogic
 
     /**
      * 列表树状结构
-     * @param $array
-     * @param $pid
-     * @param $level
+     * @param array $array
+     * @param int $pid
+     * @param int $level
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getTree($array, $pid = 0, $level = 0)
+    public static function getTree(array $array, int $pid = 0, int $level = 0): array
     {
         $list = [];
         foreach ($array as $key => $item) {
@@ -80,7 +84,7 @@ class DeptLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function leaderDept()
+    public static function leaderDept(): array
     {
         $lists = Dept::field(['id', 'name'])->where(['status' => 1])
             ->order(['sort' => 'desc', 'id' => 'desc'])
@@ -97,7 +101,7 @@ class DeptLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add(array $params)
+    public static function add(array $params): void
     {
         Dept::create([
             'pid' => $params['pid'],
@@ -150,7 +154,7 @@ class DeptLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(array $params)
+    public static function delete(array $params): void
     {
         Dept::destroy($params['id']);
     }
@@ -178,7 +182,7 @@ class DeptLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllData()
+    public static function getAllData(): array
     {
         $data = Dept::where(['status' => YesNoEnum::YES])
             ->order(['sort' => 'desc', 'id' => 'desc'])

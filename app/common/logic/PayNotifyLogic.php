@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
 
@@ -19,7 +20,16 @@ use think\facade\Log;
 class PayNotifyLogic extends BaseLogic
 {
 
-    public static function handle($action, $orderSn, $extra = [])
+    /**
+     * 使用数据库事务执行回调
+     * @param string $action
+     * @param string $orderSn
+     * @param array $extra
+     * @return bool|string
+     * @author LZH
+     * @date 2025/4/20
+     */
+    public static function handle(string $action, string $orderSn, array $extra = []): bool|string
     {
         Db::startTrans();
         try {
@@ -42,13 +52,13 @@ class PayNotifyLogic extends BaseLogic
 
     /**
      * 充值回调
-     * @param $orderSn
+     * @param string $orderSn
      * @param array $extra
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public static function recharge($orderSn, array $extra = [])
+    public static function recharge(string $orderSn, array $extra = []): void
     {
         $order = RechargeOrder::where('sn', $orderSn)->findOrEmpty();
         // 增加用户累计充值金额及用户余额
@@ -73,6 +83,5 @@ class PayNotifyLogic extends BaseLogic
         $order->pay_time = time();
         $order->save();
     }
-
 
 }

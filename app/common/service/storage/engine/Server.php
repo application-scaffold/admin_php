@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage\engine;
 
+use think\file\UploadedFile;
 use think\Request;
 use think\Exception;
 
@@ -15,13 +17,13 @@ use think\Exception;
  */
 abstract class Server
 {
-    protected $file;
-    protected $error;
-    protected $fileName;
-    protected $fileInfo;
+    protected UploadedFile $file;
+    protected string $error;
+    protected string $fileName;
+    protected array $fileInfo;
 
     // 是否为内部上传
-    protected $isInternal = false;
+    protected bool $isInternal = false;
 
     /**
      * 构造函数
@@ -33,13 +35,13 @@ abstract class Server
 
     /**
      * 设置上传的文件信息
-     * @param $name
+     * @param string $name
      * @return void
      * @throws Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function setUploadFile($name)
+    public function setUploadFile(string $name): void
     {
         // 接收上传的文件
         $this->file = request()->file($name);
@@ -67,12 +69,12 @@ abstract class Server
 
     /**
      * 设置上传的文件信息
-     * @param $filePath
+     * @param string $filePath
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public function setUploadFileByReal($filePath)
+    public function setUploadFileByReal(string $filePath): void
     {
         // 设置为系统内部上传
         $this->isInternal = true;
@@ -89,63 +91,63 @@ abstract class Server
 
     /**
      * 抓取网络资源
-     * @param $url
-     * @param $key
-     * @return mixed
+     * @param string $url
+     * @param string $key
+     * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    abstract protected function fetch($url, $key);
+    abstract protected function fetch(string $url, string $key): bool;
 
     /**
      * 文件上传
-     * @param $save_dir
-     * @return mixed
+     * @param string $save_dir
+     * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    abstract protected function upload($save_dir);
+    abstract protected function upload(string $save_dir): bool;
 
     /**
      * 文件删除
-     * @param $fileName
-     * @return mixed
+     * @param string $fileName
+     * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    abstract protected function delete($fileName);
+    abstract protected function delete(string $fileName): bool;
 
     /**
      * 返回上传后文件路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    abstract public function getFileName();
+    abstract public function getFileName(): string;
 
     /**
      * 返回文件信息
-     * @return mixed
+     * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFileInfo()
+    public function getFileInfo(): array
     {
         return $this->fileInfo;
     }
 
-    protected function getRealPath()
+    protected function getRealPath(): string
     {
         return $this->fileInfo['realPath'];
     }
 
     /**
      * 返回错误信息
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }
@@ -156,7 +158,7 @@ abstract class Server
      * @author LZH
      * @date 2025/2/19
      */
-    private function buildSaveName()
+    private function buildSaveName(): string
     {
         // 要上传图片的本地路径
         $realPath = $this->getRealPath();
@@ -164,7 +166,7 @@ abstract class Server
         $ext = pathinfo($this->getFileInfo()['name'], PATHINFO_EXTENSION);
         // 自动生成文件名
         return date('YmdHis') . substr(md5($realPath), 0, 5)
-            . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT) . ".{$ext}";
+            . str_pad((string)rand(0, 9999), 4, '0', STR_PAD_LEFT) . ".{$ext}";
     }
 
 }

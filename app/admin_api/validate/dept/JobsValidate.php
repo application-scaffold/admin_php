@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\dept;
 
@@ -45,7 +46,7 @@ class JobsValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): JobsValidate
     {
         return $this->remove('id', true);
     }
@@ -56,7 +57,7 @@ class JobsValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): JobsValidate
     {
         return $this->only(['id']);
     }
@@ -72,7 +73,7 @@ class JobsValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): JobsValidate
     {
         return $this->only(['id'])->append('id', 'checkAbleDetele');
     }
@@ -80,12 +81,12 @@ class JobsValidate extends BaseValidate
 
     /**
      * 校验岗位
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkJobs($value)
+    public function checkJobs(string $value): bool|string
     {
         $jobs = Jobs::findOrEmpty($value);
         if ($jobs->isEmpty()) {
@@ -96,12 +97,12 @@ class JobsValidate extends BaseValidate
 
     /**
      * 校验能否删除
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkAbleDetele($value)
+    public function checkAbleDetele(string $value): bool|string
     {
         $check = AdminJobs::where(['jobs_id' => $value])->findOrEmpty();
         if (!$check->isEmpty()) {

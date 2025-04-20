@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\article;
 
@@ -35,7 +36,7 @@ class ArticleCateValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): ArticleCateValidate
     {
         return $this->remove(['id'])
             ->remove('id', 'require|checkArticleCate');
@@ -47,7 +48,7 @@ class ArticleCateValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): ArticleCateValidate
     {
         return $this->only(['id']);
     }
@@ -58,7 +59,7 @@ class ArticleCateValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneStatus()
+    public function sceneStatus(): ArticleCateValidate
     {
         return $this->only(['id', 'is_show']);
     }
@@ -73,7 +74,7 @@ class ArticleCateValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneSelect()
+    public function sceneSelect(): ArticleCateValidate
     {
         return $this->only(['type']);
     }
@@ -85,7 +86,7 @@ class ArticleCateValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): ArticleCateValidate
     {
         return $this->only(['id'])
             ->append('id', 'checkDeleteArticleCate');
@@ -93,12 +94,12 @@ class ArticleCateValidate extends BaseValidate
 
     /**
      * 检查指定资讯分类是否存在
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkArticleCate($value)
+    public function checkArticleCate(string $value): bool|string
     {
         $article_category = ArticleCate::findOrEmpty($value);
         if ($article_category->isEmpty()) {
@@ -109,12 +110,12 @@ class ArticleCateValidate extends BaseValidate
 
     /**
      * 删除时验证该资讯分类是否已使用
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkDeleteArticleCate($value)
+    public function checkDeleteArticleCate(string $value): bool|string
     {
         $article = Article::where('cid', $value)->findOrEmpty();
         if (!$article->isEmpty()) {

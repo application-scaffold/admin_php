@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic;
 
@@ -7,6 +8,10 @@ use app\common\model\file\File;
 use app\common\model\file\FileCate;
 use app\common\service\ConfigService;
 use app\common\service\storage\Driver as StorageDriver;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\Exception;
 
 /**
  * 文件逻辑层
@@ -20,12 +25,12 @@ class FileLogic extends BaseLogic
 
     /**
      * 移动文件
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function move($params)
+    public static function move(array $params): void
     {
         (new File())->whereIn('id', $params['ids'])
             ->update([
@@ -36,12 +41,12 @@ class FileLogic extends BaseLogic
 
     /**
      * 重命名文件
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function rename($params)
+    public static function rename(array $params): void
     {
         (new File())->where('id', $params['id'])
             ->update([
@@ -52,16 +57,16 @@ class FileLogic extends BaseLogic
 
     /**
      * 批量删除文件
-     * @param $params
+     * @param array $params
      * @return void
-     * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws Exception
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete($params)
+    public static function delete(array $params): void
     {
         $result = File::whereIn('id', $params['ids'])->select();
         $StorageDriver = new StorageDriver([
@@ -76,12 +81,12 @@ class FileLogic extends BaseLogic
 
     /**
      * 添加文件分类
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function addCate($params)
+    public static function addCate(array $params): void
     {
         FileCate::create([
             'type' => $params['type'],
@@ -93,12 +98,12 @@ class FileLogic extends BaseLogic
 
     /**
      * 编辑文件分类
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function editCate($params)
+    public static function editCate(array $params): void
     {
         FileCate::update([
             'name' => $params['name'],
@@ -108,16 +113,16 @@ class FileLogic extends BaseLogic
 
     /**
      * 删除文件分类
-     * @param $params
+     * @param array $params
      * @return void
-     * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws Exception
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delCate($params)
+    public static function delCate(array $params): void
     {
         $fileModel = new File();
         $cateModel = new FileCate();
@@ -138,13 +143,13 @@ class FileLogic extends BaseLogic
 
     /**
      * 获取所有分类id
-     * @param $parentId
+     * @param string $parentId
      * @param array $cateArr
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getCateIds($parentId, array $cateArr = []): array
+    public static function getCateIds(string $parentId, array $cateArr = []): array
     {
         $childIds = FileCate::where(['pid' => $parentId])->column('id');
 

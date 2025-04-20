@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace app\admin_api\logic\article;
 
@@ -24,7 +24,7 @@ class ArticleCateLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add(array $params)
+    public static function add(array $params): void
     {
         ArticleCate::create([
             'name' => $params['name'],
@@ -64,7 +64,7 @@ class ArticleCateLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(array $params)
+    public static function delete(array $params): void
     {
         ArticleCate::destroy($params['id']);
     }
@@ -88,7 +88,7 @@ class ArticleCateLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function updateStatus(array $params)
+    public static function updateStatus(array $params): bool
     {
         ArticleCate::update([
             'id' => $params['id'],
@@ -107,7 +107,7 @@ class ArticleCateLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllData()
+    public static function getAllData(): array
     {
         return ArticleCate::where(['is_show' => YesNoEnum::YES])
             ->order(['sort' => 'desc', 'id' => 'desc'])

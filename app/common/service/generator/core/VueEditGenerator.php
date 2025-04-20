@@ -23,7 +23,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -80,7 +80,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getCheckBoxJoinContent()
+    public function getCheckBoxJoinContent(): bool|string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -104,7 +104,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getCheckBoxSplitContent()
+    public function getCheckBoxSplitContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -130,7 +130,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getTreeConstContent()
+    public function getTreeConstContent(): bool|string
     {
         $content = "";
         if ($this->isTreeCrud()) {
@@ -146,7 +146,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getTreeListsContent()
+    public function getTreeListsContent(): array|bool|string
     {
         $content = '';
         if (!$this->isTreeCrud()) {
@@ -179,7 +179,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFormDateContent()
+    public function getFormDateContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -205,7 +205,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFormViewContent()
+    public function getFormViewContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -265,7 +265,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getDictDataContent()
+    public function getDictDataContent(): string
     {
         $content = '';
         $isExist = [];
@@ -292,7 +292,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getDictDataApiContent()
+    public function getDictDataApiContent(): bool|string
     {
         $content = '';
         $isExist = [];
@@ -330,7 +330,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFormDataContent()
+    public function getFormDataContent(): string
     {
         $content = '';
         $isExist = [];
@@ -364,7 +364,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFormValidateContent()
+    public function getFormValidateContent(): bool|string
     {
         $content = '';
         $isExist = [];
@@ -409,7 +409,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getImportListsContent()
+    public function getImportListsContent(): string
     {
         $content = "";
         if ($this->isTreeCrud()) {
@@ -429,7 +429,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = dirname(app()->getRootPath()) . '/admin/src/views/' . $this->getTableName() . '/';
         $this->checkDir($dir);
@@ -442,7 +442,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'vue/src/views/' . $this->getTableName() . '/';
         $this->checkDir($dir);
@@ -456,7 +456,7 @@ class VueEditGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return 'edit.vue';
     }

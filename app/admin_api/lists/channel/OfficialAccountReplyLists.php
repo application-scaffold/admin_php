@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\channel;
 
@@ -63,8 +64,6 @@ class OfficialAccountReplyLists extends BaseAdminDataLists implements ListsSearc
      */
     public function count(): int
     {
-        $count = OfficialAccountReply::where($this->searchWhere)->count();
-
-        return $count;
+        return OfficialAccountReply::where($this->searchWhere)->count();
     }
 }

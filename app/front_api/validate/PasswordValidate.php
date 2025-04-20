@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -41,7 +42,7 @@ class PasswordValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneResetPassword()
+    public function sceneResetPassword(): PasswordValidate
     {
         return $this->only(['mobile', 'code', 'password', 'password_confirm']);
     }
@@ -53,7 +54,7 @@ class PasswordValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneChangePassword()
+    public function sceneChangePassword(): PasswordValidate
     {
         return $this->only(['password', 'password_confirm']);
     }

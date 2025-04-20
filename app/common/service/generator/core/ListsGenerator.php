@@ -24,7 +24,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -82,7 +82,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getNameSpaceContent()
+    public function getNameSpaceContent(): string
     {
         if (!empty($this->classDir)) {
             return "namespace app\\" . $this->moduleName . "\\lists\\" . $this->classDir . ';';
@@ -96,7 +96,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUseContent()
+    public function getUseContent(): string
     {
         if ($this->moduleName == 'admin_api') {
             $tpl = "use app\\" . $this->moduleName . "\\lists\\BaseAdminDataLists;" . PHP_EOL;
@@ -119,7 +119,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getClassCommentContent()
+    public function getClassCommentContent(): string
     {
         if (!empty($this->tableData['class_comment'])) {
             $tpl = $this->tableData['class_comment'] . '列表';
@@ -136,7 +136,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPackageNameContent()
+    public function getPackageNameContent(): string
     {
         return !empty($this->classDir) ? $this->classDir : '';
     }
@@ -148,7 +148,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getExtendsListsContent()
+    public function getExtendsListsContent(): string
     {
         $tpl = 'BaseAdminDataLists';
         if ($this->moduleName != 'admin_api') {
@@ -164,7 +164,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getQueryConditionContent()
+    public function getQueryConditionContent(): string
     {
         $columnQuery = array_column($this->tableColumn, 'query_type');
         $query = array_unique($columnQuery);
@@ -239,7 +239,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFieldDataContent()
+    public function getFieldDataContent(): bool|string
     {
         $content = "'" . $this->getPkContent() . "', ";
         $isExist = [$this->getPkContent()];
@@ -264,7 +264,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->basePath . $this->moduleName . '/lists/';
         $this->checkDir($dir);
@@ -281,7 +281,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'php/app/' . $this->moduleName . '/lists/';
         $this->checkDir($dir);
@@ -299,7 +299,7 @@ class ListsGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getUpperCamelName() . 'Lists.php';
     }

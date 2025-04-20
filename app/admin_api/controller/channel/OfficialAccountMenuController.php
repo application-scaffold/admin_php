@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\channel;
 
 use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\logic\channel\OfficialAccountMenuLogic;
+use think\response\Json;
 
 /**
  * 微信公众号菜单控制器
@@ -17,11 +19,11 @@ class OfficialAccountMenuController extends BaseAdminApiController
 
     /**
      * 保存菜单
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function save()
+    public function save(): Json
     {
         $params = $this->request->post();
         $result = OfficialAccountMenuLogic::save($params);
@@ -34,11 +36,11 @@ class OfficialAccountMenuController extends BaseAdminApiController
 
     /**
      * 保存发布菜单
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function saveAndPublish()
+    public function saveAndPublish(): Json
     {
         $params = $this->request->post();
         $result = OfficialAccountMenuLogic::saveAndPublish($params);
@@ -51,11 +53,11 @@ class OfficialAccountMenuController extends BaseAdminApiController
 
     /**
      * 查看菜单详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $result = OfficialAccountMenuLogic::detail();
         return $this->data($result);

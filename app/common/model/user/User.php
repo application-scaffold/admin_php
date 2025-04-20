@@ -1,11 +1,17 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\user;
 
 use app\common\enum\user\UserEnum;
 use app\common\model\BaseModel;
 use app\common\service\FileService;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\db\Query;
 use think\model\concern\SoftDelete;
+use think\model\relation\HasOne;
 
 /**
  * 用户模型
@@ -18,29 +24,29 @@ class User extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
     /**
      * 关联用户授权模型
-     * @return \think\model\relation\HasOne
+     * @return HasOne
      * @author LZH
      * @date 2025/2/18
      */
-    public function userAuth()
+    public function userAuth(): HasOne
     {
         return $this->hasOne(UserAuth::class, 'user_id');
     }
 
     /**
      * 搜索器-用户信息
-     * @param $query
-     * @param $value
-     * @param $data
+     * @param Query $query
+     * @param string $value
+     * @param array $data
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function searchKeywordAttr($query, $value, $data)
+    public function searchKeywordAttr(Query $query, string $value, array $data): void
     {
         if ($value) {
             $query->where('sn|nickname|mobile|account', 'like', '%' . $value . '%');
@@ -49,14 +55,14 @@ class User extends BaseModel
 
     /**
      * 搜索器-注册来源
-     * @param $query
-     * @param $value
-     * @param $data
+     * @param Query $query
+     * @param string $value
+     * @param array $data
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function searchChannelAttr($query, $value, $data)
+    public function searchChannelAttr(Query $query, string $value, array $data): void
     {
         if ($value) {
             $query->where('channel', '=', $value);
@@ -65,14 +71,14 @@ class User extends BaseModel
 
     /**
      * 搜索器-注册时间
-     * @param $query
-     * @param $value
-     * @param $data
+     * @param Query $query
+     * @param string $value
+     * @param array $data
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function searchCreateTimeStartAttr($query, $value, $data)
+    public function searchCreateTimeStartAttr(Query $query, string $value, array $data): void
     {
         if ($value) {
             $query->where('create_time', '>=', strtotime($value));
@@ -81,14 +87,14 @@ class User extends BaseModel
 
     /**
      * 搜索器-注册时间
-     * @param $query
-     * @param $value
-     * @param $data
+     * @param Query $query
+     * @param string $value
+     * @param array $data
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function searchCreateTimeEndAttr($query, $value, $data)
+    public function searchCreateTimeEndAttr(Query $query, string $value, array $data): void
     {
         if ($value) {
             $query->where('create_time', '<=', strtotime($value));
@@ -97,12 +103,12 @@ class User extends BaseModel
 
     /**
      * 头像获取器 - 用于头像地址拼接域名
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getAvatarAttr($value)
+    public function getAvatarAttr(string $value): string
     {
         return trim($value) ? FileService::getFileUrl($value) : '';
     }
@@ -110,41 +116,41 @@ class User extends BaseModel
 
     /**
      * 获取器-性别描述
-     * @param $value
-     * @param $data
+     * @param bool $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getSexAttr($value, $data)
+    public function getSexAttr(bool $value, array $data): array|string
     {
         return UserEnum::getSexDesc($value);
     }
 
     /**
      * 登录时间
-     * @param $value
+     * @param int $value
      * @return false|string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getLoginTimeAttr($value)
+    public function getLoginTimeAttr(int $value): bool|string
     {
         return $value ? date('Y-m-d H:i:s', $value) : '';
     }
 
     /**
      * 生成用户编码
-     * @param $prefix
-     * @param $length
+     * @param string $prefix
+     * @param int $length
      * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/18
      */
-    public static function createUserSn($prefix = '', $length = 8)
+    public static function createUserSn(string $prefix = '', int $length = 8): string
     {
         $rand_str = '';
         for ($i = 0; $i < $length; $i++) {

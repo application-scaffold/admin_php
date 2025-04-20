@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\setting\dict;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\setting\dict\DictDataLists;
 use app\admin_api\logic\setting\dict\DictDataLogic;
 use app\admin_api\validate\dict\DictDataValidate;
+use think\response\Json;
 
 
 /**
@@ -20,22 +22,22 @@ class DictDataController extends BaseAdminApiController
 
     /**
      * 获取字典数据列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new DictDataLists());
     }
 
     /**
      * 添加字典数据
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new DictDataValidate())->post()->goCheck('add');
         DictDataLogic::save($params);
@@ -45,11 +47,11 @@ class DictDataController extends BaseAdminApiController
 
     /**
      * 编辑字典数据
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new DictDataValidate())->post()->goCheck('edit');
         DictDataLogic::save($params);
@@ -59,11 +61,11 @@ class DictDataController extends BaseAdminApiController
 
     /**
      * 删除字典数据
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new DictDataValidate())->post()->goCheck('id');
         DictDataLogic::delete($params);
@@ -72,11 +74,11 @@ class DictDataController extends BaseAdminApiController
 
     /**
      * 获取字典详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new DictDataValidate())->goCheck('id');
         $result = DictDataLogic::detail($params);

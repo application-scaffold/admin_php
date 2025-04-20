@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\cache;
 
@@ -12,7 +13,7 @@ namespace app\common\cache;
 class ExportCache extends BaseCache
 {
     // 唯一标识符，用于生成缓存目录
-    protected $uniqid = '';
+    protected string $uniqid = '';
 
     /**
      * 构造函数
@@ -31,7 +32,7 @@ class ExportCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function getSrc()
+    public function getSrc(): string
     {
         // 返回缓存目录路径，格式为：runtime/file/export/年-月/唯一标识符/
         return app()->getRootPath() . 'runtime/file/export/' . date('Y-m') . '/' . $this->uniqid . '/';
@@ -44,7 +45,7 @@ class ExportCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function setFile($fileName)
+    public function setFile(string $fileName): string
     {
         // 获取缓存目录路径
         $src = $this->getSrc();
@@ -63,7 +64,7 @@ class ExportCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function getFile($key)
+    public function getFile(string $key): mixed
     {
         // 根据缓存键获取文件缓存信息
         return $this->get($key);

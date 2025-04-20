@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic;
 
@@ -24,7 +25,7 @@ class WorkbenchLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function index()
+    public static function index(): array
     {
         return [
             // 版本信息
@@ -204,7 +205,7 @@ class WorkbenchLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function support()
+    public static function support(): array
     {
         return [
             [

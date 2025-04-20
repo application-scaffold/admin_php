@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\auth;
 
@@ -36,14 +37,14 @@ class editSelfValidate extends BaseValidate
 
     /**
      * 校验密码
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param bool $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkPassword($value, $rule, $data)
+    public function checkPassword(bool $value, string $rule, array $data): bool|string
     {
         if (empty($data['password_old'])) {
             return '请填写当前密码';

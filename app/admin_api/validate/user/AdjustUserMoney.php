@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\user;
 
@@ -32,8 +33,18 @@ class AdjustUserMoney extends BaseValidate
         'remark' => '备注不可超过128个符号',
     ];
 
-
-    protected function checkMoney($vaule, $rule, $data)
+    /**
+     * @param int $vaule
+     * @param string $rule
+     * @param array $data
+     * @return bool|string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @author LZH
+     * @date 2025/4/20
+     */
+    protected function checkMoney(int $vaule, string $rule, array $data): bool|string
     {
         $user = User::find($data['user_id']);
         if (empty($user)) {

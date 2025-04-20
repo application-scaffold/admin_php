@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -44,14 +45,14 @@ class LoginAccountValidate extends BaseValidate
 
     /**
      * 登录场景相关校验
-     * @param $scene
-     * @param $rule
-     * @param $data
+     * @param string $scene
+     * @param string $rule
+     * @param array $data
      * @return bool|string
      * @author LZH
      * @date 2025/2/20
      */
-    public function checkConfig($scene, $rule, $data)
+    public function checkConfig(string $scene, string $rule, array $data): bool|string
     {
         $config = ConfigService::get('login', 'login_way');
         if (!in_array($scene, $config)) {
@@ -79,14 +80,14 @@ class LoginAccountValidate extends BaseValidate
 
     /**
      * 登录密码校验
-     * @param $password
-     * @param $other
-     * @param $data
+     * @param string $password
+     * @param string $other
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/20
      */
-    public function checkPassword($password, $other, $data)
+    public function checkPassword(string $password, string $other, array $data): bool|string
     {
         //账号安全机制，连续输错后锁定，防止账号密码暴力破解
         $userAccountSafeCache = new UserAccountSafeCache();
@@ -130,14 +131,14 @@ class LoginAccountValidate extends BaseValidate
 
     /**
      * 校验验证码
-     * @param $code
-     * @param $rule
-     * @param $data
+     * @param string $code
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/20
      */
-    public function checkCode($code, $rule, $data)
+    public function checkCode(string $code, string $rule, array $data): bool|string
     {
         $smsDriver = new SmsDriver();
         $result = $smsDriver->verify($data['account'], $code, NoticeEnum::LOGIN_CAPTCHA);

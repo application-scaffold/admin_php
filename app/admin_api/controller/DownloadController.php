@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller;
 
 
 use app\common\cache\ExportCache;
 use app\common\service\JsonService;
+use think\response\File;
+use think\response\Json;
 
 class DownloadController extends BaseAdminApiController
 {
@@ -13,11 +16,11 @@ class DownloadController extends BaseAdminApiController
 
     /**
      * 导出文件
-     * @return \think\response\File|\think\response\Json
+     * @return File|Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function export()
+    public function export(): File|Json
     {
         //获取文件缓存的key
         $fileKey = request()->get('file');

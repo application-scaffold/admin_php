@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\auth;
 
@@ -111,7 +112,7 @@ class RoleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(int $id)
+    public static function delete(int $id): bool
     {
         SystemRole::destroy(['id' => $id]);
         (new AdminAuthCache())->deleteTag();
@@ -147,7 +148,7 @@ class RoleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllData()
+    public static function getAllData(): array
     {
         return SystemRole::order(['sort' => 'desc', 'id' => 'desc'])
             ->select()

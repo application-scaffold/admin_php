@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\recharge;
 
@@ -30,13 +31,13 @@ class RechargeRefundValidate extends BaseValidate
     ];
 
 
-    public function sceneRefund()
+    public function sceneRefund(): RechargeRefundValidate
     {
         return $this->only(['recharge_id']);
     }
 
 
-    public function sceneAgain()
+    public function sceneAgain(): RechargeRefundValidate
     {
         return $this->only(['record_id']);
     }
@@ -44,14 +45,14 @@ class RechargeRefundValidate extends BaseValidate
 
     /**
      * 校验充值订单能否发起退款
-     * @param $rechargeId
-     * @param $rule
-     * @param $data
+     * @param string $rechargeId
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkRecharge($rechargeId, $rule, $data)
+    protected function checkRecharge(string $rechargeId, string $rule, array $data)
     {
         $order = RechargeOrder::findOrEmpty($rechargeId);
 
@@ -79,14 +80,14 @@ class RechargeRefundValidate extends BaseValidate
 
     /**
      * 校验退款记录
-     * @param $recordId
-     * @param $rule
-     * @param $data
+     * @param string $recordId
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkRecord($recordId, $rule, $data)
+    protected function checkRecord(string $recordId, string $rule, array $data): bool|string
     {
         $record = RefundRecord::findOrEmpty($recordId);
         if ($record->isEmpty()) {

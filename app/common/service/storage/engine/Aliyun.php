@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage\engine;
 
+use OSS\Http\RequestCore_Exception;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
@@ -15,14 +17,14 @@ use OSS\Core\OssException;
  */
 class Aliyun extends Server
 {
-    private $config;
+    private array $config;
 
     /**
      * 构造方法
      * Aliyun constructor.
-     * @param $config
+     * @param array $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         parent::__construct();
         $this->config = $config;
@@ -30,10 +32,10 @@ class Aliyun extends Server
 
     /**
      * 执行上传
-     * @param $save_dir (保存路径)
-     * @return bool|mixed
+     * @param string $save_dir (保存路径)
+     * @return bool
      */
-    public function upload($save_dir)
+    public function upload(string $save_dir): bool
     {
         try {
             $ossClient = new OssClient(
@@ -47,7 +49,7 @@ class Aliyun extends Server
                 $save_dir . '/' . $this->fileName,
                 $this->getRealPath()
             );
-        } catch (OssException $e) {
+        } catch (OssException|RequestCore_Exception $e) {
             $this->error = $e->getMessage();
             return false;
         }
@@ -56,13 +58,14 @@ class Aliyun extends Server
 
     /**
      * 抓取远程资源
-     * @param $url
-     * @param $key
+     * @param string $url
+     * @param string|null $key
      * @return bool
+     * @throws RequestCore_Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function fetch($url, $key = null)
+    public function fetch(string $url, string $key = null): bool
     {
         try {
             $ossClient = new OssClient(
@@ -87,12 +90,13 @@ class Aliyun extends Server
 
     /**
      * 删除文件
-     * @param $fileName
+     * @param string $fileName
      * @return bool
+     * @throws RequestCore_Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function delete($fileName)
+    public function delete(string $fileName): bool
     {
         try {
             $ossClient = new OssClient(
@@ -111,11 +115,11 @@ class Aliyun extends Server
 
     /**
      * 返回文件路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }

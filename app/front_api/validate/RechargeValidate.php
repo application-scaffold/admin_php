@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -27,21 +28,21 @@ class RechargeValidate extends BaseValidate
     ];
 
 
-    public function sceneRecharge()
+    public function sceneRecharge(): RechargeValidate
     {
         return $this->only(['money']);
     }
 
     /**
      * 校验金额
-     * @param $money
-     * @param $rule
-     * @param $data
+     * @param int $money
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/20
      */
-    protected function checkMoney($money, $rule, $data)
+    protected function checkMoney(int $money, string $rule, array $data): bool|string
     {
         $status = ConfigService::get('recharge', 'status', 0);
         if (!$status) {

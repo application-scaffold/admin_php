@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\sms\engine;
 
@@ -14,11 +15,11 @@ use AlibabaCloud\Client\AlibabaCloud;
  */
 class AliSms
 {
-    protected $error = null;
-    protected $config;
-    protected $mobile;
-    protected $templateId;
-    protected $templateParams;
+    protected ?string $error = null;
+    protected array $config;
+    protected string $mobile;
+    protected string $templateId;
+    protected string $templateParams;
 
     public function __construct($config)
     {
@@ -32,12 +33,12 @@ class AliSms
 
     /**
      * 设置手机号
-     * @param $mobile
+     * @param string $mobile
      * @return $this
      * @author LZH
      * @date 2025/2/19
      */
-    public function setMobile($mobile)
+    public function setMobile(string $mobile): static
     {
         $this->mobile = $mobile;
         return $this;
@@ -46,12 +47,12 @@ class AliSms
 
     /**
      * 设置模板id
-     * @param $templateId
+     * @param string $templateId
      * @return $this
      * @author LZH
      * @date 2025/2/19
      */
-    public function setTemplateId($templateId)
+    public function setTemplateId(string $templateId): static
     {
         $this->templateId = $templateId;
         return $this;
@@ -60,12 +61,12 @@ class AliSms
 
     /**
      * 设置模板参数
-     * @param $templateParams
+     * @param array $templateParams
      * @return $this
      * @author LZH
      * @date 2025/2/19
      */
-    public function setTemplateParams($templateParams)
+    public function setTemplateParams(array $templateParams): static
     {
         $this->templateParams = json_encode($templateParams, JSON_UNESCAPED_UNICODE);
         return $this;
@@ -74,11 +75,11 @@ class AliSms
 
     /**
      * 错误信息
-     * @return mixed|string|null
+     * @return string|null
      * @author LZH
      * @date 2025/2/19
      */
-    public function getError()
+    public function getError(): ?string
     {
         return $this->error;
     }
@@ -86,11 +87,11 @@ class AliSms
 
     /**
      * 发送短信
-     * @return false
+     * @return array|bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function send()
+    public function send(): array|bool
     {
         try {
             AlibabaCloud::accessKeyClient($this->config['app_key'], $this->config['secret_key'])

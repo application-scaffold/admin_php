@@ -21,79 +21,79 @@ abstract class BaseGenerator
      * 模板文件夹
      * @var string
      */
-    protected $templateDir;
+    protected string $templateDir;
 
     /**
      * 模块名
      * @var string
      */
-    protected $moduleName;
+    protected string $moduleName;
 
     /**
      * 类目录
      * @var string
      */
-    protected $classDir;
+    protected string $classDir;
 
     /**
      * 表信息
      * @var array
      */
-    protected $tableData;
+    protected array $tableData;
 
     /**
      * 表字段信息
      * @var array
      */
-    protected $tableColumn;
+    protected array $tableColumn;
 
     /**
      * 文件内容
      * @var string
      */
-    protected $content;
+    protected string $content;
 
     /**
      * basePath
      * @var string
      */
-    protected $basePath;
+    protected string $basePath;
 
     /**
      * rootPath
      * @var string
      */
-    protected $rootPath;
+    protected string $rootPath;
 
     /**
      * 生成的文件夹
      * @var string
      */
-    protected $generatorDir;
+    protected string $generatorDir;
 
     /**
      * 删除配置
      * @var array
      */
-    protected $deleteConfig;
+    protected array $deleteConfig;
 
     /**
      * 菜单配置
      * @var array
      */
-    protected $menuConfig;
+    protected array $menuConfig;
 
     /**
      * 模型关联配置
      * @var array
      */
-    protected $relationConfig;
+    protected array $relationConfig;
 
     /**
      * 树表配置
      * @var array
      */
-    protected $treeConfig;
+    protected array $treeConfig;
 
 
     public function __construct()
@@ -113,7 +113,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function initGenerateData(array $tableData)
+    public function initGenerateData(array $tableData): void
     {
         // 设置当前表信息
         $this->setTableData($tableData);
@@ -131,7 +131,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function setMenuConfig()
+    public function setMenuConfig(): void
     {
         $this->menuConfig = [
             'pid' => $this->tableData['menu']['pid'] ?? 0,
@@ -147,7 +147,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function setDeleteConfig()
+    public function setDeleteConfig(): void
     {
         $this->deleteConfig = [
             'type' => $this->tableData['delete']['type'] ?? GeneratorEnum::DELETE_TRUE,
@@ -161,7 +161,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function setRelationConfig()
+    public function setRelationConfig(): void
     {
         $this->relationConfig = empty($this->tableData['relations']) ? [] : $this->tableData['relations'];
     }
@@ -173,7 +173,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function setTreeConfig()
+    public function setTreeConfig(): void
     {
         $this->treeConfig = [
             'tree_id' => $this->tableData['tree']['tree_id'] ?? '',
@@ -189,7 +189,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function generate()
+    public function generate(): void
     {
         //生成方式  0-压缩包下载 1-生成到模块
         if ($this->tableData['generate_type']) {
@@ -206,38 +206,38 @@ abstract class BaseGenerator
 
     /**
      * 获取文件生成到模块的文件夹路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    abstract public function getModuleGenerateDir();
+    abstract public function getModuleGenerateDir(): string;
 
 
     /**
      * 获取文件生成到runtime的文件夹路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    abstract public function getRuntimeGenerateDir();
+    abstract public function getRuntimeGenerateDir(): string;
 
 
     /**
      * 替换模板变量
-     * @return mixed
+     * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    abstract public function replaceVariables();
+    abstract public function replaceVariables(): void;
 
 
     /**
      * 生成文件名
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    abstract public function getGenerateName();
+    abstract public function getGenerateName(): string;
 
 
     /**
@@ -247,7 +247,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function checkDir(string $path)
+    public function checkDir(string $path): void
     {
         !is_dir($path) && mkdir($path, 0755, true);
     }
@@ -255,12 +255,12 @@ abstract class BaseGenerator
 
     /**
      * 设置表信息
-     * @param $tableData
+     * @param array $tableData
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function setTableData($tableData)
+    public function setTableData(array $tableData): void
     {
         $this->tableData = !empty($tableData) ? $tableData : [];
         $this->tableColumn = $tableData['table_column'] ?? [];
@@ -331,7 +331,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getLowerCamelName()
+    public function getLowerCamelName(): string
     {
         return Str::camel($this->getTableName());
     }
@@ -343,7 +343,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getUpperCamelName()
+    public function getUpperCamelName(): string
     {
         return Str::studly($this->getTableName());
     }
@@ -354,7 +354,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getLowerTableName()
+    public function getLowerTableName(): string
     {
         return Str::lower($this->getTableName());
     }
@@ -366,7 +366,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getTableName()
+    public function getTableName(): mixed
     {
         return get_no_prefix_table_name($this->tableData['table_name']);
     }
@@ -377,7 +377,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getPkContent()
+    public function getPkContent(): mixed
     {
         $pk = 'id';
         if (empty($this->tableColumn)) {
@@ -398,7 +398,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getAuthorContent()
+    public function getAuthorContent(): mixed
     {
         return empty($this->tableData['author']) ? 'likeadmin' : $this->tableData['author'];
     }
@@ -410,20 +410,20 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function getNoteDateContent()
+    public function getNoteDateContent(): bool|string
     {
         return date('Y/m/d H:i');
     }
 
     /**
      * 设置空额占位符
-     * @param $content
-     * @param $blankpace
+     * @param string $content
+     * @param string $blankpace
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function setBlankSpace($content, $blankpace)
+    public function setBlankSpace(string $content, string $blankpace): string
     {
         $content = explode(PHP_EOL, $content);
         foreach ($content as $line => $text) {
@@ -435,14 +435,14 @@ abstract class BaseGenerator
 
     /**
      * 替换内容
-     * @param $needReplace
-     * @param $waitReplace
-     * @param $template
-     * @return array|false|string|string[]
+     * @param string|array $needReplace
+     * @param string|array $waitReplace
+     * @param string|array $template
+     * @return array|bool|string
      * @author LZH
      * @date 2025/2/18
      */
-    public function replaceFileData($needReplace, $waitReplace, $template)
+    public function replaceFileData(string|array $needReplace, string|array $waitReplace, string|array $template): array|bool|string
     {
         return str_replace($needReplace, $waitReplace, file_get_contents($template));
     }
@@ -453,7 +453,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function isGenerateTypeZip()
+    public function isGenerateTypeZip(): bool
     {
         return $this->tableData['generate_type'] == GeneratorEnum::GENERATE_TYPE_ZIP;
     }
@@ -464,7 +464,7 @@ abstract class BaseGenerator
      * @author LZH
      * @date 2025/2/18
      */
-    public function isTreeCrud()
+    public function isTreeCrud(): bool
     {
         return $this->tableData['template_type'] == GeneratorEnum::TEMPLATE_TYPE_TREE;
     }

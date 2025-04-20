@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller;
 
@@ -24,7 +25,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new FileLists());
     }
@@ -35,7 +36,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function move()
+    public function move(): Json
     {
         $params = (new FileValidate())->post()->goCheck('move');
         FileLogic::move($params);
@@ -48,7 +49,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function rename()
+    public function rename(): Json
     {
         $params = (new FileValidate())->post()->goCheck('rename');
         FileLogic::rename($params);
@@ -65,7 +66,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new FileValidate())->post()->goCheck('delete');
         FileLogic::delete($params);
@@ -79,7 +80,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function listCate()
+    public function listCate(): Json
     {
         return $this->dataLists(new FileCateLists());
     }
@@ -90,7 +91,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function addCate()
+    public function addCate(): Json
     {
         $params = (new FileValidate())->post()->goCheck('addCate');
         FileLogic::addCate($params);
@@ -103,7 +104,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function editCate()
+    public function editCate(): Json
     {
         $params = (new FileValidate())->post()->goCheck('editCate');
         FileLogic::editCate($params);
@@ -120,7 +121,7 @@ class FileController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function delCate()
+    public function delCate(): Json
     {
         $params = (new FileValidate())->post()->goCheck('id');
         FileLogic::delCate($params);

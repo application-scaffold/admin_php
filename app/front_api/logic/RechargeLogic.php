@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -25,7 +26,7 @@ class RechargeLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function recharge(array $params)
+    public static function recharge(array $params): bool|array
     {
         try {
             $data = [
@@ -49,12 +50,12 @@ class RechargeLogic extends BaseLogic
 
     /**
      * 充值配置
-     * @param $userId
+     * @param int $userId
      * @return array
      * @author LZH
      * @date 2025/2/20
      */
-    public static function config($userId)
+    public static function config(int $userId): array
     {
         $userMoney = User::where(['id' => $userId])->value('user_money');
         $minAmount = ConfigService::get('recharge', 'min_amount', 0);

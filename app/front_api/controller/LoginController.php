@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
 use app\front_api\validate\{LoginAccountValidate, RegisterValidate, WebScanLoginValidate, WechatLoginValidate};
 use app\front_api\logic\LoginLogic;
+use think\response\Json;
 
 /**
  * 登录注册
@@ -20,11 +22,11 @@ class LoginController extends BaseApiController
 
     /**
      * 注册账号
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function register()
+    public function register(): Json
     {
         $params = (new RegisterValidate())->post()->goCheck('register');
         $result = LoginLogic::register($params);
@@ -37,11 +39,11 @@ class LoginController extends BaseApiController
 
     /**
      * 账号密码/手机号密码/手机号验证码登录
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function account()
+    public function account(): Json
     {
         $params = (new LoginAccountValidate())->post()->goCheck();
         $result = LoginLogic::login($params);
@@ -53,14 +55,14 @@ class LoginController extends BaseApiController
 
     /**
      * 退出登录
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function logout()
+    public function logout(): Json
     {
         LoginLogic::logout($this->userInfo);
         return $this->success();
@@ -69,11 +71,11 @@ class LoginController extends BaseApiController
 
     /**
      * 获取微信请求code的链接
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function codeUrl()
+    public function codeUrl(): Json
     {
         $url = $this->request->get('url');
         $result = ['url' => LoginLogic::codeUrl($url)];
@@ -82,12 +84,12 @@ class LoginController extends BaseApiController
 
     /**
      * 公众号登录
-     * @return \think\response\Json
+     * @return Json
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @author LZH
      * @date 2025/2/19
      */
-    public function oaLogin()
+    public function oaLogin(): Json
     {
         $params = (new WechatLoginValidate())->post()->goCheck('oa');
         $res = LoginLogic::oaLogin($params);
@@ -99,11 +101,11 @@ class LoginController extends BaseApiController
 
     /**
      * 小程序-登录接口
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function mnpLogin()
+    public function mnpLogin(): Json
     {
         $params = (new WechatLoginValidate())->post()->goCheck('mnpLogin');
         $res = LoginLogic::mnpLogin($params);
@@ -115,11 +117,11 @@ class LoginController extends BaseApiController
 
     /**
      * 小程序绑定微信
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function mnpAuthBind()
+    public function mnpAuthBind(): Json
     {
         $params = (new WechatLoginValidate())->post()->goCheck("wechatAuth");
         $params['user_id'] = $this->userId;
@@ -133,12 +135,12 @@ class LoginController extends BaseApiController
 
     /**
      * 公众号绑定微信
-     * @return \think\response\Json
+     * @return Json
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @author LZH
      * @date 2025/2/19
      */
-    public function oaAuthBind()
+    public function oaAuthBind(): Json
     {
         $params = (new WechatLoginValidate())->post()->goCheck("wechatAuth");
         $params['user_id'] = $this->userId;
@@ -151,11 +153,11 @@ class LoginController extends BaseApiController
 
     /**
      * 获取扫码地址
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function getScanCode()
+    public function getScanCode(): Json
     {
         $redirectUri = $this->request->get('url/s');
         $result = LoginLogic::getScanCode($redirectUri);
@@ -167,11 +169,11 @@ class LoginController extends BaseApiController
 
     /**
      * 网站扫码登录
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function scanLogin()
+    public function scanLogin(): Json
     {
         $params = (new WebScanLoginValidate())->post()->goCheck();
         $result = LoginLogic::scanLogin($params);
@@ -183,11 +185,11 @@ class LoginController extends BaseApiController
 
     /**
      * 更新用户头像昵称
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function updateUser()
+    public function updateUser(): Json
     {
         $params = (new WechatLoginValidate())->post()->goCheck("updateUser");
         LoginLogic::updateUser($params, $this->userId);

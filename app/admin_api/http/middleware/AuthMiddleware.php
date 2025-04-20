@@ -9,6 +9,8 @@ use app\common\{
     service\JsonService
 };
 use think\helper\Str;
+use think\Request;
+use think\response\Json;
 
 /**
  * 权限验证中间件
@@ -21,13 +23,13 @@ class AuthMiddleware
 {
     /**
      * 权限验证
-     * @param $request
+     * @param Request $request
      * @param \Closure $next
-     * @return mixed|\think\response\Json
+     * @return mixed|Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next): mixed
     {
         //不登录访问，无需权限验证
         if ($request->controllerObject->isNotNeedLogin()) {
@@ -73,7 +75,7 @@ class AuthMiddleware
      * @author LZH
      * @date 2025/2/19
      */
-    public function formatUrl(array $data)
+    public function formatUrl(array $data): array
     {
         return array_map(function ($item) {
             return strtolower(Str::camel($item));

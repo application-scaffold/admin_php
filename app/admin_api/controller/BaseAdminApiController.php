@@ -1,5 +1,4 @@
 <?php
-
 declare (strict_types=1);
 
 namespace app\admin_api\controller;
@@ -18,7 +17,7 @@ class BaseAdminApiController extends BaseAdminController
     protected int $adminId = 0;
     protected array $adminInfo = [];
 
-    public function initialize()
+    public function initialize(): void
     {
         if (isset($this->request->adminInfo) && $this->request->adminInfo) {
             $this->adminInfo = $this->request->adminInfo;

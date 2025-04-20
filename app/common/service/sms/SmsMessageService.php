@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\sms;
 
@@ -8,6 +9,8 @@ use app\common\logic\NoticeLogic;
 use app\common\model\notice\NoticeSetting;
 use app\common\model\notice\SmsLog;
 use app\common\service\ConfigService;
+use think\Model;
+use think\model\contract\Modelable;
 
 /**
  * 短信服务
@@ -21,7 +24,10 @@ class SmsMessageService
     protected $notice;
     protected $smsLog;
 
-    public function send($params)
+    /**
+     * @throws \Exception
+     */
+    public function send(array $params): bool
     {
         try {
             // 通知设置
@@ -58,13 +64,13 @@ class SmsMessageService
 
     /**
      * 格式化消息内容
-     * @param $noticeSetting
-     * @param $params
+     * @param array $noticeSetting
+     * @param array $params
      * @return array|mixed|string|string[]
      * @author LZH
      * @date 2025/2/19
      */
-    public function contentFormat($noticeSetting, $params)
+    public function contentFormat(array $noticeSetting, array $params): mixed
     {
         $content = $noticeSetting['sms_notice']['content'];
         foreach($params['params'] as $k => $v) {
@@ -77,13 +83,13 @@ class SmsMessageService
 
     /**
      * 添加短信记录
-     * @param $params
-     * @param $content
-     * @return SmsLog|\think\Model
+     * @param array $params
+     * @param string $content
+     * @return Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public function addSmsLog($params, $content)
+    public function addSmsLog(array $params, string $content): Modelable
     {
         $data = [
             'scene_id'   => $params['scene_id'],
@@ -99,13 +105,13 @@ class SmsMessageService
 
     /**
      * 处理腾讯云短信参数
-     * @param $noticeSetting
-     * @param $params
+     * @param array $noticeSetting
+     * @param array $params
      * @return array|mixed
      * @author LZH
      * @date 2025/2/19
      */
-    public function setSmsParams($noticeSetting, $params)
+    public function setSmsParams(array $noticeSetting, array $params): mixed
     {
         $defaultEngine = ConfigService::get('sms', 'engine', false);
         // 阿里云 且是 验证码类型
@@ -154,14 +160,14 @@ class SmsMessageService
 
     /**
      * 更新短信记录
-     * @param $id
-     * @param $status
-     * @param $result
+     * @param string $id
+     * @param string $status
+     * @param array $result
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public function updateSmsLog($id, $status, $result)
+    public function updateSmsLog(string $id, string $status, array $result): void
     {
         SmsLog::update([
             'id' => $id,

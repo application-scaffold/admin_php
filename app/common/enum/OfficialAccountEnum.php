@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -73,12 +74,12 @@ class OfficialAccountEnum
 
     /**
      * 获取类型英文名称
-     * @param $type
+     * @param string $type
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getReplyType($type)
+    public static function getReplyType(string $type): string
     {
         return self::REPLY_TYPE[$type] ?? '';
     }

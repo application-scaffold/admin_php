@@ -6,6 +6,7 @@ namespace app\common\http\middleware;
 
 use app\common\service\JsonService;
 use Closure;
+use think\Request;
 
 /**
  * 自定义跨域中间件
@@ -28,14 +29,14 @@ class CorsAllowMiddleware
 
     /**
      * 跨域处理
-     * @param $request
+     * @param Request $request
      * @param Closure $next
      * @param array|null $header
      * @return mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function handle($request, Closure $next, ?array $header = []): mixed
+    public function handle(Request $request, Closure $next, ?array $header = []): mixed
     {
         // 设置跨域头
         $this->setCorsHeaders();

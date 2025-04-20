@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -12,6 +13,7 @@ use app\common\{enum\notice\NoticeEnum,
     service\sms\SmsDriver,
     service\wechat\WeChatMnpService};
 use think\facade\Config;
+use think\model\contract\Modelable;
 
 /**
  * 会员逻辑层
@@ -56,7 +58,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function info(int $userId)
+    public static function info(int $userId): array
     {
         $user = User::where(['id' => $userId])
             ->field('id,sn,sex,account,password,nickname,real_name,avatar,mobile,create_time,user_money')
@@ -72,11 +74,11 @@ class UserLogic extends BaseLogic
      * 设置用户信息
      * @param int $userId
      * @param array $params
-     * @return User|false|\think\model\contract\Modelable
+     * @return User|false|Modelable
      * @author LZH
      * @date 2025/2/20
      */
-    public static function setInfo(int $userId, array $params)
+    public static function setInfo(int $userId, array $params): User|Modelable|bool
     {
         try {
             if ($params['field'] == "avatar") {
@@ -100,7 +102,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function hasWechatAuth(int $userId)
+    public static function hasWechatAuth(int $userId): bool
     {
         //是否有微信授权登录
         $terminal = [UserTerminalEnum::WECHAT_MMP, UserTerminalEnum::WECHAT_OA,UserTerminalEnum::PC];
@@ -117,7 +119,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function resetPassword(array $params)
+    public static function resetPassword(array $params): bool
     {
         try {
             // 校验验证码
@@ -150,7 +152,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function changePassword(array $params, int $userId)
+    public static function changePassword(array $params, int $userId): bool
     {
         try {
             $user = User::findOrEmpty($userId);
@@ -190,7 +192,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getMobileByMnp(array $params)
+    public static function getMobileByMnp(array $params): bool
     {
         try {
             $response = (new WeChatMnpService())->getUserPhoneNumber($params['code']);
@@ -228,7 +230,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function bindMobile(array $params)
+    public static function bindMobile(array $params): bool
     {
         try {
             // 变更手机号场景

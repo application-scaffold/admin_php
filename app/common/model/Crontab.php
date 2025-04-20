@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model;
 
@@ -16,19 +17,19 @@ class Crontab extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
     protected $name = 'dev_crontab';
 
 
     /**
      * 类型获取器
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getTypeDescAttr($value)
+    public function getTypeDescAttr(string $value): string
     {
         $desc = [
             CrontabEnum::CRONTAB => '定时任务',
@@ -40,12 +41,12 @@ class Crontab extends BaseModel
 
     /**
      * 状态获取器
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getStatusDescAttr($value)
+    public function getStatusDescAttr(string $value): string
     {
         $desc = [
             CrontabEnum::START => '运行',
@@ -58,12 +59,12 @@ class Crontab extends BaseModel
 
     /**
      * 最后执行时间获取器
-     * @param $value
+     * @param int $value
      * @return false|string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getLastTimeAttr($value)
+    public function getLastTimeAttr(int $value): bool|string
     {
         return empty($value) ? '' : date('Y-m-d H:i:s', $value);
     }

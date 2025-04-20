@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace app\common\model\article;
 
 use app\common\enum\YesNoEnum;
@@ -17,18 +19,18 @@ class ArticleCollect extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
 
     /**
      * 是否已收藏文章
-     * @param $userId
-     * @param $articleId
+     * @param int $userId
+     * @param int $articleId
      * @return bool
      * @author LZH
      * @date 2025/2/18
      */
-    public static function isCollectArticle($userId, $articleId)
+    public static function isCollectArticle(int $userId, int $articleId): bool
     {
         $collect = ArticleCollect::where([
             'user_id' => $userId,

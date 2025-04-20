@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\tools;
 
@@ -21,7 +22,7 @@ class DataTableLists extends BaseAdminDataLists
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryResult()
+    public function queryResult(): mixed
     {
         $sql = 'SHOW TABLE STATUS WHERE 1=1 ';
         if (!empty($this->params['name'])) {

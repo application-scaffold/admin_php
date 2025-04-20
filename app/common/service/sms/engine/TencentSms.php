@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\sms\engine;
 
@@ -19,13 +20,13 @@ use TencentCloud\Common\Profile\HttpProfile;
  */
 class TencentSms
 {
-    protected $error = null;
-    protected $config;
-    protected $mobile;
-    protected $templateId;
-    protected $templateParams;
+    protected ?string $error = null;
+    protected array $config;
+    protected string $mobile;
+    protected string $templateId;
+    protected string $templateParams;
 
-    public function __construct($config)
+    public function __construct(array $config)
     {
         if(empty($config)) {
             $this->error = '请联系管理员配置参数';
@@ -37,12 +38,12 @@ class TencentSms
 
     /**
      * 设置手机号
-     * @param $mobile
+     * @param string $mobile
      * @return $this
      * @author LZH
      * @date 2025/2/19
      */
-    public function setMobile($mobile)
+    public function setMobile(string $mobile): static
     {
         $this->mobile = $mobile;
         return $this;
@@ -51,12 +52,12 @@ class TencentSms
 
     /**
      * 设置模板id
-     * @param $templateId
+     * @param string $templateId
      * @return $this
      * @author LZH
      * @date 2025/2/19
      */
-    public function setTemplateId($templateId)
+    public function setTemplateId(string $templateId): static
     {
         $this->templateId = $templateId;
         return $this;
@@ -70,7 +71,7 @@ class TencentSms
      * @author LZH
      * @date 2025/2/19
      */
-    public function setTemplateParams($templateParams)
+    public function setTemplateParams(string $templateParams): static
     {
         $this->templateParams = $templateParams;
         return $this;
@@ -79,11 +80,11 @@ class TencentSms
 
     /**
      * 获取错误信息
-     * @return mixed|string|null
+     * @return string|null
      * @author LZH
      * @date 2025/2/19
      */
-    public function getError()
+    public function getError(): ?string
     {
         return $this->error;
     }
@@ -91,11 +92,11 @@ class TencentSms
 
     /**
      * 发送短信
-     * @return false|mixed
+     * @return array|bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function send()
+    public function send(): array|bool
     {
         try {
             $cred = new Credential($this->config['secret_id'], $this->config['secret_key']);

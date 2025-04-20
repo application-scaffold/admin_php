@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
 use app\front_api\lists\recharge\RechargeLists;
 use app\front_api\logic\RechargeLogic;
 use app\front_api\validate\RechargeValidate;
+use think\response\Json;
 
 /**
  * 充值控制器
@@ -18,22 +20,22 @@ class RechargeController extends BaseApiController
 
     /**
      * 获取充值列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new RechargeLists());
     }
 
     /**
      * 充值
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function recharge()
+    public function recharge(): Json
     {
         $params = (new RechargeValidate())->post()->goCheck('recharge', [
             'user_id' => $this->userId,
@@ -48,11 +50,11 @@ class RechargeController extends BaseApiController
 
     /**
      * 充值配置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function config()
+    public function config(): Json
     {
         return $this->data(RechargeLogic::config($this->userId));
     }

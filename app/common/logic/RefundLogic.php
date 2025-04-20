@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
 
@@ -9,6 +10,7 @@ use app\common\model\refund\RefundLog;
 use app\common\model\refund\RefundRecord;
 use app\common\service\pay\AliPayService;
 use app\common\service\pay\WeChatPayService;
+use think\model\contract\Modelable;
 
 /**
  * 订单退款逻辑
@@ -20,21 +22,21 @@ use app\common\service\pay\WeChatPayService;
 class RefundLogic extends BaseLogic
 {
 
-    protected static $refundLog;
+    protected static Modelable $refundLog;
 
 
     /**
      * 发起退款
-     * @param $order
-     * @param $refundRecordId
-     * @param $refundAmount
-     * @param $handleId
+     * @param array $order
+     * @param string $refundRecordId
+     * @param int $refundAmount
+     * @param string $handleId
      * @return bool
      * @throws \Exception
      * @author LZH
      * @date 2025/2/18
      */
-    public static function refund($order, $refundRecordId, $refundAmount, $handleId)
+    public static function refund(array $order, string $refundRecordId, int $refundAmount, int $handleId): bool
     {
         // 退款前校验
         self::refundBeforeCheck($refundAmount);
@@ -70,13 +72,13 @@ class RefundLogic extends BaseLogic
 
     /**
      * 退款前校验
-     * @param $refundAmount
+     * @param int $refundAmount
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/18
      */
-    public static function refundBeforeCheck($refundAmount)
+    public static function refundBeforeCheck(int $refundAmount): void
     {
         if ($refundAmount <= 0) {
             throw new \Exception('订单金额异常');
@@ -85,13 +87,14 @@ class RefundLogic extends BaseLogic
 
     /**
      * 微信支付退款
-     * @param $order
-     * @param $refundAmount
+     * @param array $order
+     * @param int $refundAmount
      * @return void
+     * @throws \Exception
      * @author LZH
      * @date 2025/2/18
      */
-    public static function wechatPayRefund($order, $refundAmount)
+    public static function wechatPayRefund(array $order, int $refundAmount): void
     {
         // 发起退款。 若发起退款请求返回明确错误，退款日志和记录标记状态为退款失败
         // 退款日志及记录的成功状态目前统一由定时任务查询退款结果为退款成功后才标记成功
@@ -106,14 +109,13 @@ class RefundLogic extends BaseLogic
 
     /**
      * 支付宝退款
-     * @param $refundRecordId
-     * @param $refundAmount
+     * @param string $refundRecordId
+     * @param int $refundAmount
      * @return void
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/18
      */
-    public static function aliPayRefund($refundRecordId, $refundAmount)
+    public static function aliPayRefund(string $refundRecordId, int $refundAmount): void
     {
         $refundRecord = RefundRecord::where('id', $refundRecordId)->findOrEmpty()->toArray();
 
@@ -146,13 +148,13 @@ class RefundLogic extends BaseLogic
     /**
      * 退款请求失败处理
      * 【微信，支付宝】退款接口请求失败时，更新退款记录及日志为失败,在退款记录重新发起
-     * @param $refundRecordId
-     * @param $msg
+     * @param string $refundRecordId
+     * @param string $msg
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public static function refundFailHandle($refundRecordId, $msg)
+    public static function refundFailHandle(string $refundRecordId, string $msg): void
     {
         // 更新退款日志记录
         RefundLog::update([
@@ -172,16 +174,16 @@ class RefundLogic extends BaseLogic
 
     /**
      * 退款日志
-     * @param $order
-     * @param $refundRecordId
-     * @param $refundAmount
-     * @param $handleId
-     * @param $refundStatus
+     * @param array $order
+     * @param string $refundRecordId
+     * @param int $refundAmount
+     * @param string $handleId
+     * @param int $refundStatus
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public static function log($order, $refundRecordId, $refundAmount, $handleId, $refundStatus = RefundEnum::REFUND_ING)
+    public static function log(array $order, string $refundRecordId, int $refundAmount, string $handleId, int $refundStatus = RefundEnum::REFUND_ING): void
     {
         $sn = generate_sn(RefundLog::class, 'sn');
 

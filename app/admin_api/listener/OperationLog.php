@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\listener;
 
 use ReflectionClass;
 use think\Exception;
+use think\Response;
 
 class OperationLog
 {
@@ -16,7 +18,7 @@ class OperationLog
      * @author LZH
      * @date 2025/2/19
      */
-    public function handle($response)
+    public function handle(Response $response)
     {
         $request = request();
 

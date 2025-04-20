@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
 use app\front_api\logic\WechatLogic;
 use app\front_api\validate\WechatValidate;
+use think\response\Json;
 
 
 /**
@@ -19,7 +21,7 @@ class WechatController extends BaseApiController
 
     /**
      * 微信JSSDK授权接口
-     * @return \think\response\Json
+     * @return Json
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
@@ -29,7 +31,7 @@ class WechatController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function jsConfig()
+    public function jsConfig(): Json
     {
         $params = (new WechatValidate())->goCheck('jsConfig');
         $result = WechatLogic::jsConfig($params);

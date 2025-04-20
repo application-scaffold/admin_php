@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\sms;
 
@@ -22,7 +23,7 @@ class SmsDriver
      * 错误信息
      * @var
      */
-    protected $error = null;
+    protected ?string $error = null;
 
     /**
      * 默认短信引擎
@@ -52,7 +53,7 @@ class SmsDriver
      * @author LZH
      * @date 2025/2/19
      */
-    public function initialize()
+    public function initialize(): bool
     {
         try {
             $defaultEngine = ConfigService::get('sms', 'engine', false);
@@ -85,11 +86,11 @@ class SmsDriver
 
     /**
      * 获取错误信息
-     * @return mixed|null
+     * @return string|null
      * @author LZH
      * @date 2025/2/19
      */
-    public function getError()
+    public function getError(): ?string
     {
         return $this->error;
     }
@@ -97,13 +98,13 @@ class SmsDriver
 
     /**
      * 发送短信
-     * @param $mobile
-     * @param $data
+     * @param string $mobile
+     * @param array $data
      * @return false
      * @author LZH
      * @date 2025/2/19
      */
-    public function send($mobile, $data)
+    public function send(string $mobile, array $data): bool
     {
         try {
             // 发送频率限制
@@ -127,13 +128,13 @@ class SmsDriver
 
     /**
      * 发送频率限制
-     * @param $mobile
+     * @param string $mobile
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public function sendLimit($mobile)
+    public function sendLimit(string $mobile): void
     {
         $smsLog = SmsLog::where([
             ['mobile', '=', $mobile],
@@ -150,14 +151,14 @@ class SmsDriver
 
     /**
      * 校验手机验证码
-     * @param $mobile
-     * @param $code
-     * @param $sceneId
+     * @param string $mobile
+     * @param string $code
+     * @param int $sceneId
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function verify($mobile, $code, $sceneId = 0)
+    public function verify(string $mobile, string $code, int $sceneId = 0): bool
     {
         $where = [
             ['mobile', '=', $mobile],

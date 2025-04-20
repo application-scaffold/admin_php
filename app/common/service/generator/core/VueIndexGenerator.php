@@ -23,7 +23,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -77,7 +77,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getSearchViewContent()
+    public function getSearchViewContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -122,7 +122,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getListsViewContent()
+    public function getListsViewContent(): string
     {
         $content = '';
         foreach ($this->tableColumn as $column) {
@@ -170,7 +170,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getQueryParamsContent()
+    public function getQueryParamsContent(): string
     {
         $content = '';
         $queryDate = false;
@@ -198,7 +198,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getDictDataContent()
+    public function getDictDataContent(): string
     {
         $content = '';
         $isExist = [];
@@ -226,7 +226,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPermsContent($type = 'add')
+    public function getPermsContent($type = 'add'): string
     {
         if (!empty($this->classDir)) {
             $classDir = $this->classDir . '.';
@@ -243,7 +243,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = dirname(app()->getRootPath()) . '/admin/src/views/' . $this->getLowerTableName() . '/';
         $this->checkDir($dir);
@@ -257,7 +257,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'vue/src/views/' . $this->getLowerTableName() . '/';
         $this->checkDir($dir);
@@ -271,7 +271,7 @@ class VueIndexGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return 'index.vue';
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\lists;
 
@@ -12,17 +13,17 @@ trait ListsSearchTrait
 {
 
     protected array $params;
-    protected $searchWhere = [];
+    protected array $searchWhere = [];
 
 
     /**
      * 搜索条件生成
-     * @param $search
+     * @param array $search
      * @return array
      * @author LZH
      * @date 2025/2/18
      */
-    private function createWhere($search)
+    private function createWhere(array $search): array
     {
         if (empty($search)) {
             return [];

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
@@ -25,7 +26,7 @@ class PcController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function index()
+    public function index(): Json
     {
         $result = PcLogic::getIndexData();
         return $this->data($result);
@@ -40,7 +41,7 @@ class PcController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function config()
+    public function config(): Json
     {
         $result = PcLogic::getConfigData();
         return $this->data($result);
@@ -55,7 +56,7 @@ class PcController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function infoCenter()
+    public function infoCenter(): Json
     {
         $result = PcLogic::getInfoCenter();
         return $this->data($result);
@@ -67,7 +68,7 @@ class PcController extends BaseApiController
      * @author LZH
      * @date 2025/2/19
      */
-    public function articleDetail()
+    public function articleDetail(): Json
     {
         $id = $this->request->get('id/d', 0);
         $source = $this->request->get('source/s', 'default');

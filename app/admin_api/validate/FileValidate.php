@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate;
 
@@ -39,7 +40,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneId()
+    public function sceneId(): FileValidate
     {
         return $this->only(['id']);
     }
@@ -51,7 +52,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneRename()
+    public function sceneRename(): FileValidate
     {
         return $this->only(['id', 'name']);
     }
@@ -63,7 +64,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAddCate()
+    public function sceneAddCate(): FileValidate
     {
         return $this->only(['type', 'pid', 'name']);
     }
@@ -74,7 +75,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneEditCate()
+    public function sceneEditCate(): FileValidate
     {
         return $this->only(['id', 'name']);
     }
@@ -86,7 +87,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneMove()
+    public function sceneMove(): FileValidate
     {
         return $this->only(['ids', 'cid']);
     }
@@ -98,7 +99,7 @@ class FileValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): FileValidate
     {
         return $this->only(['ids']);
     }

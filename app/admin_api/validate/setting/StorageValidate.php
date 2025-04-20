@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\setting;
 
@@ -26,7 +27,7 @@ class StorageValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneSetup()
+    public function sceneSetup(): StorageValidate
     {
         return $this->only(['engine', 'status']);
     }
@@ -37,7 +38,7 @@ class StorageValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): StorageValidate
     {
         return $this->only(['engine']);
     }
@@ -48,7 +49,7 @@ class StorageValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneChange()
+    public function sceneChange(): StorageValidate
     {
         return $this->only(['engine']);
     }

@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting;
-
 
 use app\common\logic\BaseLogic;
 use app\common\service\ConfigService;
@@ -24,7 +24,7 @@ class StorageLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function lists()
+    public static function lists(): array
     {
 
         $default = ConfigService::get('storage', 'default', 'local');
@@ -61,12 +61,12 @@ class StorageLogic extends BaseLogic
 
     /**
      * 存储设置详情
-     * @param $param
+     * @param array $param
      * @return mixed
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($param)
+    public static function detail(array $param): mixed
     {
 
         $default = ConfigService::get('storage', 'default', '');
@@ -119,12 +119,12 @@ class StorageLogic extends BaseLogic
 
     /**
      * 设置存储参数
-     * @param $params
+     * @param array $params
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setup($params)
+    public static function setup(array $params): bool|string
     {
         if ($params['status'] == 1) { //状态为开启
             ConfigService::set('storage', 'default', $params['engine']);
@@ -174,12 +174,12 @@ class StorageLogic extends BaseLogic
 
     /**
      * 切换状态
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function change($params)
+    public static function change(array $params): void
     {
         $default = ConfigService::get('storage', 'default', '');
         if ($default == $params['engine']) {

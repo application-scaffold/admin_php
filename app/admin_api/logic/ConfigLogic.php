@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic;
 
@@ -67,7 +68,7 @@ class ConfigLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getDictByType($type)
+    public static function getDictByType(string $type): array
     {
         if (!is_string($type)) {
             return [];

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\user;
 
@@ -8,6 +9,7 @@ use app\common\logic\AccountLogLogic;
 use app\common\logic\BaseLogic;
 use app\common\model\user\User;
 use think\facade\Db;
+use think\model\contract\Modelable;
 
 /**
  * 用户逻辑层
@@ -46,11 +48,11 @@ class UserLogic extends BaseLogic
     /**
      * 更新用户信息
      * @param array $params
-     * @return User|\think\model\contract\Modelable
+     * @return User|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setUserInfo(array $params)
+    public static function setUserInfo(array $params): User|Modelable
     {
         return User::update([
             'id' => $params['id'],
@@ -65,7 +67,7 @@ class UserLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function adjustUserMoney(array $params)
+    public static function adjustUserMoney(array $params): bool|string
     {
         Db::startTrans();
         try {

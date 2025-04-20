@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\auth;
 
 
 use app\common\validate\BaseValidate;
 use app\common\model\auth\{AdminRole, SystemRole, Admin};
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 角色验证器
@@ -35,7 +39,7 @@ class RoleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): RoleValidate
     {
         return $this->only(['name', 'menu_id']);
     }
@@ -46,7 +50,7 @@ class RoleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): RoleValidate
     {
         return $this->only(['id']);
     }
@@ -57,7 +61,7 @@ class RoleValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDel()
+    public function sceneDel(): RoleValidate
     {
         return $this->only(['id'])
             ->append('id', 'checkAdmin');
@@ -66,17 +70,17 @@ class RoleValidate extends BaseValidate
 
     /**
      * 验证角色是否存在
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkRole($value, $rule, $data)
+    public function checkRole(string $value, string $rule, array $data): bool|string
     {
         if (!SystemRole::find($value)) {
             return '角色不存在';
@@ -87,17 +91,17 @@ class RoleValidate extends BaseValidate
 
     /**
      * 验证角色是否被使用
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkAdmin($value, $rule, $data)
+    public function checkAdmin(string $value, string $rule, array $data): bool|string
     {
         if (AdminRole::where(['role_id' => $value])->find()) {
             return '有管理员在使用该角色，不允许删除';

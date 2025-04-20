@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum\notice;
 
@@ -32,7 +33,7 @@ class SmsEnum
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getNameDesc($value)
+    public static function getNameDesc($value): string
     {
         $desc = [
             'ALI' => '阿里云短信',

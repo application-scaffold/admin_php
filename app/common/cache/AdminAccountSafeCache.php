@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\common\cache;
 
 /**
@@ -12,9 +14,9 @@ namespace app\common\cache;
 class AdminAccountSafeCache extends BaseCache
 {
 
-    private $key;//缓存错误次数名称
-    public $minute = 15;//缓存设置为15分钟，即密码错误次数达到，锁定15分钟
-    public $count = 15;//设置连续输错次数，即15分钟内连续输错误15次后，锁定
+    private string $key;//缓存错误次数名称
+    public int $minute = 15;//缓存设置为15分钟，即密码错误次数达到，锁定15分钟
+    public int $count = 15;//设置连续输错次数，即15分钟内连续输错误15次后，锁定
 
     public function __construct()
     {
@@ -30,7 +32,7 @@ class AdminAccountSafeCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function record()
+    public function record(): void
     {
         if ($this->get($this->key)) {
             //缓存存在，记录错误次数
@@ -47,7 +49,7 @@ class AdminAccountSafeCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function isSafe()
+    public function isSafe(): bool
     {
         $count = $this->get($this->key);
         // 如果登录错误达到最大尝试次数
@@ -63,7 +65,7 @@ class AdminAccountSafeCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function relieve()
+    public function relieve(): void
     {
         $this->delete($this->key);
     }

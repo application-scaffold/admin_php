@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\lists;
 
@@ -24,13 +25,13 @@ trait ListsExcelTrait
 
     /**
      * 创建excel
-     * @param $excelFields
-     * @param $lists
+     * @param array $excelFields
+     * @param array $lists
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function createExcel($excelFields, $lists)
+    public function createExcel(array $excelFields, array $lists): string
     {
         $title = array_values($excelFields);
 
@@ -106,7 +107,7 @@ trait ListsExcelTrait
      * @author LZH
      * @date 2025/2/18
      */
-    public function excelInfo()
+    public function excelInfo(): array
     {
         $count = $this->count();
         $sum_page = max(ceil($count / $this->pageSize), 1);

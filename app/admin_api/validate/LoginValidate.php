@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate;
 
@@ -31,14 +32,14 @@ class LoginValidate extends BaseValidate
 
     /**
      * 密码验证
-     * @param $password
-     * @param $other
-     * @param $data
+     * @param string $password
+     * @param string $other
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function password($password, $other, $data)
+    public function password(string $password, string $other, array $data): bool|string
     {
         // 登录限制
         $config = [

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\auth;
 
@@ -50,7 +51,7 @@ class AdminValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): AdminValidate
     {
         return $this->remove(['password', 'edit'])
             ->remove('id', true)
@@ -63,7 +64,7 @@ class AdminValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): AdminValidate
     {
         return $this->only(['id']);
     }
@@ -74,7 +75,7 @@ class AdminValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneEdit()
+    public function sceneEdit(): AdminValidate
     {
         return $this->remove('password', 'require|length')
             ->append('id', 'require|checkAdmin')
@@ -82,29 +83,27 @@ class AdminValidate extends BaseValidate
             ->append('role_id', 'checkRole');
     }
 
-
     /**
      * 删除场景
      * @return AdminValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): AdminValidate
     {
         return $this->only(['id']);
     }
 
-
     /**
      * 编辑情况下，检查是否填密码
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function edit($value, $rule, $data)
+    public function edit(string $value, string $rule, array $data): bool|string
     {
         if (empty($data['password']) && empty($data['password_confirm'])) {
             return true;
@@ -116,15 +115,14 @@ class AdminValidate extends BaseValidate
         return true;
     }
 
-
     /**
      * 检查指定管理员是否存在
-     * @param $value
+     * @param string $value
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkAdmin($value)
+    public function checkAdmin(string $value): bool|string
     {
         $admin = Admin::findOrEmpty($value);
         if ($admin->isEmpty()) {
@@ -136,14 +134,14 @@ class AdminValidate extends BaseValidate
 
     /**
      * 禁用校验
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param bool $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkAbleDisable($value, $rule, $data)
+    public function checkAbleDisable(bool $value, string $rule, array $data): bool|string
     {
         $admin = Admin::findOrEmpty($data['id']);
         if ($admin->isEmpty()) {
@@ -158,14 +156,14 @@ class AdminValidate extends BaseValidate
 
     /**
      * 校验角色
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param bool $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function checkRole($value, $rule, $data)
+    public function checkRole(bool $value, string $rule, array $data)
     {
         $admin = Admin::findOrEmpty($data['id']);
         if ($admin->isEmpty()) {

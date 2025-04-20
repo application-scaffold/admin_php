@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\decorate;
 
@@ -15,10 +16,10 @@ use app\common\service\FileService;
 class DecorateTabbar extends BaseModel
 {
     // 设置json类型字段
-    protected $json = ['link'];
+    protected array $json = ['link'];
 
     // 设置JSON数据返回数组
-    protected $jsonAssoc = true;
+    protected bool $jsonAssoc = true;
 
 
     /**
@@ -30,7 +31,7 @@ class DecorateTabbar extends BaseModel
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTabbarLists()
+    public static function getTabbarLists(): array
     {
         $tabbar = self::select()->toArray();
 

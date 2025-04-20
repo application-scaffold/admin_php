@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting;
 
@@ -22,7 +22,7 @@ class TransactionSettingsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             'cancel_unpaid_orders' => ConfigService::get('transaction', 'cancel_unpaid_orders', 1),
@@ -36,12 +36,12 @@ class TransactionSettingsLogic extends BaseLogic
 
     /**
      * 设置交易设置
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): void
     {
         ConfigService::set('transaction', 'cancel_unpaid_orders', $params['cancel_unpaid_orders']);
         ConfigService::set('transaction', 'verification_orders', $params['verification_orders']);

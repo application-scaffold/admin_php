@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -28,14 +29,14 @@ class WebScanLoginValidate extends BaseValidate
 
     /**
      * 校验登录状态标记
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/20
      */
-    protected function checkState($value, $rule, $data)
+    protected function checkState(string $value, string $rule, array $data): bool|string
     {
         $check = (new WebScanLoginCache())->getScanLoginState($value);
 

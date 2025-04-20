@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -6,6 +7,10 @@ use app\common\enum\OfficialAccountEnum;
 use app\common\logic\BaseLogic;
 use app\common\service\ConfigService;
 use app\common\service\wechat\WeChatOaService;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
 /**
@@ -19,12 +24,12 @@ class OfficialAccountMenuLogic extends BaseLogic
 {
     /**
      * @notes 保存
-     * @param $params
+     * @param array $params
      * @return bool
      * @author 段誉
      * @date 2022/3/29 10:43
      */
-    public static function save($params)
+    public static function save(array $params): bool
     {
         try {
             self::checkMenu($params);
@@ -39,13 +44,13 @@ class OfficialAccountMenuLogic extends BaseLogic
 
     /**
      * 一级菜单校验
-     * @param $menu
+     * @param array $menu
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkMenu($menu)
+    public static function checkMenu(array $menu): void
     {
         if (empty($menu) || !is_array($menu)) {
             throw new \Exception('请设置正确格式菜单');
@@ -91,13 +96,13 @@ class OfficialAccountMenuLogic extends BaseLogic
 
     /**
      * 二级菜单校验
-     * @param $subButtion
+     * @param array $subButtion
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkSubButton($subButtion)
+    public static function checkSubButton(array $subButtion): void
     {
         if (!is_array($subButtion)) {
             throw new \Exception('二级菜单须为数组格式');
@@ -131,13 +136,13 @@ class OfficialAccountMenuLogic extends BaseLogic
 
     /**
      * 菜单类型校验
-     * @param $item
+     * @param array $item
      * @return void
      * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function checkType($item)
+    public static function checkType(array $item): void
     {
         switch ($item['type']) {
             // 关键字
@@ -169,12 +174,16 @@ class OfficialAccountMenuLogic extends BaseLogic
 
     /**
      * 保存发布菜单
-     * @param $params
+     * @param array $params
      * @return bool
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public static function saveAndPublish($params)
+    public static function saveAndPublish(array $params): bool
     {
         try {
             self::checkMenu($params);
@@ -201,7 +210,7 @@ class OfficialAccountMenuLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail()
+    public static function detail(): mixed
     {
         $data = ConfigService::get('oa_setting', 'menu', []);
 

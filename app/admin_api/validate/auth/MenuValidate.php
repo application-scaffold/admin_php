@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\auth;
 
@@ -63,7 +64,7 @@ class MenuValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneAdd()
+    public function sceneAdd(): MenuValidate
     {
         return $this->remove('id', true);
     }
@@ -75,11 +76,10 @@ class MenuValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDetail()
+    public function sceneDetail(): MenuValidate
     {
         return $this->only(['id']);
     }
-
 
     /**
      * 删除场景
@@ -87,7 +87,7 @@ class MenuValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDelete()
+    public function sceneDelete(): MenuValidate
     {
         return $this->only(['id'])
             ->append('id', 'checkAbleDelete');
@@ -99,22 +99,21 @@ class MenuValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneStatus()
+    public function sceneStatus(): MenuValidate
     {
         return $this->only(['id', 'is_disable']);
     }
 
-
     /**
      * 校验菜单名称是否已存在
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param bool $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkUniqueName($value, $rule, $data)
+    protected function checkUniqueName(bool $value, string $rule, array $data): bool|string
     {
         if ($data['type'] != 'M') {
             return true;
@@ -138,14 +137,14 @@ class MenuValidate extends BaseValidate
 
     /**
      * 是否有子级菜单
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkAbleDelete($value, $rule, $data)
+    protected function checkAbleDelete(string $value, string $rule, array $data): bool|string
     {
         $hasChild = SystemMenu::where(['pid' => $value])->findOrEmpty();
         if (!$hasChild->isEmpty()) {
@@ -163,14 +162,14 @@ class MenuValidate extends BaseValidate
 
     /**
      * 校验上级
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkPid($value, $rule, $data)
+    protected function checkPid(string $value, string $rule, array $data): bool|string
     {
         if (!empty($data['id']) && $data['id'] == $value) {
             return '上级菜单不能选择自己';

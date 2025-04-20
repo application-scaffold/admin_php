@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\dept;
 
 use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\logic\dept\DeptLogic;
 use app\admin_api\validate\dept\DeptValidate;
+use think\response\Json;
 
 /**
  * 部门管理控制器
@@ -18,14 +20,14 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 部门列表
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         $params = $this->request->get();
         $result = DeptLogic::lists($params);
@@ -35,14 +37,14 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 上级部门
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function leaderDept()
+    public function leaderDept(): Json
     {
         $result = DeptLogic::leaderDept();
         return $this->success('',$result);
@@ -51,11 +53,11 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 添加部门
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new DeptValidate())->post()->goCheck('add');
         DeptLogic::add($params);
@@ -65,11 +67,11 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 编辑部门
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new DeptValidate())->post()->goCheck('edit');
         $result = DeptLogic::edit($params);
@@ -81,11 +83,11 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 删除部门
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new DeptValidate())->post()->goCheck('delete');
         DeptLogic::delete($params);
@@ -94,11 +96,11 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 获取部门详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new DeptValidate())->goCheck('detail');
         $result = DeptLogic::detail($params);
@@ -108,14 +110,14 @@ class DeptController extends BaseAdminApiController
 
     /**
      * 获取部门数据
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = DeptLogic::getAllData();
         return $this->data($result);

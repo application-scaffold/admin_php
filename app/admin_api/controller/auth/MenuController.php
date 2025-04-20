@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\auth;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\auth\MenuLists;
 use app\admin_api\logic\auth\MenuLogic;
 use app\admin_api\validate\auth\MenuValidate;
+use think\response\Json;
 
 /**
  * 系统菜单权限
@@ -19,27 +21,26 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 获取菜单路由
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function route()
+    public function route(): Json
     {
         $result = MenuLogic::getMenuByAdminId($this->adminId);
         return $this->data($result);
     }
 
-
     /**
      * 获取菜单列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new MenuLists());
     }
@@ -47,11 +48,11 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 菜单详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new MenuValidate())->goCheck('detail');
         return $this->data(MenuLogic::detail($params));
@@ -60,11 +61,11 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 添加菜单
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new MenuValidate())->post()->goCheck('add');
         MenuLogic::add($params);
@@ -73,11 +74,11 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 编辑菜单
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new MenuValidate())->post()->goCheck('edit');
         MenuLogic::edit($params);
@@ -87,11 +88,11 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 删除菜单
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new MenuValidate())->post()->goCheck('delete');
         MenuLogic::delete($params);
@@ -100,11 +101,11 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 更新状态
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function updateStatus()
+    public function updateStatus(): Json
     {
         $params = (new MenuValidate())->post()->goCheck('status');
         MenuLogic::updateStatus($params);
@@ -113,14 +114,14 @@ class MenuController extends BaseAdminApiController
 
     /**
      * 获取菜单数据
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = MenuLogic::getAllData();
         return $this->data($result);

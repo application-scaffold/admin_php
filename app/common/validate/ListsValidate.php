@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\validate;
 
@@ -34,14 +35,14 @@ class ListsValidate extends BaseValidate
 
     /**
      * 查询数据量判断
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param int $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    public function pageSizeMax($value, $rule, $data)
+    public function pageSizeMax(int $value, string $rule, array $data): bool|string
     {
         $pageSizeMax = Config::get('project.lists.page_size_max');
         if ($pageSizeMax < $value) {

@@ -5,6 +5,7 @@ declare (strict_types=1);
 namespace app\admin_api\http\middleware;
 
 use app\common\service\JsonService;
+use think\Request;
 
 /**
  * 校验演示环境
@@ -17,12 +18,12 @@ class CheckDemoMiddleware
 {
 
     // 允许post的接口
-    protected $ablePost = [
+    protected array $ablePost = [
         'login/account',
         'login/logout',
     ];
 
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         if ($request->method() != 'POST') {
             return $next($request);

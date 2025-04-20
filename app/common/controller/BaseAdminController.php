@@ -8,6 +8,7 @@ use app\BaseController;
 use app\common\lists\BaseDataLists;
 use app\common\service\JsonService;
 use think\facade\App;
+use think\response\Json;
 
 /**
  * 控制器基类
@@ -27,23 +28,23 @@ class BaseAdminController extends BaseController
      * @param array $data 返回的数据
      * @param int $code 状态码
      * @param int $show 是否显示消息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/18
      */
-    protected function success(string $msg = 'success', array $data = [], int $code = 1, int $show = 0)
+    protected function success(string $msg = 'success', array $data = [], int $code = 1, int $show = 0): Json
     {
         return JsonService::success($msg, $data, $code, $show);
     }
 
     /**
      * 数据返回
-     * @param $data 返回的数据
-     * @return \think\response\Json
+     * @param mixed $data 返回的数据
+     * @return Json
      * @author LZH
      * @date 2025/2/18
      */
-    protected function data($data)
+    protected function data(mixed $data): Json
     {
         return JsonService::data($data);
     }
@@ -51,11 +52,11 @@ class BaseAdminController extends BaseController
     /**
      * 列表数据返回
      * @param BaseDataLists|null $lists 列表数据对象
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/18
      */
-    protected function dataLists(BaseDataLists $lists = null)
+    protected function dataLists(BaseDataLists $lists = null): Json
     {
         // 列表类和控制器一一对应，"app/应用/controller/控制器的方法" =》"app\应用\lists\"目录下
         // 当对象为空时，自动创建列表对象
@@ -72,11 +73,11 @@ class BaseAdminController extends BaseController
      * @param array $data 返回的数据
      * @param int $code 状态码
      * @param int $show 是否显示消息
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/18
      */
-    protected function fail(string $msg = 'fail', array $data = [], int $code = 0, int $show = 1)
+    protected function fail(string $msg = 'fail', array $data = [], int $code = 0, int $show = 1): Json
     {
         return JsonService::fail($msg, $data, $code, $show);
     }

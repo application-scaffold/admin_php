@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\setting;
 
@@ -23,7 +24,7 @@ class StorageController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->success('获取成功', StorageLogic::lists());
     }
@@ -35,7 +36,7 @@ class StorageController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $param = (new StorageValidate())->get()->goCheck('detail');
         return $this->success('获取成功', StorageLogic::detail($param));
@@ -48,7 +49,7 @@ class StorageController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function setup()
+    public function setup(): Json
     {
         $params = (new StorageValidate())->post()->goCheck('setup');
         $result = StorageLogic::setup($params);
@@ -65,7 +66,7 @@ class StorageController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function change()
+    public function change(): Json
     {
         $params = (new StorageValidate())->post()->goCheck('change');
         StorageLogic::change($params);

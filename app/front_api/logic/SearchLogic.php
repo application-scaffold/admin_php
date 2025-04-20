@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -25,7 +26,7 @@ class SearchLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function hotLists()
+    public static function hotLists(): array
     {
         $data = HotSearch::field(['name', 'sort'])
             ->order(['sort' => 'desc', 'id' => 'desc'])

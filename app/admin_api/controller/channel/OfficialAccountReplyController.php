@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\channel;
 
@@ -6,6 +7,8 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\channel\OfficialAccountReplyLists;
 use app\admin_api\logic\channel\OfficialAccountReplyLogic;
 use app\admin_api\validate\channel\OfficialAccountReplyValidate;
+use think\Response;
+use think\response\Json;
 
 /**
  * 微信公众号回复控制器
@@ -21,22 +24,22 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 查看回复列表(关注/关键词/默认)
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new OfficialAccountReplyLists());
     }
 
     /**
      * 添加回复(关注/关键词/默认)
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new OfficialAccountReplyValidate())->post()->goCheck('add');
         $result = OfficialAccountReplyLogic::add($params);
@@ -48,11 +51,11 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 查看回复详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new OfficialAccountReplyValidate())->goCheck('detail');
         $result = OfficialAccountReplyLogic::detail($params);
@@ -61,11 +64,11 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 编辑回复(关注/关键词/默认)
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new OfficialAccountReplyValidate())->post()->goCheck('edit');
         $result = OfficialAccountReplyLogic::edit($params);
@@ -77,11 +80,11 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 删除回复(关注/关键词/默认)
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new OfficialAccountReplyValidate())->post()->goCheck('delete');
         OfficialAccountReplyLogic::delete($params);
@@ -90,11 +93,11 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 更新排序
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function sort()
+    public function sort(): Json
     {
         $params = (new OfficialAccountReplyValidate())->post()->goCheck('sort');
         OfficialAccountReplyLogic::sort($params);
@@ -103,11 +106,11 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 更新状态
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function status()
+    public function status(): Json
     {
         $params = (new OfficialAccountReplyValidate())->post()->goCheck('status');
         OfficialAccountReplyLogic::status($params);
@@ -116,14 +119,14 @@ class OfficialAccountReplyController extends BaseAdminApiController
 
     /**
      * 微信公众号回调
-     * @return \think\Response
+     * @return Response
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function index()
+    public function index(): Response
     {
         $result = OfficialAccountReplyLogic::index();
         return response($result->getBody())->header([

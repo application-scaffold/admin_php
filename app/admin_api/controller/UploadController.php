@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller;
 
@@ -21,7 +22,7 @@ class UploadController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function image()
+    public function image(): Json
     {
         try {
             $cid = $this->request->post('cid', 0);
@@ -38,7 +39,7 @@ class UploadController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function video()
+    public function video(): Json
     {
         try {
             $cid = $this->request->post('cid', 0);
@@ -55,7 +56,7 @@ class UploadController extends BaseAdminApiController
      * @author LZH
      * @date 2025/2/20
      */
-    public function file()
+    public function file(): Json
     {
         try {
             $cid = $this->request->post('cid', 0);

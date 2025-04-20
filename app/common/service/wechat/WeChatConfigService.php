@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\wechat;
 
@@ -23,7 +24,7 @@ class WeChatConfigService
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getMnpConfig()
+    public static function getMnpConfig(): array
     {
         return [
             'app_id' => ConfigService::get('mnp_setting', 'app_id'),
@@ -43,7 +44,7 @@ class WeChatConfigService
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getOaConfig()
+    public static function getOaConfig(): array
     {
         return [
             'app_id' => ConfigService::get('oa_setting', 'app_id'),
@@ -64,7 +65,7 @@ class WeChatConfigService
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getOpConfig()
+    public static function getOpConfig(): array
     {
         return [
             'app_id' => ConfigService::get('open_platform', 'app_id'),
@@ -80,12 +81,12 @@ class WeChatConfigService
 
     /**
      * 根据终端获取支付配置
-     * @param $terminal
+     * @param int $terminal
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getPayConfigByTerminal($terminal)
+    public static function getPayConfigByTerminal(int $terminal): array
     {
         switch ($terminal) {
             case UserTerminalEnum::WECHAT_MMP:
@@ -140,13 +141,13 @@ class WeChatConfigService
 
     /**
      * 临时写入证书
-     * @param $path
-     * @param $cert
+     * @param string $path
+     * @param string $cert
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setCert($path, $cert)
+    public static function setCert(string $path, string $cert): void
     {
         $fopenPath = fopen($path, 'w');
         fwrite($fopenPath, $cert);

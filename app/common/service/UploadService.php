@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service;
 
@@ -22,12 +23,12 @@ class UploadService
      * @author LZH
      * @date 2025/2/18
      */
-    public static function image($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/images')
+    public static function image($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/images'): array
     {
         try {
             $config = [
                 'default' => ConfigService::get('storage', 'default', 'local'),
-                'engine'  => ConfigService::get('storage') ?? ['local'=>[]],
+                'engine' => ConfigService::get('storage') ?? ['local' => []],
             ];
 
             // 2、执行文件上传
@@ -38,7 +39,7 @@ class UploadService
 
             // 校验上传文件后缀
             if (!in_array(strtolower($fileInfo['ext']), config('project.file_image'))) {
-                throw new Exception("上传图片不允许上传". $fileInfo['ext'] . "文件");
+                throw new Exception("上传图片不允许上传" . $fileInfo['ext'] . "文件");
             }
 
             // 上传文件
@@ -50,29 +51,29 @@ class UploadService
             // 3、处理文件名称
             if (strlen($fileInfo['name']) > 128) {
                 $name = substr($fileInfo['name'], 0, 123);
-                $nameEnd = substr($fileInfo['name'], strlen($fileInfo['name'])-5, strlen($fileInfo['name']));
+                $nameEnd = substr($fileInfo['name'], strlen($fileInfo['name']) - 5, strlen($fileInfo['name']));
                 $fileInfo['name'] = $name . $nameEnd;
             }
 
             // 4、写入数据库中
             $file = File::create([
-                'cid'         => $cid,
-                'type'        => FileEnum::IMAGE_TYPE,
-                'name'        => $fileInfo['name'],
-                'uri'         => $saveDir . '/' . str_replace("\\","/", $fileName),
-                'source'      => $source,
-                'source_id'   => $sourceId,
+                'cid' => $cid,
+                'type' => FileEnum::IMAGE_TYPE,
+                'name' => $fileInfo['name'],
+                'uri' => $saveDir . '/' . str_replace("\\", "/", $fileName),
+                'source' => $source,
+                'source_id' => $sourceId,
                 'create_time' => time(),
             ]);
 
             // 5、返回结果
             return [
-                'id'   => $file['id'],
-                'cid'  => $file['cid'],
+                'id' => $file['id'],
+                'cid' => $file['cid'],
                 'type' => $file['type'],
                 'name' => $file['name'],
-                'uri'  => FileService::getFileUrl($file['uri']),
-                'url'  => $file['uri']
+                'uri' => FileService::getFileUrl($file['uri']),
+                'url' => $file['uri']
             ];
 
         } catch (Exception $e) {
@@ -92,12 +93,12 @@ class UploadService
      * @author LZH
      * @date 2025/2/18
      */
-    public static function video($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/video')
+    public static function video($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/video'): array
     {
         try {
             $config = [
                 'default' => ConfigService::get('storage', 'default', 'local'),
-                'engine'  => ConfigService::get('storage') ?? ['local'=>[]],
+                'engine' => ConfigService::get('storage') ?? ['local' => []],
             ];
 
             // 2、执行文件上传
@@ -108,7 +109,7 @@ class UploadService
 
             // 校验上传文件后缀
             if (!in_array(strtolower($fileInfo['ext']), config('project.file_video'))) {
-                throw new Exception("上传视频不允许上传". $fileInfo['ext'] . "文件");
+                throw new Exception("上传视频不允许上传" . $fileInfo['ext'] . "文件");
             }
 
             // 上传文件
@@ -120,29 +121,29 @@ class UploadService
             // 3、处理文件名称
             if (strlen($fileInfo['name']) > 128) {
                 $name = substr($fileInfo['name'], 0, 123);
-                $nameEnd = substr($fileInfo['name'], strlen($fileInfo['name'])-5, strlen($fileInfo['name']));
+                $nameEnd = substr($fileInfo['name'], strlen($fileInfo['name']) - 5, strlen($fileInfo['name']));
                 $fileInfo['name'] = $name . $nameEnd;
             }
 
             // 4、写入数据库中
             $file = File::create([
-                'cid'         => $cid,
-                'type'        => FileEnum::VIDEO_TYPE,
-                'name'        => $fileInfo['name'],
-                'uri'         => $saveDir . '/' . str_replace("\\","/", $fileName),
-                'source'      => $source,
-                'source_id'   => $sourceId,
+                'cid' => $cid,
+                'type' => FileEnum::VIDEO_TYPE,
+                'name' => $fileInfo['name'],
+                'uri' => $saveDir . '/' . str_replace("\\", "/", $fileName),
+                'source' => $source,
+                'source_id' => $sourceId,
                 'create_time' => time(),
             ]);
 
             // 5、返回结果
             return [
-                'id'   => $file['id'],
-                'cid'  => $file['cid'],
+                'id' => $file['id'],
+                'cid' => $file['cid'],
                 'type' => $file['type'],
                 'name' => $file['name'],
-                'uri'  => FileService::getFileUrl($file['uri']),
-                'url'  => $file['uri']
+                'uri' => FileService::getFileUrl($file['uri']),
+                'url' => $file['uri']
             ];
 
         } catch (Exception $e) {
@@ -161,12 +162,12 @@ class UploadService
      * @author LZH
      * @date 2025/2/18
      */
-    public static function file($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/file')
+    public static function file($cid, int $sourceId = 0, int $source = FileEnum::SOURCE_ADMIN, string $saveDir = 'uploads/file'): array
     {
         try {
             $config = [
                 'default' => ConfigService::get('storage', 'default', 'local'),
-                'engine'  => ConfigService::get('storage') ?? [ 'local' => [] ],
+                'engine' => ConfigService::get('storage') ?? ['local' => []],
             ];
 
             // 2、执行文件上传
@@ -195,23 +196,23 @@ class UploadService
 
             // 4、写入数据库中
             $file = File::create([
-                'cid'         => $cid,
-                'type'        => FileEnum::FILE_TYPE,
-                'name'        => $fileInfo['name'],
-                'uri'         => $saveDir . '/' . str_replace("\\", "/", $fileName),
-                'source'      => $source,
-                'source_id'   => $sourceId,
+                'cid' => $cid,
+                'type' => FileEnum::FILE_TYPE,
+                'name' => $fileInfo['name'],
+                'uri' => $saveDir . '/' . str_replace("\\", "/", $fileName),
+                'source' => $source,
+                'source_id' => $sourceId,
                 'create_time' => time(),
             ]);
 
             // 5、返回结果
             return [
-                'id'   => $file['id'],
-                'cid'  => $file['cid'],
+                'id' => $file['id'],
+                'cid' => $file['cid'],
                 'type' => $file['type'],
                 'name' => $file['name'],
-                'uri'  => FileService::getFileUrl($file['uri']),
-                'url'  => $file['uri']
+                'uri' => FileService::getFileUrl($file['uri']),
+                'url' => $file['uri']
             ];
 
         } catch (Exception $e) {
@@ -226,7 +227,7 @@ class UploadService
      * @author LZH
      * @date 2025/2/18
      */
-    private static function getUploadUrl($saveDir):string
+    private static function getUploadUrl($saveDir): string
     {
         return $saveDir . '/' . date('Ymd');
     }

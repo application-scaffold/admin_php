@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\dict;
 
 use app\common\logic\BaseLogic;
 use app\common\model\dict\DictData;
 use app\common\model\dict\DictType;
+use think\model\contract\Modelable;
 
 /**
  * 字典数据逻辑
@@ -19,11 +21,11 @@ class DictDataLogic extends BaseLogic
     /**
      * 添加编辑
      * @param array $params
-     * @return DictData|\think\model\contract\Modelable
+     * @return DictData|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function save(array $params)
+    public static function save(array $params): Modelable|DictData
     {
         $data = [
             'name' => $params['name'],
@@ -51,7 +53,7 @@ class DictDataLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(array $params)
+    public static function delete(array $params): bool
     {
         return DictData::destroy($params['id']);
     }
@@ -59,12 +61,12 @@ class DictDataLogic extends BaseLogic
 
     /**
      * 获取字典数据详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params): array
+    public static function detail(array $params): array
     {
         return DictData::findOrEmpty($params['id'])->toArray();
     }

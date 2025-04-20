@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller;
 
 use app\admin_api\logic\LoginLogic;
 use app\admin_api\validate\LoginValidate;
+use think\response\Json;
 
 /**
  * 管理员登录控制器
@@ -18,14 +20,14 @@ class LoginController extends BaseAdminApiController
 
     /**
      * 账号登录
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function account()
+    public function account(): Json
     {
         $params = (new LoginValidate())->post()->goCheck();
         return $this->data((new LoginLogic())->login($params));
@@ -33,14 +35,14 @@ class LoginController extends BaseAdminApiController
 
     /**
      * 退出登录
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function logout()
+    public function logout(): Json
     {
         //退出登录情况特殊，只有成功的情况，也不需要token验证
         (new LoginLogic())->logout($this->adminInfo);

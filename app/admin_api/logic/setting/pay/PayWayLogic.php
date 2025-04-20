@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\pay;
 
@@ -28,7 +29,7 @@ class PayWayLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getPayWay()
+    public static function getPayWay(): array
     {
         $payWay = PayWay::select()->append(['pay_way_name'])
             ->toArray();
@@ -53,13 +54,12 @@ class PayWayLogic extends BaseLogic
 
     /**
      * 设置支付方式
-     * @param $params
+     * @param array $params
      * @return string|true
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setPayWay($params)
+    public static function setPayWay(array $params): bool|string
     {
         $payWay = new PayWay;
         $data = [];

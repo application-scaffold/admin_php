@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -33,12 +34,12 @@ class MenuEnum
 
     /**
      * 链接类型
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getLinkDesc($value = true)
+    public static function getLinkDesc(bool $value = true): array|string
     {
         $data = [
             self::LINK_SHOP => '商城页面',

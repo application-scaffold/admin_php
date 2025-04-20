@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model;
 
@@ -17,24 +18,24 @@ class BaseModel extends Model
 
     /**
      * 公共处理图片,补全路径
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getImageAttr($value)
+    public function getImageAttr(string $value): string
     {
         return trim($value) ? FileService::getFileUrl($value) : '';
     }
 
     /**
      * 公共图片处理,去除图片域名
-     * @param $value
+     * @param string $value
      * @return mixed|string
      * @author LZH
      * @date 2025/2/18
      */
-    public function setImageAttr($value)
+    public function setImageAttr(string $value): mixed
     {
         return trim($value) ? FileService::setFileUrl($value) : '';
     }

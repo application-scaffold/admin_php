@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -28,7 +29,7 @@ class UserValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneGetMobileByMnp()
+    public function sceneGetMobileByMnp(): UserValidate
     {
         return $this->only(['code']);
     }
@@ -39,7 +40,7 @@ class UserValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneBindMobile()
+    public function sceneBindMobile(): UserValidate
     {
         return $this->only(['mobile', 'code']);
     }

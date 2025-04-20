@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\lists;
 
@@ -20,7 +21,7 @@ class AccountLogLists extends BaseApiDataLists
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryWhere()
+    public function queryWhere(): array
     {
         // 指定用户
         $where[] = ['user_id', '=', $this->userId];

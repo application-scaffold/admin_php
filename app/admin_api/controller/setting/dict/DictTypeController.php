@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\setting\dict;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\setting\dict\DictTypeLists;
 use app\admin_api\logic\setting\dict\DictTypeLogic;
 use app\admin_api\validate\dict\DictTypeValidate;
+use think\response\Json;
 
 /**
  * 字典类型
@@ -19,22 +21,22 @@ class DictTypeController extends BaseAdminApiController
 
     /**
      * 获取字典类型列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new DictTypeLists());
     }
 
     /**
      * 添加字典类型
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new DictTypeValidate())->post()->goCheck('add');
         DictTypeLogic::add($params);
@@ -43,11 +45,11 @@ class DictTypeController extends BaseAdminApiController
 
     /**
      * 编辑字典类型
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new DictTypeValidate())->post()->goCheck('edit');
         DictTypeLogic::edit($params);
@@ -56,11 +58,11 @@ class DictTypeController extends BaseAdminApiController
 
     /**
      * 删除字典类型
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new DictTypeValidate())->post()->goCheck('delete');
         DictTypeLogic::delete($params);
@@ -69,11 +71,11 @@ class DictTypeController extends BaseAdminApiController
 
     /**
      * 获取字典详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new DictTypeValidate())->goCheck('detail');
         $result = DictTypeLogic::detail($params);
@@ -82,14 +84,14 @@ class DictTypeController extends BaseAdminApiController
 
     /**
      * 获取字典类型数据
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = DictTypeLogic::getAllData();
         return $this->data($result);

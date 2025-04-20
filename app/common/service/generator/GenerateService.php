@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\generator;
 
@@ -25,19 +26,19 @@ class GenerateService
 {
 
     // 标记
-    protected $flag;
+    protected string $flag;
 
     // 生成文件路径
-    protected $generatePath;
+    protected string $generatePath;
 
     // runtime目录
-    protected $runtimePath;
+    protected string $runtimePath;
 
     // 压缩包名称
-    protected $zipTempName;
+    protected string $zipTempName;
 
     // 压缩包临时路径
-    protected $zipTempPath;
+    protected string $zipTempPath;
 
     public function __construct()
     {
@@ -51,23 +52,22 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function delGenerateDirContent()
+    public function delGenerateDirContent(): void
     {
         // 删除runtime目录制定文件夹
         !is_dir($this->generatePath) && mkdir($this->generatePath, 0755, true);
         del_target_dir($this->generatePath, false);
     }
 
-
     /**
      * 设置生成状态
-     * @param $name
-     * @param $status
+     * @param string $name
+     * @param bool $status
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function setGenerateFlag($name, $status = false)
+    public function setGenerateFlag(string $name, bool $status = false): void
     {
         $this->flag = $name;
         cache($name, (int)$status, 3600);
@@ -79,7 +79,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function getGenerateFlag()
+    public function getGenerateFlag(): mixed
     {
         return cache($this->flag);
     }
@@ -91,7 +91,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function delGenerateFlag()
+    public function delGenerateFlag(): void
     {
         cache($this->flag, null);
     }
@@ -103,7 +103,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function getGeneratorClass()
+    public function getGeneratorClass(): array
     {
         return [
             ControllerGenerator::class,
@@ -125,7 +125,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function generate(array $tableData)
+    public function generate(array $tableData): void
     {
         foreach ($this->getGeneratorClass() as $item) {
             $generator = app()->make($item);
@@ -149,7 +149,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function preview(array $tableData)
+    public function preview(array $tableData): array
     {
         $data = [];
         foreach ($this->getGeneratorClass() as $item) {
@@ -167,7 +167,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function zipFile()
+    public function zipFile(): void
     {
         $fileName = 'curd-' . date('YmdHis') . '.zip';
         $this->zipTempName = $fileName;
@@ -180,14 +180,14 @@ class GenerateService
 
     /**
      * 往压缩包写入文件
-     * @param $basePath
-     * @param $dirName
-     * @param $zip
+     * @param string $basePath
+     * @param string $dirName
+     * @param \ZipArchive $zip
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public function addFileZip($basePath, $dirName, $zip)
+    public function addFileZip(string $basePath, string $dirName,\ZipArchive $zip): void
     {
         $handler = opendir($basePath . $dirName);
         while (($filename = readdir($handler)) !== false) {
@@ -211,7 +211,7 @@ class GenerateService
      * @author LZH
      * @date 2025/2/18
      */
-    public function getDownloadUrl()
+    public function getDownloadUrl(): string
     {
         $vars = ['file' => $this->zipTempName];
         cache('curd_file_name' . $this->zipTempName, $this->zipTempName, 3600);

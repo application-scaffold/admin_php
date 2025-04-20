@@ -20,7 +20,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -65,7 +65,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getNameSpaceContent()
+    public function getNameSpaceContent(): string
     {
         if (!empty($this->classDir)) {
             return "namespace app\\" . $this->moduleName . "\\controller\\" . $this->classDir . ';';
@@ -80,7 +80,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUseContent()
+    public function getUseContent(): string
     {
         if ($this->moduleName == 'admin_api') {
             $tpl = "use app\\" . $this->moduleName . "\\controller\\BaseAdminController;" . PHP_EOL;
@@ -107,7 +107,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getClassCommentContent()
+    public function getClassCommentContent(): string
     {
         if (!empty($this->tableData['class_comment'])) {
             $tpl = $this->tableData['class_comment'] . '控制器';
@@ -124,7 +124,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPackageNameContent()
+    public function getPackageNameContent(): string
     {
         return !empty($this->classDir) ? '\\' . $this->classDir : '';
     }
@@ -136,7 +136,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getExtendsControllerContent()
+    public function getExtendsControllerContent(): string
     {
         $tpl = 'BaseAdminController';
         if ($this->moduleName != 'admin_api') {
@@ -152,7 +152,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->basePath . $this->moduleName . '/controller/';
         if (!empty($this->classDir)) {
@@ -168,7 +168,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'php/app/' . $this->moduleName . '/controller/';
         $this->checkDir($dir);
@@ -185,7 +185,7 @@ class ControllerGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getUpperCamelName() . 'Controller.php';
     }

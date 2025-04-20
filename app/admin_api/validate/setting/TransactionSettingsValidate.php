@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\setting;
 
@@ -34,7 +35,7 @@ class TransactionSettingsValidate extends BaseValidate
         'verification_orders_times.gt' => '系统自动核销订单时间须大于0',
     ];
 
-    public function sceneSetConfig()
+    public function sceneSetConfig(): TransactionSettingsValidate
     {
         return $this->only(['cancel_unpaid_orders','cancel_unpaid_orders_times','verification_orders','verification_orders_times']);
     }

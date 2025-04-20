@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\model\article;
 
@@ -17,30 +18,30 @@ class Article extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
     /**
      * 获取分类名称
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getCateNameAttr($value, $data)
+    public function getCateNameAttr(mixed $value, array $data): mixed
     {
         return ArticleCate::where('id', $data['cid'])->value('name');
     }
 
     /**
      * 浏览量
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public function getClickAttr($value, $data)
+    public function getClickAttr(mixed $value, array $data): mixed
     {
         return $data['click_actual'] + $data['click_virtual'];
     }
@@ -48,13 +49,13 @@ class Article extends BaseModel
 
     /**
      * 设置图片域名
-     * @param $value
-     * @param $data
-     * @return mixed
+     * @param string $value
+     * @param array $data
+     * @return string|array|null
      * @author LZH
      * @date 2025/2/18
      */
-    public function getContentAttr($value, $data)
+    public function getContentAttr(string $value, array $data): string|array|null
     {
         return get_file_domain($value);
     }
@@ -62,13 +63,13 @@ class Article extends BaseModel
 
     /**
      * 清除图片域名
-     * @param $value
-     * @param $data
-     * @return mixed
+     * @param string $value
+     * @param array $data
+     * @return string|array|null
      * @author LZH
      * @date 2025/2/18
      */
-    public function setContentAttr($value, $data)
+    public function setContentAttr(string $value, array $data): string|array|null
     {
         return clear_file_domain($value);
     }
@@ -81,7 +82,7 @@ class Article extends BaseModel
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getArticleDetailArr(int $id)
+    public static function getArticleDetailArr(int $id): array
     {
         $article = Article::where(['id' => $id, 'is_show' => YesNoEnum::YES])
             ->findOrEmpty();

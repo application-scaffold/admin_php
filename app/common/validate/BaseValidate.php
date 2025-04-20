@@ -17,7 +17,7 @@ class BaseValidate extends Validate
      * @author LZH
      * @date 2025/2/19
      */
-    public function post()
+    public function post(): static
     {
         if (!$this->request->isPost()) {
             JsonService::throw('请求方式错误，请使用post请求方式');
@@ -32,7 +32,7 @@ class BaseValidate extends Validate
      * @author LZH
      * @date 2025/2/19
      */
-    public function get()
+    public function get(): static
     {
         if (!$this->request->isGet()) {
             JsonService::throw('请求方式错误，请使用get请求方式');

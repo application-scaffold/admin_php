@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\storage\engine;
 
@@ -18,12 +19,12 @@ class Local extends Server
 
     /**
      * 上传
-     * @param $save_dir 保存路径
+     * @param string $save_dir 保存路径
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function upload($save_dir)
+    public function upload(string $save_dir): bool
     {
         // 验证文件并上传
         $info = $this->file->move($save_dir, $this->fileName);
@@ -34,16 +35,19 @@ class Local extends Server
         return true;
     }
 
-    public function fetch($url, $key=null) {}
+    public function fetch(string $url, string $key=null): bool
+    {
+        return false;
+    }
 
     /**
      * 删除文件
-     * @param $fileName
-     * @return bool|mixed
+     * @param string $fileName
+     * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public function delete($fileName)
+    public function delete(string $fileName): bool
     {
         $check = strpos($fileName, '/');
         if ($check !== false && $check == 0) {
@@ -51,16 +55,16 @@ class Local extends Server
             $fileName = substr_replace($fileName,"",0,1);
         }
         $filePath = public_path() . "{$fileName}";
-        return !file_exists($filePath) ?: unlink($filePath);
+        return !file_exists($filePath) || unlink($filePath);
     }
 
     /**
      * 返回文件路径
-     * @return mixed
+     * @return string
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }

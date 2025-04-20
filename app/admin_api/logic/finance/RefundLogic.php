@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\finance;
-
 
 use app\common\enum\RefundEnum;
 use app\common\logic\BaseLogic;
@@ -28,7 +28,7 @@ class RefundLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function stat()
+    public static function stat(): array
     {
         $records = RefundRecord::select()->toArray();
 
@@ -70,7 +70,7 @@ class RefundLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function refundLog($recordId)
+    public static function refundLog(string $recordId): array
     {
         return (new RefundLog())
             ->order(['id' => 'desc'])

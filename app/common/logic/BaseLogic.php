@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
 
@@ -15,15 +16,15 @@ class BaseLogic
      * 错误信息
      * @var string
      */
-    protected static $error;
+    protected static string $error;
 
     /**
      * 返回状态码
      * @var int
      */
-    protected static $returnCode = 0;
+    protected static int $returnCode = 0;
 
-    protected static $returnData;
+    protected static mixed $returnData;
 
     /**
      * 获取错误信息
@@ -41,12 +42,12 @@ class BaseLogic
 
     /**
      * 设置错误信息
-     * @param $error
+     * @param string $error
      * @return void
      * @author LZH
      * @date 2025/2/18
      */
-    public static function setError($error) : void
+    public static function setError(string $error) : void
     {
         !empty($error) && self::$error = $error;
     }
@@ -95,7 +96,7 @@ class BaseLogic
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getReturnData()
+    public static function getReturnData(): mixed
     {
         return self::$returnData;
     }

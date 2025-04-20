@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -21,7 +22,7 @@ class WebPageSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             // 渠道状态 0-关闭 1-开启
@@ -37,12 +38,12 @@ class WebPageSettingLogic extends BaseLogic
 
     /**
      * H5设置
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): void
     {
         ConfigService::set('web_page', 'status', $params['status']);
         ConfigService::set('web_page', 'page_status', $params['page_status']);

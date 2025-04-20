@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\article;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\article\ArticleCateLists;
 use app\admin_api\logic\article\ArticleCateLogic;
 use app\admin_api\validate\article\ArticleCateValidate;
+use think\response\Json;
 
 /**
  * 资讯分类管理控制器
@@ -19,22 +21,22 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 查看资讯分类列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new ArticleCateLists());
     }
 
     /**
      * 添加资讯分类
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new ArticleCateValidate())->post()->goCheck('add');
         ArticleCateLogic::add($params);
@@ -43,11 +45,11 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 编辑资讯分类
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new ArticleCateValidate())->post()->goCheck('edit');
         $result = ArticleCateLogic::edit($params);
@@ -59,11 +61,11 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 删除资讯分类
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new ArticleCateValidate())->post()->goCheck('delete');
         ArticleCateLogic::delete($params);
@@ -73,11 +75,11 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 资讯分类详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new ArticleCateValidate())->goCheck('detail');
         $result = ArticleCateLogic::detail($params);
@@ -87,11 +89,11 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 更改资讯分类状态
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function updateStatus()
+    public function updateStatus(): Json
     {
         $params = (new ArticleCateValidate())->post()->goCheck('status');
         $result = ArticleCateLogic::updateStatus($params);
@@ -104,14 +106,14 @@ class ArticleCateController extends BaseAdminApiController
 
     /**
      * 获取文章分类
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = ArticleCateLogic::getAllData();
         return $this->data($result);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\cache;
 
@@ -16,19 +17,20 @@ use app\common\model\auth\SystemRole;
 class AdminTokenCache extends BaseCache
 {
     // 缓存前缀
-    private $prefix = 'token_admin_';
+    private string $prefix = 'token_admin_';
 
     /**
      * 通过token获取缓存管理员信息
-     * @param $token 管理员token
+     * @param string $token 管理员token
      * @return array|false|mixed 管理员信息，如果不存在则返回false
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
+     * @throws \DateMalformedStringException
      * @author LZH
      * @date 2025/2/18
      */
-    public function getAdminInfo($token)
+    public function getAdminInfo(string $token): mixed
     {
         // 直接从缓存获取管理员信息
         $adminInfo = $this->get($this->prefix . $token);
@@ -48,7 +50,7 @@ class AdminTokenCache extends BaseCache
 
     /**
      * 通过有效token设置管理员信息缓存
-     * @param $token 管理员token
+     * @param string $token 管理员token
      * @return array|false|mixed 管理员信息，如果token无效则返回空数组
      * @throws \DateMalformedStringException
      * @throws \think\db\exception\DataNotFoundException
@@ -57,7 +59,7 @@ class AdminTokenCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function setAdminInfo($token)
+    public function setAdminInfo(string $token): mixed
     {
         // 查询有效的管理员会话信息
         $adminSession = AdminSession::where([['token', '=', $token], ['expire_time', '>', time()]])
@@ -109,12 +111,12 @@ class AdminTokenCache extends BaseCache
 
     /**
      * 删除管理员信息缓存
-     * @param $token 管理员token
+     * @param string $token 管理员token
      * @return bool 删除成功返回true
      * @author LZH
      * @date 2025/2/18
      */
-    public function deleteAdminInfo($token)
+    public function deleteAdminInfo(string $token): bool
     {
         // 删除指定token的管理员信息缓存
         return $this->delete($this->prefix . $token);

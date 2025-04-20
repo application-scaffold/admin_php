@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\decorate;
 
@@ -24,6 +25,7 @@ class MenuLists extends BaseAdminDataLists
      */
     public function lists(): array
     {
+        // TODO
         $lists = (new Menu())->field('id,name,image,link_type,link_address,sort,status')
             ->order(['sort'=>'asc','id'=>'desc'])
             ->append(['link_address_desc','status_desc'])

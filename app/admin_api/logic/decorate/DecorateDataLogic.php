@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\decorate;
 
 use app\common\logic\BaseLogic;
 use app\common\model\article\Article;
 use app\common\model\decorate\DecoratePage;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 
 /**
@@ -19,15 +23,15 @@ class DecorateDataLogic extends BaseLogic
 
     /**
      * 获取文章列表
-     * @param $limit
+     * @param int $limit
      * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getArticleLists($limit): array
+    public static function getArticleLists(int $limit): array
     {
         $field = 'id,title,desc,abstract,image,author,content,
         click_virtual,click_actual,create_time';

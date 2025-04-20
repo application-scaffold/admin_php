@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting;
 
@@ -23,7 +23,7 @@ class CustomerServiceLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $qrCode = ConfigService::get('customer_service', 'qr_code');
         $qrCode = empty($qrCode) ? '' : FileService::getFileUrl($qrCode);
@@ -38,12 +38,12 @@ class CustomerServiceLogic extends BaseLogic
 
     /**
      * 设置客服设置
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): void
     {
         $allowField = ['qr_code','wechat','phone','service_time'];
         foreach($params as $key => $value) {

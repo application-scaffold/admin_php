@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\finance;
 
@@ -35,12 +36,12 @@ class RefundRecordLists extends BaseAdminDataLists implements ListsSearchInterfa
 
     /**
      * 查询条件
-     * @param $flag
+     * @param bool $flag
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryWhere($flag = true)
+    public function queryWhere(bool $flag = true): array
     {
         $where = [];
         if (!empty($this->params['user_info'])) {
@@ -110,7 +111,7 @@ class RefundRecordLists extends BaseAdminDataLists implements ListsSearchInterfa
      * @author LZH
      * @date 2025/2/19
      */
-    public function extend()
+    public function extend(): array
     {
         $count = (new RefundRecord())->alias('r')
             ->join('user u', 'u.id = r.user_id')

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\decorate;
 
@@ -36,13 +37,12 @@ class DecorateTabbarLogic extends BaseLogic
 
     /**
      * 底部导航保存
-     * @param $params
+     * @param array $params
      * @return bool
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function save($params): bool
+    public static function save(array $params): bool
     {
         $model = new DecorateTabbar();
         // 删除旧配置数据

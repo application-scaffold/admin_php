@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 // 应用公共文件
 use app\common\service\FileService;
 use think\helper\Str;
@@ -19,12 +22,12 @@ function create_password(string $plaintext, string $salt) : string
 
 /**
  * 随机生成token值
- * @param string $extra
+ * @param int|string $extra
  * @return string
  * @author LZH
  * @date 2025/2/20
  */
-function create_token(string $extra = '') : string
+function create_token(int|string $extra = '') : string
 {
     $salt = env('project.unique_identification', 'likeadmin');
     $encryptSalt = md5( $salt . uniqid());
@@ -33,13 +36,13 @@ function create_token(string $extra = '') : string
 
 /**
  * 截取某字符字符串
- * @param $str
- * @param $symbol
+ * @param string $str
+ * @param string $symbol
  * @return string
  * @author LZH
  * @date 2025/2/20
  */
-function substr_symbol_behind($str, $symbol = '.') : string
+function substr_symbol_behind(string $str, string $symbol = '.') : string
 {
     $result = strripos($str, $symbol);
     if ($result === false) {
@@ -58,7 +61,7 @@ function substr_symbol_behind($str, $symbol = '.') : string
  */
 function compare_php(string $version) : bool
 {
-    return version_compare(PHP_VERSION, $version) >= 0 ? true : false;
+    return version_compare(PHP_VERSION, $version) >= 0;
 }
 
 /**
@@ -86,15 +89,13 @@ function check_dir_write(string $dir = '') : bool
  * {"id":2,"pid":0,"name":"b","level":1},{"id":4,"pid":2,"name":"d","level":2},{"id":5,"pid":4,"name":"e","level":3},
  * {"id":6,"pid":5,"name":"f","level":4}]
  * @param array $data 线性结构数组
- * @param string $symbol 名称前面加符号
- * @param string $name 名称
+ * @param string $sub_key_name
  * @param string $id_name 数组id名
  * @param string $parent_id_name 数组祖先id名
- * @param int $level 此值请勿给参数
  * @param int $parent_id 此值请勿给参数
  * @return array
  */
-function linear_to_tree($data, $sub_key_name = 'sub', $id_name = 'id', $parent_id_name = 'pid', $parent_id = 0)
+function linear_to_tree(array $data, string $sub_key_name = 'sub', string $id_name = 'id', string $parent_id_name = 'pid', int $parent_id = 0): array
 {
     $tree = [];
     foreach ($data as $row) {
@@ -113,13 +114,13 @@ function linear_to_tree($data, $sub_key_name = 'sub', $id_name = 'id', $parent_i
 
 /**
  * 删除目标目录
- * @param $path
- * @param $delDir
- * @return bool|void
+ * @param string $path
+ * @param bool $delDir
+ * @return bool
  * @author LZH
  * @date 2025/2/20
  */
-function del_target_dir($path, $delDir)
+function del_target_dir(string $path, bool $delDir): bool
 {
     //没找到，不处理
     if (!file_exists($path)) {
@@ -146,21 +147,21 @@ function del_target_dir($path, $delDir)
         if (file_exists($path)) {
             return unlink($path);
         }
-        return false;
     }
+    return false;
 }
 
 
 /**
  * 下载文件
- * @param $url
- * @param $saveDir
- * @param $fileName
+ * @param string $url
+ * @param string $saveDir
+ * @param string $fileName
  * @return string
  * @author LZH
  * @date 2025/2/20
  */
-function download_file($url, $saveDir, $fileName)
+function download_file(string $url, string $saveDir, string $fileName): string
 {
     if (!file_exists($saveDir)) {
         mkdir($saveDir, 0775, true);
@@ -185,12 +186,12 @@ function download_file($url, $saveDir, $fileName)
 
 /**
  * 去除内容图片域名
- * @param $content
+ * @param string $content
  * @return array|string|string[]|null
  * @author LZH
  * @date 2025/2/20
  */
-function clear_file_domain($content)
+function clear_file_domain(string $content): array|string|null
 {
     $fileUrl = FileService::getFileUrl();
     $pattern = '/<img[^>]*\bsrc=["\']'.preg_quote($fileUrl, '/').'([^"\']+)["\']/i';
@@ -199,12 +200,12 @@ function clear_file_domain($content)
 
 /**
  * 设置内容图片域名
- * @param $content
+ * @param string $content
  * @return array|string|string[]|null
  * @author LZH
  * @date 2025/2/20
  */
-function get_file_domain($content)
+function get_file_domain(string $content): array|string|null
 {
     $fileUrl = FileService::getFileUrl();
     $imgPreg = '/(<img .*?src=")(?!https?:\/\/)([^"]*)(".*?>)/is';
@@ -216,12 +217,11 @@ function get_file_domain($content)
 
 /**
  * uri小写
- * @param $data
- * @return array|string[]
+ * @param array|string $data
  * @author LZH
  * @date 2025/2/20
  */
-function lower_uri($data)
+function lower_uri(array|string $data): array
 {
     if (!is_array($data)) {
         $data = [$data];
@@ -234,12 +234,12 @@ function lower_uri($data)
 
 /**
  * 获取无前缀数据表名
- * @param $tableName
+ * @param string $tableName
  * @return mixed|string
  * @author LZH
  * @date 2025/2/20
  */
-function get_no_prefix_table_name($tableName)
+function get_no_prefix_table_name(string $tableName): mixed
 {
     $tablePrefix = config('database.connections.mysql.prefix');
     $prefixIndex = strpos($tableName, $tablePrefix);
@@ -253,16 +253,16 @@ function get_no_prefix_table_name($tableName)
 
 /**
  * 生成编码
- * @param $table
- * @param $field
- * @param $prefix
- * @param $randSuffixLength
- * @param $pool
+ * @param string $table
+ * @param string $field
+ * @param string $prefix
+ * @param int $randSuffixLength
+ * @param array $pool
  * @return string
  * @author LZH
  * @date 2025/2/20
  */
-function generate_sn($table, $field, $prefix = '', $randSuffixLength = 4, $pool = []) : string
+function generate_sn(string $table, string $field, string $prefix = '', int $randSuffixLength = 4, array $pool = []) : string
 {
     $suffix = '';
     for ($i = 0; $i < $randSuffixLength; $i++) {
@@ -282,12 +282,12 @@ function generate_sn($table, $field, $prefix = '', $randSuffixLength = 4, $pool 
 
 /**
  * 格式化金额
- * @param $float
+ * @param float $float
  * @return int|mixed|string
  * @author LZH
  * @date 2025/2/20
  */
-function format_amount($float)
+function format_amount(float $float): mixed
 {
     if ($float == intval($float)) {
         return intval($float);

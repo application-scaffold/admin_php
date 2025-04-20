@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
-
 
 class DefaultEnum
 {
@@ -23,12 +23,12 @@ class DefaultEnum
 
     /**
      * 获取显示状态
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getShowDesc($value = true)
+    public static function getShowDesc(bool $value = true): array|string
     {
         $data = [
             self::HIDE => '隐藏',
@@ -42,12 +42,12 @@ class DefaultEnum
 
     /**
      * 启用状态
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getEnableDesc($value = true)
+    public static function getEnableDesc(bool $value = true): array|string
     {
         $data = [
             self::HIDE => '停用',
@@ -61,12 +61,12 @@ class DefaultEnum
 
     /**
      * 性别
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSexDesc($value = true)
+    public static function getSexDesc(bool $value = true): array|string
     {
         $data = [
             self::UNKNOWN => '未知',
@@ -81,12 +81,12 @@ class DefaultEnum
 
     /**
      * 属性
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getAttrDesc($value = true)
+    public static function getAttrDesc(bool $value = true): array|string
     {
         $data = [
             self::SYSTEM => '系统默认',
@@ -100,12 +100,12 @@ class DefaultEnum
 
     /**
      * 是否推荐
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getRecommendDesc($value = true)
+    public static function getRecommendDesc(bool $value = true): array|string
     {
         $data = [
             self::HIDE => '不推荐',

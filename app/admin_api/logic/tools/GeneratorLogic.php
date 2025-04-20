@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\tools;
 
@@ -8,6 +9,7 @@ use app\common\model\tools\GenerateColumn;
 use app\common\model\tools\GenerateTable;
 use app\common\service\generator\GenerateService;
 use think\facade\Db;
+use think\model\contract\Modelable;
 
 
 /**
@@ -22,12 +24,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 表详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getTableDetail($params): array
+    public static function getTableDetail(array $params): array
     {
         $detail = GenerateTable::with('table_column')
             ->findOrEmpty((int)$params['id'])
@@ -43,13 +45,13 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 选择数据表
-     * @param $params
-     * @param $adminId
+     * @param array $params
+     * @param int $adminId
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function selectTable($params, $adminId)
+    public static function selectTable(array $params, int $adminId): bool
     {
         Db::startTrans();
         try {
@@ -72,12 +74,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 编辑表信息
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function editTable($params)
+    public static function editTable(array $params): bool
     {
         Db::startTrans();
         try {
@@ -127,12 +129,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 删除表相关信息
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function deleteTable($params)
+    public static function deleteTable(array $params): bool
     {
         Db::startTrans();
         try {
@@ -149,12 +151,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 同步表字段
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function syncColumn($params)
+    public static function syncColumn(array $params): bool
     {
         Db::startTrans();
         try {
@@ -179,12 +181,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 生成代码
-     * @param $params
+     * @param array $params
      * @return false|string[]
      * @author LZH
      * @date 2025/2/19
      */
-    public static function generate($params)
+    public static function generate(array $params): array|bool
     {
         try {
             // 获取数据表信息
@@ -222,12 +224,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 预览
-     * @param $params
+     * @param array $params
      * @return array|false
      * @author LZH
      * @date 2025/2/19
      */
-    public static function preview($params)
+    public static function preview(array $params): bool|array
     {
         try {
             // 获取数据表信息
@@ -246,12 +248,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 获取表字段信息
-     * @param $tableName
+     * @param string $tableName
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getTableColumn($tableName)
+    public static function getTableColumn(string $tableName): array
     {
         $tableName = get_no_prefix_table_name($tableName);
         return Db::name($tableName)->getFields();
@@ -260,13 +262,13 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 初始化代码生成数据表信息
-     * @param $tableData
-     * @param $adminId
-     * @return GenerateTable|\think\model\contract\Modelable
+     * @param array $tableData
+     * @param int $adminId
+     * @return GenerateTable|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function initTable($tableData, $adminId)
+    public static function initTable(array $tableData, int $adminId): GenerateTable|Modelable
     {
         return GenerateTable::create([
             'table_name' => $tableData['name'],
@@ -296,14 +298,13 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 初始化代码生成字段信息
-     * @param $column
-     * @param $tableId
+     * @param array $column
+     * @param string $tableId
      * @return void
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function initTableColumn($column, $tableId)
+    public static function initTableColumn(array $column, string $tableId): void
     {
         $defaultColumn = ['id', 'create_time', 'update_time', 'delete_time'];
 
@@ -343,7 +344,7 @@ class GeneratorLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function download(string $fileName)
+    public static function download(string $fileName): bool|string
     {
         $cacheFileName = cache('curd_file_name' . $fileName);
         if (empty($cacheFileName)) {
@@ -394,11 +395,11 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * @param $options
-     * @return mixed
+     * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function formatConfigByTableData($options)
+    public static function formatConfigByTableData(array $options): array
     {
         // 菜单配置
         $menuConfig = $options['menu'] ?? [];
@@ -442,12 +443,12 @@ class GeneratorLogic extends BaseLogic
 
     /**
      * 获取所有模型
-     * @param $module
+     * @param string $module
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllModels($module = 'common')
+    public static function getAllModels(string $module = 'common'): array
     {
         if(empty($module)) {
             return [];

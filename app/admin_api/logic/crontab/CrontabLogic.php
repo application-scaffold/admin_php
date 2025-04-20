@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\crontab;
 
@@ -19,12 +20,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 添加定时任务
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add($params)
+    public static function add(array $params): bool
     {
         try {
             $params['remark'] = $params['remark'] ?? '';
@@ -43,12 +44,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 查看定时任务详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params)
+    public static function detail(array $params): array
     {
         $field = 'id,name,type,type as type_desc,command,params,status,status as status_desc,expression,remark';
         $crontab = Crontab::field($field)->findOrEmpty($params['id']);
@@ -61,12 +62,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 编辑定时任务
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function edit($params)
+    public static function edit(array $params): bool
     {
         try {
             $params['remark'] = $params['remark'] ?? '';
@@ -84,12 +85,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 删除定时任务
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete($params)
+    public static function delete(array $params): bool
     {
         try {
             Crontab::destroy($params['id']);
@@ -103,12 +104,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 操作定时任务
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function operate($params)
+    public static function operate(array $params): bool
     {
         try {
             $crontab = Crontab::findOrEmpty($params['id']);
@@ -135,12 +136,12 @@ class CrontabLogic extends BaseLogic
 
     /**
      * 获取规则执行时间
-     * @param $params
+     * @param array $params
      * @return array|string
      * @author LZH
      * @date 2025/2/19
      */
-    public static function expression($params)
+    public static function expression(array $params): array|string
     {
         try {
             $cron = new CronExpression($params['expression']);

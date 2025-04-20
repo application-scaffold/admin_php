@@ -25,7 +25,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -66,7 +66,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPermsNameContent()
+    public function getPermsNameContent(): string
     {
         if (!empty($this->classDir)) {
             return $this->classDir . '.' . Str::lower($this->getTableName());
@@ -80,7 +80,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getMenuTableNameContent()
+    public function getMenuTableNameContent(): string
     {
         $tablePrefix = config('database.connections.mysql.prefix');
         return $tablePrefix . 'system_menu';
@@ -93,7 +93,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function isBuildMenu()
+    public function isBuildMenu(): bool
     {
         return $this->menuConfig['type'] == GeneratorEnum::GEN_AUTO;
     }
@@ -105,7 +105,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function buildMenuHandle()
+    public function buildMenuHandle(): bool
     {
         if (empty($this->content)) {
             return false;
@@ -126,7 +126,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->generatorDir . 'sql/';
         $this->checkDir($dir);
@@ -139,7 +139,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'sql/';
         $this->checkDir($dir);
@@ -152,7 +152,7 @@ class SqlGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return 'menu.sql';
     }

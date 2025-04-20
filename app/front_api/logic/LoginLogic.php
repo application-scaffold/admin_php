@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
 use app\common\cache\WebScanLoginCache;
 use app\common\logic\BaseLogic;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\model\contract\Modelable;
 use app\front_api\service\{UserTokenService, WechatUserService};
 use app\common\enum\{LoginEnum, user\UserTerminalEnum, YesNoEnum};
 use app\common\service\{
@@ -34,7 +39,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function register(array $params)
+    public static function register(array $params): bool
     {
         try {
             $userSn = User::createUserSn();
@@ -60,12 +65,12 @@ class LoginLogic extends BaseLogic
 
     /**
      * 账号/手机号登录，手机号验证码
-     * @param $params
+     * @param array $params
      * @return array|false
      * @author LZH
      * @date 2025/2/19
      */
-    public static function login($params)
+    public static function login(array $params): bool|array
     {
         try {
             // 账号/手机号 密码登录
@@ -107,15 +112,15 @@ class LoginLogic extends BaseLogic
 
     /**
      * 退出登录
-     * @param $userInfo
+     * @param array $userInfo
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public static function logout($userInfo)
+    public static function logout(array $userInfo): bool
     {
         //token不存在，不注销
         if (!isset($userInfo['token'])) {
@@ -134,7 +139,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function codeUrl(string $url)
+    public static function codeUrl(string $url): mixed
     {
         return (new WeChatOaService())->getCodeUrl($url);
     }
@@ -146,7 +151,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function oaLogin(array $params)
+    public static function oaLogin(array $params): bool|array
     {
         Db::startTrans();
         try {
@@ -175,7 +180,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function silentLogin(array $params)
+    public static function silentLogin(array $params): bool|array
     {
         try {
             //通过code获取微信 openid
@@ -202,7 +207,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function mnpLogin(array $params)
+    public static function mnpLogin(array $params): bool|array
     {
         Db::startTrans();
         try {
@@ -231,7 +236,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function updateLoginInfo($userId)
+    public static function updateLoginInfo(int $userId): void
     {
         $user = User::findOrEmpty($userId);
         if ($user->isEmpty()) {
@@ -252,7 +257,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function mnpAuthLogin(array $params)
+    public static function mnpAuthLogin(array $params): bool
     {
         try {
             //通过code获取微信openid
@@ -275,7 +280,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function oaAuthLogin(array $params)
+    public static function oaAuthLogin(array $params): bool
     {
         try {
             //通过code获取微信openid
@@ -293,13 +298,13 @@ class LoginLogic extends BaseLogic
 
     /**
      * 生成授权记录
-     * @param $response
+     * @param array $response
      * @return true
      * @throws \Exception
      * @author LZH
      * @date 2025/2/20
      */
-    public static function createAuth($response)
+    public static function createAuth(array $response): bool
     {
         //先检查openid是否有记录
         $isAuth = UserAuth::where('openid', '=', $response['openid'])->findOrEmpty();
@@ -333,7 +338,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getScanCode($redirectUri)
+    public static function getScanCode(string $redirectUri): bool|array
     {
         try {
             $config = WeChatConfigService::getOpConfig();
@@ -357,12 +362,12 @@ class LoginLogic extends BaseLogic
 
     /**
      * 网站扫码登录
-     * @param $params
+     * @param array $params
      * @return array|false
      * @author LZH
      * @date 2025/2/20
      */
-    public static function scanLogin($params)
+    public static function scanLogin(array $params): bool|array
     {
         Db::startTrans();
         try {
@@ -395,13 +400,13 @@ class LoginLogic extends BaseLogic
 
     /**
      * 更新用户信息
-     * @param $params
-     * @param $userId
-     * @return User|\think\model\contract\Modelable
+     * @param array $params
+     * @param int $userId
+     * @return User|Modelable
      * @author LZH
      * @date 2025/2/20
      */
-    public static function updateUser($params, $userId)
+    public static function updateUser(array $params, int $userId): User|Modelable
     {
         return User::where(['id' => $userId])->update([
             'nickname' => $params['nickname'],

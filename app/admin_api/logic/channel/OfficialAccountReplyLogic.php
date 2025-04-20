@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -8,6 +9,9 @@ use app\common\logic\BaseLogic;
 use app\common\model\channel\OfficialAccountReply;
 use app\common\service\wechat\WeChatConfigService;
 use app\common\service\wechat\WeChatOaService;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 
 /**
@@ -22,12 +26,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 添加回复(关注/关键词/默认)
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add($params)
+    public static function add(array $params): bool
     {
         try {
             // 关键字回复排序值须大于0
@@ -49,12 +53,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 查看回复详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params)
+    public static function detail(array $params): array
     {
         $field = 'id,name,keyword,reply_type,matching_type,content_type,content,status,sort';
         $field .= ',reply_type as reply_type_desc, matching_type as matching_type_desc, content_type as content_type_desc, status as status_desc';
@@ -64,12 +68,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 编辑回复(关注/关键词/默认)
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function edit($params)
+    public static function edit(array $params): bool
     {
         try {
             // 关键字回复排序值须大于0
@@ -91,12 +95,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 删除回复(关注/关键词/默认)
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete($params)
+    public static function delete(array $params): void
     {
         OfficialAccountReply::destroy($params['id']);
     }
@@ -104,12 +108,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 更新排序
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function sort($params)
+    public static function sort(array $params): void
     {
         $params['sort'] = $params['new_sort'];
         OfficialAccountReply::update($params);
@@ -118,12 +122,12 @@ class OfficialAccountReplyLogic extends BaseLogic
 
     /**
      * 更新状态
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function status($params)
+    public static function status(array $params): void
     {
         $reply = OfficialAccountReply::findOrEmpty($params['id']);
         $reply->status = !$reply->status;
@@ -134,13 +138,14 @@ class OfficialAccountReplyLogic extends BaseLogic
     /**
      * 微信公众号回调
      * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws \Throwable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function index()
+    public static function index(): mixed
     {
         $server = (new WeChatOaService())->getServer();
         // 事件
@@ -203,7 +208,7 @@ class OfficialAccountReplyLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getDefaultReply()
+    public static function getDefaultReply(): mixed
     {
         return OfficialAccountReply::where([
             'reply_type' => OfficialAccountEnum::REPLY_TYPE_DEFAULT,

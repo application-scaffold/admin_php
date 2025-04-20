@@ -1,9 +1,11 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\article;
 
 use app\common\model\BaseModel;
 use think\model\concern\SoftDelete;
+use think\model\relation\HasMany;
 
 /**
  * 资讯分类管理模型
@@ -16,16 +18,16 @@ class ArticleCate extends BaseModel
 {
     use SoftDelete;
 
-    protected $deleteTime = 'delete_time';
+    protected string $deleteTime = 'delete_time';
 
 
     /**
      * 关联文章
-     * @return \think\model\relation\HasMany
+     * @return HasMany
      * @author LZH
      * @date 2025/2/18
      */
-    public function article()
+    public function article(): HasMany
     {
         return $this->hasMany(Article::class, 'cid', 'id');
     }
@@ -33,27 +35,26 @@ class ArticleCate extends BaseModel
 
     /**
      * 状态描述
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getIsShowDescAttr($value, $data)
+    public function getIsShowDescAttr(mixed $value, array $data): string
     {
         return $data['is_show'] ? '启用' : '停用';
     }
 
     /**
      * 文章数量
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return int
-     * @throws \think\db\exception\DbException
      * @author LZH
      * @date 2025/2/18
      */
-    public function getArticleCountAttr($value, $data)
+    public function getArticleCountAttr(mixed $value, array $data): int
     {
         return Article::where(['cid' => $data['id']])->count('id');
     }

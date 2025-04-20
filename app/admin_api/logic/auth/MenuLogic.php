@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\auth;
 
@@ -8,6 +9,10 @@ use app\common\logic\BaseLogic;
 use app\common\model\auth\Admin;
 use app\common\model\auth\SystemMenu;
 use app\common\model\auth\SystemRoleMenu;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\model\contract\Modelable;
 
 
 /**
@@ -22,15 +27,15 @@ class MenuLogic extends BaseLogic
 
     /**
      * 获取管理员对应的角色菜单
-     * @param $adminId
+     * @param int $adminId
      * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getMenuByAdminId($adminId)
+    public static function getMenuByAdminId(int $adminId): mixed
     {
         $admin = Admin::findOrEmpty($adminId);
 
@@ -53,11 +58,11 @@ class MenuLogic extends BaseLogic
     /**
      * 添加菜单
      * @param array $params
-     * @return SystemMenu|\think\model\contract\Modelable
+     * @return SystemMenu|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add(array $params)
+    public static function add(array $params): Modelable|SystemMenu
     {
         return SystemMenu::create([
             'pid' => $params['pid'],
@@ -79,11 +84,11 @@ class MenuLogic extends BaseLogic
     /**
      * 编辑菜单
      * @param array $params
-     * @return SystemMenu|\think\model\contract\Modelable
+     * @return SystemMenu|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function edit(array $params)
+    public static function edit(array $params): Modelable|SystemMenu
     {
         return SystemMenu::update([
             'id' => $params['id'],
@@ -106,24 +111,24 @@ class MenuLogic extends BaseLogic
 
     /**
      * 详情
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params)
+    public static function detail(array $params): array
     {
         return SystemMenu::findOrEmpty($params['id'])->toArray();
     }
 
     /**
      * 删除菜单
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete($params)
+    public static function delete(array $params): void
     {
         // 删除菜单
         SystemMenu::destroy($params['id']);
@@ -134,11 +139,11 @@ class MenuLogic extends BaseLogic
     /**
      * 更新状态
      * @param array $params
-     * @return SystemMenu|\think\model\contract\Modelable
+     * @return SystemMenu|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function updateStatus(array $params)
+    public static function updateStatus(array $params): Modelable|SystemMenu
     {
         return SystemMenu::update([
             'id' => $params['id'],
@@ -155,7 +160,7 @@ class MenuLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllData()
+    public static function getAllData(): mixed
     {
         $data = SystemMenu::where(['is_disable' => YesNoEnum::NO])
             ->field('id,pid,name')

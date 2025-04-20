@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -21,7 +22,7 @@ class WechatValidate extends BaseValidate
         'url.require' => '请提供url'
     ];
 
-    public function sceneJsConfig()
+    public function sceneJsConfig(): WechatValidate
     {
         return $this->only(['url']);
     }

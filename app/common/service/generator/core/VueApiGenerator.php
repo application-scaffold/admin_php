@@ -22,7 +22,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -53,7 +53,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getCommentContent()
+    public function getCommentContent(): mixed
     {
         return $this->tableData['table_comment'];
     }
@@ -65,7 +65,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRouteContent()
+    public function getRouteContent(): string
     {
         $content = $this->getTableName();
         if (!empty($this->classDir)) {
@@ -81,7 +81,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = dirname(app()->getRootPath()) . '/admin/src/api/';
         $this->checkDir($dir);
@@ -95,7 +95,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'vue/src/api/';
         $this->checkDir($dir);
@@ -109,7 +109,7 @@ class VueApiGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getLowerTableName() . '.ts';
     }

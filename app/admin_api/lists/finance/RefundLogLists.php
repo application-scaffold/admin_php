@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\lists\finance;
 
@@ -21,7 +22,7 @@ class RefundLogLists extends BaseAdminDataLists
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryWhere()
+    public function queryWhere(): array
     {
         $where[] = ['record_id', '=', $this->params['record_id'] ?? 0];
         return $where;

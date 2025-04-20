@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic;
 
@@ -28,7 +29,7 @@ class LoginLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public function login($params)
+    public function login(array $params): array
     {
         $time = time();
         $admin = Admin::where('account', '=', $params['account'])->find();
@@ -54,15 +55,12 @@ class LoginLogic extends BaseLogic
 
     /**
      * 退出登录
-     * @param $adminInfo
+     * @param array $adminInfo
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function logout($adminInfo)
+    public function logout(array $adminInfo): bool
     {
         //token不存在，不注销
         if (!isset($adminInfo['token'])) {

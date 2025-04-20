@@ -21,7 +21,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -64,7 +64,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getNameSpaceContent()
+    public function getNameSpaceContent(): string
     {
         if (!empty($this->classDir)) {
             return "namespace app\\common\\model\\" . $this->classDir . ';';
@@ -79,7 +79,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getClassCommentContent()
+    public function getClassCommentContent(): string
     {
         if (!empty($this->tableData['class_comment'])) {
             $tpl = $this->tableData['class_comment'] . '模型';
@@ -96,7 +96,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPackageNameContent()
+    public function getPackageNameContent(): string
     {
         return !empty($this->classDir) ? '\\' . $this->classDir : '';
     }
@@ -108,7 +108,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUseContent()
+    public function getUseContent(): string
     {
         $tpl = "";
         if ($this->deleteConfig['type']) {
@@ -124,7 +124,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getDeleteUseContent()
+    public function getDeleteUseContent(): string
     {
         $tpl = "";
         if ($this->deleteConfig['type']) {
@@ -140,7 +140,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getDeleteTimeContent()
+    public function getDeleteTimeContent(): string
     {
         $tpl = "";
         if ($this->deleteConfig['type']) {
@@ -157,7 +157,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRelationModel()
+    public function getRelationModel(): string
     {
         $tpl = '';
         if (empty($this->relationConfig)) {
@@ -205,7 +205,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->basePath . 'common/model/';
         if (!empty($this->classDir)) {
@@ -222,7 +222,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'php/app/common/model/';
         $this->checkDir($dir);
@@ -240,7 +240,7 @@ class ModelGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getUpperCamelName() . '.php';
     }

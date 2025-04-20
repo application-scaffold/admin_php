@@ -1,10 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\service\wechat;
 
 
 use EasyWeChat\Kernel\Exceptions\Exception;
+use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\MiniApp\Application;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 
 /**
@@ -17,10 +27,14 @@ use EasyWeChat\MiniApp\Application;
 class WeChatMnpService
 {
 
-    protected $app;
+    protected Application $app;
 
-    protected $config;
+    protected array $config;
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->config = $this->getConfig();
@@ -35,7 +49,7 @@ class WeChatMnpService
      * @author LZH
      * @date 2025/2/19
      */
-    protected function getConfig()
+    protected function getConfig(): array
     {
         $config = WeChatConfigService::getMnpConfig();
         if (empty($config['app_id']) || empty($config['secret'])) {
@@ -48,16 +62,23 @@ class WeChatMnpService
     /**
      * 程序-根据code获取微信信息
      * @param string $code
-     * @return mixed
+     * @return array
+     * @throws Exception
+     * @throws TransportExceptionInterface
+     * @throws HttpException
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getMnpResByCode(string $code)
+    public function getMnpResByCode(string $code): array
     {
         $utils = $this->app->getUtils();
         $response = $utils->codeToSession($code);
 
-        if (!isset($response['openid']) || empty($response['openid'])) {
+        if (empty($response['openid'])) {
             throw new Exception('获取openID失败');
         }
 
@@ -68,11 +89,12 @@ class WeChatMnpService
     /**
      * 获取手机号
      * @param string $code
-     * @return mixed
+     * @return ResponseInterface|Response
+     * @throws TransportExceptionInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getUserPhoneNumber(string $code)
+    public function getUserPhoneNumber(string $code): ResponseInterface|Response
     {
         return $this->app->getClient()->postJson('wxa/business/getuserphonenumber', [
             'code' => $code,

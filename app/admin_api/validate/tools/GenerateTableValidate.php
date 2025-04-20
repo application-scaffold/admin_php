@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\tools;
 
@@ -36,7 +37,7 @@ class GenerateTableValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneSelect()
+    public function sceneSelect(): GenerateTableValidate
     {
         return $this->only(['table']);
     }
@@ -47,7 +48,7 @@ class GenerateTableValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneId()
+    public function sceneId(): GenerateTableValidate
     {
         return $this->only(['id']);
     }
@@ -58,21 +59,21 @@ class GenerateTableValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/19
      */
-    public function sceneDownload()
+    public function sceneDownload(): GenerateTableValidate
     {
         return $this->only(['file']);
     }
 
     /**
      * 校验选择的数据表信息
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param array $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkTable($value, $rule, $data)
+    protected function checkTable(array $value,string $rule,array $data): bool|string
     {
         foreach ($value as $item) {
             if (!isset($item['name']) || !isset($item['comment'])) {
@@ -89,14 +90,14 @@ class GenerateTableValidate extends BaseValidate
 
     /**
      * 校验当前数据表是否存在
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param mixed $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkTableData($value, $rule, $data)
+    protected function checkTableData(mixed $value, string $rule, array $data): bool|string
     {
         if (!is_array($value)) {
             $value = [$value];

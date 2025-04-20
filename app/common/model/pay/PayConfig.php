@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 
 namespace app\common\model\pay;
 
@@ -12,32 +13,32 @@ class PayConfig extends BaseModel
     protected $name = 'dev_pay_config';
 
     // 设置json类型字段
-    protected $json = ['config'];
+    protected array $json = ['config'];
 
     // 设置JSON数据返回数组
-    protected $jsonAssoc = true;
+    protected bool $jsonAssoc = true;
 
     /**
      * 支付图标获取器 - 路径添加域名
-     * @param $value
+     * @param string $value
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public function getIconAttr($value)
+    public function getIconAttr(string $value): string
     {
         return empty($value) ? '' : FileService::getFileUrl($value);
     }
 
     /**
      * 支付方式名称获取器
-     * @param $value
-     * @param $data
+     * @param mixed $value
+     * @param array $data
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public function getPayWayNameAttr($value,$data)
+    public function getPayWayNameAttr(mixed $value, array $data): array|string
     {
         return PayEnum::getPayDesc($data['pay_way']);
     }

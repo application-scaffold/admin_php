@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\article;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\article\ArticleLists;
 use app\admin_api\logic\article\ArticleLogic;
 use app\admin_api\validate\article\ArticleValidate;
+use think\response\Json;
 
 /**
  * 资讯管理控制器
@@ -19,22 +21,22 @@ class ArticleController extends BaseAdminApiController
 
     /**
      * 查看资讯列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new ArticleLists());
     }
 
     /**
      * 添加资讯
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new ArticleValidate())->post()->goCheck('add');
         ArticleLogic::add($params);
@@ -43,11 +45,11 @@ class ArticleController extends BaseAdminApiController
 
     /**
      * 编辑资讯
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new ArticleValidate())->post()->goCheck('edit');
         $result = ArticleLogic::edit($params);
@@ -59,11 +61,11 @@ class ArticleController extends BaseAdminApiController
 
     /**
      * 删除资讯
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new ArticleValidate())->post()->goCheck('delete');
         ArticleLogic::delete($params);
@@ -72,11 +74,11 @@ class ArticleController extends BaseAdminApiController
 
     /**
      * 资讯详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new ArticleValidate())->goCheck('detail');
         $result = ArticleLogic::detail($params);
@@ -86,11 +88,11 @@ class ArticleController extends BaseAdminApiController
 
     /**
      * 更改资讯状态
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function updateStatus()
+    public function updateStatus(): Json
     {
         $params = (new ArticleValidate())->post()->goCheck('status');
         $result = ArticleLogic::updateStatus($params);

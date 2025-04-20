@@ -1,10 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\controller;
 
 use app\front_api\lists\article\ArticleCollectLists;
 use app\front_api\lists\article\ArticleLists;
 use app\front_api\logic\ArticleLogic;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\response\Json;
 
 /**
  * 文章管理
@@ -20,25 +25,25 @@ class ArticleController extends BaseApiController
 
     /**
      * 文章列表
-     * @return mixed
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new ArticleLists());
     }
 
     /**
      * 文章分类列表
-     * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/19
      */
-    public function cate()
+    public function cate(): Json
     {
         return $this->data(ArticleLogic::cate());
     }
@@ -46,11 +51,11 @@ class ArticleController extends BaseApiController
 
     /**
      * 收藏列表
-     * @return mixed
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function collect()
+    public function collect(): Json
     {
         return $this->dataLists(new ArticleCollectLists());
     }
@@ -58,11 +63,11 @@ class ArticleController extends BaseApiController
 
     /**
      * 文章详情
-     * @return mixed
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function detail()
+    public function detail(): Json
     {
         $id = $this->request->get('id/d');
         $result = ArticleLogic::detail($id, $this->userId);
@@ -71,11 +76,11 @@ class ArticleController extends BaseApiController
 
     /**
      * 加入收藏
-     * @return mixed
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function addCollect()
+    public function addCollect(): Json
     {
         $articleId = $this->request->post('id/d');
         ArticleLogic::addCollect($articleId, $this->userId);
@@ -84,11 +89,11 @@ class ArticleController extends BaseApiController
 
     /**
      * 取消收藏
-     * @return mixed
+     * @return Json
      * @author LZH
      * @date 2025/2/19
      */
-    public function cancelCollect()
+    public function cancelCollect(): Json
     {
         $articleId = $this->request->post('id/d');
         ArticleLogic::cancelCollect($articleId, $this->userId);

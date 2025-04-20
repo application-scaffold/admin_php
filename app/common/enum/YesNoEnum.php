@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -16,12 +17,12 @@ class YesNoEnum
 
     /**
      * 获取禁用状态
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getDisableDesc($value = true)
+    public static function getDisableDesc(bool $value = true): array|string
     {
         $data = [
             self::YES => '禁用',

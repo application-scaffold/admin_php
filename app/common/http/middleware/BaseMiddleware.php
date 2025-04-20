@@ -4,6 +4,8 @@ declare (strict_types=1);
 
 namespace app\common\http\middleware;
 
+use think\Request;
+
 /**
  * 基础中间件
  * @class BaseMiddleware
@@ -13,7 +15,7 @@ namespace app\common\http\middleware;
  */
 class BaseMiddleware
 {
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next) : mixed
     {
         return $next($request);
     }

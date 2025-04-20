@@ -34,8 +34,11 @@
         "rmccue/requests": "^2.0",
         "w7corp/easywechat": "^6.17",
         "tencentcloud/sms": "^3.0",
-      "ext-pdo": "*"
-
+      "ext-pdo": "*",
+      "ext-curl": "*",
+      "ext-zip": "*",
+        "alipaysdk/easysdk": "^2.2",
+        "aliyuncs/oss-sdk-php": "^2.7"
     },
     "require-dev": {
         "topthink/think-dumper": "^1.0",

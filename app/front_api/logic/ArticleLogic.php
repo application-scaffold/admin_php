@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -20,13 +21,13 @@ class ArticleLogic extends BaseLogic
 
     /**
      * 文章详情
-     * @param $articleId
-     * @param $userId
+     * @param int $articleId
+     * @param int $userId
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($articleId, $userId)
+    public static function detail(int $articleId, int $userId): array
     {
         // 文章详情
         $article = Article::getArticleDetailArr($articleId);
@@ -38,13 +39,13 @@ class ArticleLogic extends BaseLogic
 
     /**
      * 加入收藏
-     * @param $articleId
-     * @param $userId
+     * @param int $articleId
+     * @param int $userId
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function addCollect($articleId, $userId)
+    public static function addCollect(int $articleId, int $userId): void
     {
         $where = ['user_id' => $userId, 'article_id' => $articleId];
         $collect = ArticleCollect::where($where)->findOrEmpty();
@@ -64,13 +65,13 @@ class ArticleLogic extends BaseLogic
 
     /**
      * 取消收藏
-     * @param $articleId
-     * @param $userId
+     * @param int $articleId
+     * @param int $userId
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function cancelCollect($articleId, $userId)
+    public static function cancelCollect(int $articleId, int $userId): void
     {
         ArticleCollect::update(['status' => YesNoEnum::NO], [
             'user_id' => $userId,
@@ -88,7 +89,7 @@ class ArticleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function cate()
+    public static function cate(): array
     {
         return ArticleCate::field('id,name')
             ->where('is_show', '=', 1)

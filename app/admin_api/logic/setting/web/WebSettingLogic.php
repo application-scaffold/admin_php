@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\web;
 
@@ -50,7 +51,7 @@ class WebSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setWebsiteInfo(array $params)
+    public static function setWebsiteInfo(array $params): void
     {
         $h5favicon = FileService::setFileUrl($params['h5_favicon']);
         $favicon = FileService::setFileUrl($params['web_favicon']);
@@ -76,7 +77,6 @@ class WebSettingLogic extends BaseLogic
         ConfigService::set('website', 'h5_favicon', $h5favicon);
     }
 
-
     /**
      * 获取版权备案
      * @return array
@@ -96,7 +96,7 @@ class WebSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setCopyright(array $params)
+    public static function setCopyright(array $params): bool
     {
         try {
             if (!is_array($params['config'])) {
@@ -118,7 +118,7 @@ class WebSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setAgreement(array $params)
+    public static function setAgreement(array $params): void
     {
         $serviceContent = clear_file_domain($params['service_content'] ?? '');
         $privacyContent = clear_file_domain($params['privacy_content'] ?? '');
@@ -156,7 +156,7 @@ class WebSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getSiteStatistics()
+    public static function getSiteStatistics(): array
     {
         return [
             'clarity_code' => ConfigService::get('siteStatistics', 'clarity_code')
@@ -170,7 +170,7 @@ class WebSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setSiteStatistics(array $params)
+    public static function setSiteStatistics(array $params): void
     {
         ConfigService::set('siteStatistics', 'clarity_code', $params['clarity_code']);
     }

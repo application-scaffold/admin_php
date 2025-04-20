@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting;
 
@@ -27,7 +28,7 @@ class HotSearchLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         return [
             // 功能状态 0-关闭 1-开启
@@ -40,12 +41,12 @@ class HotSearchLogic extends BaseLogic
 
     /**
      * 设置热门搜搜
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): bool
     {
         try {
             if (!empty($params['data'])) {

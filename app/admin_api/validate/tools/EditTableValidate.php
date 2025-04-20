@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\tools;
 
@@ -41,14 +42,14 @@ class EditTableValidate extends BaseValidate
 
     /**
      * 校验当前数据表是否存在
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkTableData($value, $rule, $data)
+    protected function checkTableData(string $value, string $rule, array $data): bool|string
     {
         $table = GenerateTable::findOrEmpty($value);
         if ($table->isEmpty()) {
@@ -59,14 +60,14 @@ class EditTableValidate extends BaseValidate
 
     /**
      * 校验表字段参数
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param array $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/19
      */
-    protected function checkColumn($value, $rule, $data)
+    protected function checkColumn(array $value, string $rule, array $data): bool|string
     {
         foreach ($value as $item) {
             if (!isset($item['id'])) {

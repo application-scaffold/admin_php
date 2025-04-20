@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\dept;
 
@@ -6,6 +7,7 @@ use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\lists\dept\JobsLists;
 use app\admin_api\logic\dept\JobsLogic;
 use app\admin_api\validate\dept\JobsValidate;
+use think\response\Json;
 
 
 /**
@@ -20,22 +22,22 @@ class JobsController extends BaseAdminApiController
 
     /**
      * 岗位列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new JobsLists());
     }
 
     /**
      * 添加岗位
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new JobsValidate())->post()->goCheck('add');
         JobsLogic::add($params);
@@ -44,11 +46,11 @@ class JobsController extends BaseAdminApiController
 
     /**
      * 编辑岗位
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new JobsValidate())->post()->goCheck('edit');
         $result = JobsLogic::edit($params);
@@ -60,11 +62,11 @@ class JobsController extends BaseAdminApiController
 
     /**
      * 删除岗位
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new JobsValidate())->post()->goCheck('delete');
         JobsLogic::delete($params);
@@ -73,11 +75,11 @@ class JobsController extends BaseAdminApiController
 
     /**
      * 获取岗位详情
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new JobsValidate())->goCheck('detail');
         $result = JobsLogic::detail($params);
@@ -86,14 +88,14 @@ class JobsController extends BaseAdminApiController
 
     /**
      * 获取岗位数据
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = JobsLogic::getAllData();
         return $this->data($result);

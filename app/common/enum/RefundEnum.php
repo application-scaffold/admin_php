@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -30,12 +31,12 @@ class RefundEnum
 
     /**
      * 退款类型描述
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTypeDesc($value = true)
+    public static function getTypeDesc(bool $value = true): array|string
     {
         $data = [
             self::TYPE_ADMIN  => '后台退款',
@@ -49,12 +50,12 @@ class RefundEnum
 
     /**
      * 退款状态
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getStatusDesc($value = true)
+    public static function getStatusDesc(bool $value = true): array|string
     {
         $data = [
             self::REFUND_ING  => '退款中',
@@ -69,12 +70,12 @@ class RefundEnum
 
     /**
      * 退款方式
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getWayDesc($value = true)
+    public static function getWayDesc(bool $value = true): array|string
     {
         $data = [
             self::REFUND_ONLINE  => '线上退款',
@@ -88,12 +89,12 @@ class RefundEnum
 
     /**
      * 通过支付方式获取退款方式
-     * @param $payWay
+     * @param int $payWay
      * @return int
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getRefundWayByPayWay($payWay)
+    public static function getRefundWayByPayWay(int $payWay): int
     {
         if (in_array($payWay, [PayEnum::ALI_PAY, PayEnum::WECHAT_PAY])) {
             return self::REFUND_ONLINE;

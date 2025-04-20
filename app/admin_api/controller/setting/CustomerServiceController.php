@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\setting;
 
 use app\admin_api\controller\BaseAdminApiController;
 use app\admin_api\logic\setting\CustomerServiceLogic;
+use think\response\Json;
 
 /**
  * 客服设置
@@ -17,11 +19,11 @@ class CustomerServiceController extends BaseAdminApiController
 
     /**
      * 获取客服设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function getConfig()
+    public function getConfig(): Json
     {
         $result = CustomerServiceLogic::getConfig();
         return $this->data($result);
@@ -29,11 +31,11 @@ class CustomerServiceController extends BaseAdminApiController
 
     /**
      * 设置客服设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function setConfig()
+    public function setConfig(): Json
     {
         $params = $this->request->post();
         CustomerServiceLogic::setConfig($params);

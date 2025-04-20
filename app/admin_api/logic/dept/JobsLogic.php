@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\dept;
 
@@ -25,7 +26,7 @@ class JobsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add(array $params)
+    public static function add(array $params): void
     {
         Jobs::create([
             'name' => $params['name'],
@@ -69,7 +70,7 @@ class JobsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(array $params)
+    public static function delete(array $params): void
     {
         Jobs::destroy($params['id']);
     }
@@ -95,7 +96,7 @@ class JobsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getAllData()
+    public static function getAllData(): array
     {
         return Jobs::where(['status' => YesNoEnum::YES])
             ->order(['sort' => 'desc', 'id' => 'desc'])

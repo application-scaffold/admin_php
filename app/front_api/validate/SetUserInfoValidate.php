@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -27,14 +28,14 @@ class SetUserInfoValidate extends BaseValidate
 
     /**
      * 校验字段内容
-     * @param $value
-     * @param $rule
-     * @param $data
+     * @param string $value
+     * @param string $rule
+     * @param array $data
      * @return string|true
      * @author LZH
      * @date 2025/2/20
      */
-    protected function checkField($value, $rule, $data)
+    protected function checkField(string $value, string $rule, array $data): bool|string
     {
         $allowField = [
             'nickname', 'account', 'sex', 'avatar', 'real_name',

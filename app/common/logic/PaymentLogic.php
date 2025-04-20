@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
-
 
 use app\common\enum\PayEnum;
 use app\common\enum\YesNoEnum;
@@ -10,6 +10,7 @@ use app\common\model\recharge\RechargeOrder;
 use app\common\model\user\User;
 use app\common\service\pay\AliPayService;
 use app\common\service\pay\WeChatPayService;
+use think\Model;
 
 /**
  * 支付逻辑
@@ -23,14 +24,14 @@ class PaymentLogic extends BaseLogic
 
     /**
      * 支付方式
-     * @param $userId
-     * @param $terminal
-     * @param $params
+     * @param int $userId
+     * @param int $terminal
+     * @param array $params
      * @return array|false
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayWay($userId, $terminal, $params)
+    public static function getPayWay(int $userId, int $terminal, array $params): bool|array
     {
         try {
             if ($params['from'] == 'recharge') {
@@ -82,12 +83,12 @@ class PaymentLogic extends BaseLogic
 
     /**
      * 获取支付状态
-     * @param $params
+     * @param array $params
      * @return array|false
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayStatus($params)
+    public static function getPayStatus(array $params): bool|array
     {
         try {
             $order = [];
@@ -126,12 +127,12 @@ class PaymentLogic extends BaseLogic
 
     /**
      * 获取预支付订单信息
-     * @param $params
-     * @return RechargeOrder|array|false|mixed|\think\Model
+     * @param array $params
+     * @return RechargeOrder|array|false|mixed|Model
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayOrderInfo($params)
+    public static function getPayOrderInfo(array $params): mixed
     {
         try {
             switch ($params['from']) {
@@ -155,17 +156,17 @@ class PaymentLogic extends BaseLogic
 
     /**
      * 支付
-     * @param $payWay
-     * @param $from
-     * @param $order
-     * @param $terminal
-     * @param $redirectUrl
+     * @param int $payWay
+     * @param string $from
+     * @param array $order
+     * @param string $terminal
+     * @param string $redirectUrl
      * @return array|bool|mixed|string|string[]
      * @throws \Exception
      * @author LZH
      * @date 2025/2/18
      */
-    public static function pay($payWay, $from, $order, $terminal, $redirectUrl)
+    public static function pay(int $payWay, string $from, array $order, string $terminal, string $redirectUrl): mixed
     {
         // 支付编号-仅为微信支付预置(同一商户号下不同客户端支付需使用唯一订单号)
         $paySn = $order['sn'];
@@ -212,13 +213,13 @@ class PaymentLogic extends BaseLogic
     /**
      * 设置订单号 支付回调时截取前面的单号 18个
      * 回调时使用了不同的回调地址,导致跨客户端支付时(例如小程序,公众号)可能出现201,商户订单号重复错误
-     * @param $orderSn
-     * @param $terminal
+     * @param string $orderSn
+     * @param string $terminal
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public static function formatOrderSn($orderSn, $terminal)
+    public static function formatOrderSn(string $orderSn, string $terminal): string
     {
         $suffix = mb_substr(time(), -4);
         return $orderSn . $terminal . $suffix;

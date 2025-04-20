@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\auth;
 
@@ -8,6 +9,7 @@ use app\admin_api\{
     validate\auth\RoleValidate,
     controller\BaseAdminApiController
 };
+use think\response\Json;
 
 
 /**
@@ -22,11 +24,11 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 查看角色列表
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function lists()
+    public function lists(): Json
     {
         return $this->dataLists(new RoleLists());
     }
@@ -34,11 +36,11 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 添加权限
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function add()
+    public function add(): Json
     {
         $params = (new RoleValidate())->post()->goCheck('add');
         $res = RoleLogic::add($params);
@@ -51,11 +53,11 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 编辑角色
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function edit()
+    public function edit(): Json
     {
         $params = (new RoleValidate())->post()->goCheck('edit');
         $res = RoleLogic::edit($params);
@@ -67,11 +69,11 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 删除角色
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function delete()
+    public function delete(): Json
     {
         $params = (new RoleValidate())->post()->goCheck('del');
         RoleLogic::delete($params['id']);
@@ -81,14 +83,14 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 查看角色详情
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function detail()
+    public function detail(): Json
     {
         $params = (new RoleValidate())->goCheck('detail');
         $detail = RoleLogic::detail($params['id']);
@@ -98,14 +100,14 @@ class RoleController extends BaseAdminApiController
 
     /**
      * 获取角色数据
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public function all()
+    public function all(): Json
     {
         $result = RoleLogic::getAllData();
         return $this->data($result);

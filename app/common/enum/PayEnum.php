@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum;
 
@@ -34,12 +35,12 @@ class PayEnum
 
     /**
      * 获取支付类型
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayDesc($value = true)
+    public static function getPayDesc(bool $value = true): array|string
     {
         $data = [
             self::BALANCE_PAY => '余额支付',
@@ -55,12 +56,12 @@ class PayEnum
 
     /**
      * 支付状态
-     * @param $value
+     * @param bool $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayStatusDesc($value = true)
+    public static function getPayStatusDesc(bool $value = true): array|string
     {
         $data = [
             self::UNPAID => '未支付',
@@ -74,12 +75,12 @@ class PayEnum
 
     /**
      * 支付场景
-     * @param $value
+     * @param bool|string $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPaySceneDesc($value = true)
+    public static function getPaySceneDesc(bool|string $value = true): array|string
     {
         $data = [
             self::SCENE_H5 => 'H5',

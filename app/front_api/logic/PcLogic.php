@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\logic;
 
@@ -27,7 +28,7 @@ class PcLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getIndexData()
+    public static function getIndexData(): array
     {
         // 装修配置
         $decoratePage = DecoratePage::findOrEmpty(4);
@@ -56,7 +57,7 @@ class PcLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getLimitArticle(string $sortType, int $limit = 0, int $cate = 0, int $excludeId = 0)
+    public static function getLimitArticle(string $sortType, int $limit = 0, int $cate = 0, int $excludeId = 0): mixed
     {
         // 查询字段
         $field = [
@@ -102,7 +103,7 @@ class PcLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getConfigData()
+    public static function getConfigData(): array
     {
         // 登录配置
         $loginConfig = [
@@ -170,7 +171,7 @@ class PcLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getInfoCenter()
+    public static function getInfoCenter(): array
     {
         $data = ArticleCate::field(['id', 'name'])
             ->with(['article' => function ($query) {
@@ -190,14 +191,14 @@ class PcLogic extends BaseLogic
 
     /**
      * 获取文章详情
-     * @param $userId
-     * @param $articleId
-     * @param $source
+     * @param int $userId
+     * @param int $articleId
+     * @param string $source
      * @return array
      * @author LZH
      * @date 2025/2/20
      */
-    public static function getArticleDetail($userId, $articleId, $source = 'default')
+    public static function getArticleDetail(int $userId, int $articleId, string $source = 'default')
     {
         // 文章详情
         $detail = Article::getArticleDetailArr($articleId);

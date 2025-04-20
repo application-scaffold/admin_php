@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\controller\setting\user;
 
@@ -7,6 +8,7 @@ use app\admin_api\{
     logic\setting\user\UserLogic,
     validate\setting\UserConfigValidate
 };
+use think\response\Json;
 
 
 /**
@@ -21,11 +23,11 @@ class UserController extends BaseAdminApiController
 
     /**
      * 获取用户设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function getConfig()
+    public function getConfig(): Json
     {
         $result = (new UserLogic())->getConfig();
         return $this->data($result);
@@ -34,11 +36,11 @@ class UserController extends BaseAdminApiController
 
     /**
      * 设置用户设置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function setConfig()
+    public function setConfig(): Json
     {
         $params = (new UserConfigValidate())->post()->goCheck('user');
         (new UserLogic())->setConfig($params);
@@ -47,11 +49,11 @@ class UserController extends BaseAdminApiController
 
     /**
      * 获取注册配置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function getRegisterConfig()
+    public function getRegisterConfig(): Json
     {
         $result = (new UserLogic())->getRegisterConfig();
         return $this->data($result);
@@ -59,11 +61,11 @@ class UserController extends BaseAdminApiController
 
     /**
      * 设置注册配置
-     * @return \think\response\Json
+     * @return Json
      * @author LZH
      * @date 2025/2/20
      */
-    public function setRegisterConfig()
+    public function setRegisterConfig(): Json
     {
         $params = (new UserConfigValidate())->post()->goCheck('register');
         (new UserLogic())->setRegisterConfig($params);

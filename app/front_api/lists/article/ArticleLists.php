@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\lists\article;
 
@@ -37,7 +38,7 @@ class ArticleLists extends BaseApiDataLists implements ListsSearchInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function queryWhere()
+    public function queryWhere(): array
     {
         $where[] = ['is_show', '=', 1];
         if (!empty($this->params['keyword'])) {

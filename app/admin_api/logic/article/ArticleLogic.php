@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\article;
 
@@ -23,7 +24,7 @@ class ArticleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function add(array $params)
+    public static function add(array $params): void
     {
         Article::create([
             'title' => $params['title'],
@@ -76,7 +77,7 @@ class ArticleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function delete(array $params)
+    public static function delete(array $params): void
     {
         Article::destroy($params['id']);
     }
@@ -100,7 +101,7 @@ class ArticleLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function updateStatus(array $params)
+    public static function updateStatus(array $params): bool
     {
         Article::update([
             'id' => $params['id'],

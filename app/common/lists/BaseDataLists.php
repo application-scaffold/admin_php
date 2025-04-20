@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\lists;
 
 use app\common\enum\ExportEnum;
 use app\common\service\JsonService;
 use app\common\validate\ListsValidate;
-use app\Request;
 use think\facade\Config;
+use think\Request;
 
 /**
  * 数据列表基类
@@ -42,7 +43,7 @@ abstract class BaseDataLists implements ListsInterface
     protected $end;
 
     protected array $params;
-    protected $sortOrder = [];
+    protected array $sortOrder = [];
 
     public string $export;
 
@@ -75,7 +76,7 @@ abstract class BaseDataLists implements ListsInterface
      * @author LZH
      * @date 2025/2/18
      */
-    private function initPage()
+    private function initPage(): void
     {
         $this->pageSizeMax = Config::get('project.lists.page_size_max');
         $this->pageSize = Config::get('project.lists.page_size');
@@ -102,7 +103,7 @@ abstract class BaseDataLists implements ListsInterface
      * @author LZH
      * @date 2025/2/18
      */
-    private function initSearch()
+    private function initSearch(): array
     {
         if (!($this instanceof ListsSearchInterface)) {
             return [];
@@ -130,7 +131,7 @@ abstract class BaseDataLists implements ListsInterface
      * @author LZH
      * @date 2025/2/18
      */
-    private function initSort()
+    private function initSort(): array
     {
         if (!($this instanceof ListsSortInterface)) {
             return [];

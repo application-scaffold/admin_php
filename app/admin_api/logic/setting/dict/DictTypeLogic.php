@@ -1,16 +1,5 @@
 <?php
-// +----------------------------------------------------------------------
-// | likeadmin快速开发前后端分离管理后台（PHP版）
-// +----------------------------------------------------------------------
-// | 欢迎阅读学习系统程序代码，建议反馈是我们前进的动力
-// | 开源版本可自由商用，可去除界面版权logo
-// | gitee下载：https://gitee.com/likeshop_gitee/likeadmin
-// | github下载：https://github.com/likeshop-github/likeadmin
-// | 访问官网：https://www.likeadmin.cn
-// | likeadmin团队 版权所有 拥有最终解释权
-// +----------------------------------------------------------------------
-// | author: likeadminTeam
-// +----------------------------------------------------------------------
+declare(strict_types=1);
 
 namespace app\admin_api\logic\setting\dict;
 
@@ -18,6 +7,7 @@ use app\common\enum\YesNoEnum;
 use app\common\logic\BaseLogic;
 use app\common\model\dict\DictData;
 use app\common\model\dict\DictType;
+use think\model\contract\Modelable;
 
 
 /**
@@ -31,11 +21,11 @@ class DictTypeLogic extends BaseLogic
     /**
      * @notes 添加字典类型
      * @param array $params
-     * @return DictType|\think\Model
+     * @return Modelable
      * @author 段誉
      * @date 2022/6/20 16:08
      */
-    public static function add(array $params)
+    public static function add(array $params): Modelable
     {
         return DictType::create([
             'name' => $params['name'],
@@ -52,7 +42,7 @@ class DictTypeLogic extends BaseLogic
      * @author 段誉
      * @date 2022/6/20 16:10
      */
-    public static function edit(array $params)
+    public static function edit(array $params): void
     {
          DictType::update([
             'id' => $params['id'],
@@ -73,7 +63,7 @@ class DictTypeLogic extends BaseLogic
      * @author 段誉
      * @date 2022/6/20 16:23
      */
-    public static function delete(array $params)
+    public static function delete(array $params): void
     {
         DictType::destroy($params['id']);
     }
@@ -101,7 +91,7 @@ class DictTypeLogic extends BaseLogic
      * @author 段誉
      * @date 2022/10/13 10:44
      */
-    public static function getAllData()
+    public static function getAllData(): array
     {
         return DictType::where(['status' => YesNoEnum::YES])
             ->order(['id' => 'desc'])

@@ -8,6 +8,7 @@ use app\common\cache\AdminTokenCache;
 use app\admin_api\service\AdminTokenService;
 use app\common\service\JsonService;
 use think\facade\Config;
+use think\Request;
 
 /**
  * 登录中间件
@@ -30,7 +31,7 @@ class LoginMiddleware
      * @author LZH
      * @date 2025/2/19
      */
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next): mixed
     {
         $token = $request->header('token');
         //判断接口是否免登录

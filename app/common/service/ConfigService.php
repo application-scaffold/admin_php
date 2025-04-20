@@ -12,12 +12,12 @@ class ConfigService
      * 设置配置值
      * @param string $type
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public static function set(string $type, string $name, $value)
+    public static function set(string $type, string $name, mixed $value): mixed
     {
         $original = $value;
         if (is_array($value)) {
@@ -45,12 +45,12 @@ class ConfigService
      * 获取配置值
      * @param string $type
      * @param string $name
-     * @param $default_value
+     * @param mixed $default_value
      * @return array|int|mixed|string|void
      * @author LZH
      * @date 2025/2/18
      */
-    public static function get(string $type, string $name = '', $default_value = null)
+    public static function get(string $type, string $name = '', mixed $default_value = null): mixed
     {
         if (!empty($name)) {
             $value = Config::where(['type' => $type, 'name' => $name])->value('value');

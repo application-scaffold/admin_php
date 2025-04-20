@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\validate\notice;
 
@@ -34,7 +35,7 @@ class SmsConfigValidate extends BaseValidate
     ];
 
 
-    protected function sceneDetail()
+    protected function sceneDetail(): SmsConfigValidate
     {
         return $this->only(['type']);
     }

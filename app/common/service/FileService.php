@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\common\service;
 
 use think\facade\Cache;
@@ -57,12 +59,12 @@ class FileService
 
     /**
      * 转相对路径
-     * @param $uri
+     * @param string $uri
      * @return array|string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function setFileUrl($uri)
+    public static function setFileUrl(string $uri): array|string
     {
         $default = ConfigService::get('storage', 'default', 'local');
         if ($default === 'local') {
@@ -77,13 +79,13 @@ class FileService
 
     /**
      * 格式化url
-     * @param $domain
-     * @param $uri
+     * @param string $domain
+     * @param string $uri
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public static function format($domain, $uri)
+    public static function format(string $domain, string $uri): string
     {
         // 处理域名
         $domainLen = strlen($domain);

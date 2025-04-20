@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
 
@@ -8,6 +9,7 @@ use app\common\model\notice\NoticeRecord;
 use app\common\model\notice\NoticeSetting;
 use app\common\model\user\User;
 use app\common\service\sms\SmsMessageService;
+use think\model\contract\Modelable;
 
 /**
  * 通知逻辑层
@@ -21,12 +23,12 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 根据场景发送短信
-     * @param $params
+     * @param array $params
      * @return bool
      * @author LZH
      * @date 2025/2/18
      */
-    public static function noticeByScene($params)
+    public static function noticeByScene(array $params): bool
     {
         try {
             $noticeSetting = NoticeSetting::where('scene_id', $params['scene_id'])->findOrEmpty()->toArray();
@@ -53,12 +55,12 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 整理参数
-     * @param $params
+     * @param array $params
      * @return array
      * @author LZH
      * @date 2025/2/18
      */
-    public static function mergeParams($params)
+    public static function mergeParams(array $params): array
     {
         // 用户相关
         if (!empty($params['params']['user_id'])) {
@@ -80,13 +82,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 根据场景获取跳转链接
-     * @param $sceneId
-     * @param $extraId
+     * @param string $sceneId
+     * @param string $extraId
      * @return string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPathByScene($sceneId, $extraId)
+    public static function getPathByScene(string $sceneId, string $extraId): array
     {
         // 小程序主页路径
         $page = '/pages/index/index';
@@ -101,13 +103,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 替换消息内容中的变量占位符
-     * @param $content
-     * @param $params
+     * @param string $content
+     * @param array $params
      * @return array|mixed|string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function contentFormat($content, $params)
+    public static function contentFormat(string $content, array $params): mixed
     {
         foreach ($params['params'] as $k => $v) {
             $search = '{' . $k . '}';
@@ -119,16 +121,16 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 添加通知记录
-     * @param $params
-     * @param $noticeSetting
-     * @param $sendType
-     * @param $content
-     * @param $extra
-     * @return NoticeRecord|\think\Model
+     * @param array $params
+     * @param array $noticeSetting
+     * @param int $sendType
+     * @param string $content
+     * @param string $extra
+     * @return Modelable
      * @author LZH
      * @date 2025/2/18
      */
-    public static function addNotice($params, $noticeSetting, $sendType, $content, $extra = '')
+    public static function addNotice(array $params, array $noticeSetting, int $sendType, string $content, string $extra = ''): \think\model\contract\Modelable
     {
         return NoticeRecord::create([
             'user_id' => $params['params']['user_id'] ?? 0,
@@ -145,13 +147,13 @@ class NoticeLogic extends BaseLogic
 
     /**
      * 通知记录标题
-     * @param $sendType
-     * @param $noticeSetting
+     * @param int $sendType
+     * @param array $noticeSetting
      * @return string
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTitleByScene($sendType, $noticeSetting)
+    public static function getTitleByScene(int $sendType, array $noticeSetting): string
     {
         switch ($sendType) {
             case NoticeEnum::SMS:

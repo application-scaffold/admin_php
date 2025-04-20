@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\logic;
 
 use app\common\enum\user\AccountLogEnum;
 use app\common\model\user\UserAccountLog;
 use app\common\model\user\User;
+use think\model\contract\Modelable;
 
 
 /**
@@ -19,18 +21,18 @@ class AccountLogLogic extends BaseLogic
 
     /**
      * 记录账号操作
-     * @param $userId
-     * @param $changeType
-     * @param $action
-     * @param $changeAmount
+     * @param string $userId
+     * @param int $changeType
+     * @param string $action
+     * @param int $changeAmount
      * @param string $sourceSn
      * @param string $remark
      * @param array $extra
-     * @return UserAccountLog|false|\think\Model
+     * @return Modelable|bool
      * @author LZH
      * @date 2025/2/18
      */
-    public static function add($userId, $changeType, $action, $changeAmount, string $sourceSn = '', string $remark = '',  array $extra = [])
+    public static function add(string $userId, int $changeType, int $action, int $changeAmount, string $sourceSn = '', string $remark = '',  array $extra = []): \think\model\contract\Modelable|bool
     {
         $user = User::findOrEmpty($userId);
         if($user->isEmpty()) {

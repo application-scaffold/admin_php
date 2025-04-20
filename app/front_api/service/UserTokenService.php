@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\service;
 
 use app\common\cache\UserTokenCache;
 use app\common\model\user\UserSession;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Config;
 
 class UserTokenService
@@ -11,17 +15,17 @@ class UserTokenService
 
     /**
      * 设置或更新用户token
-     * @param $userId
-     * @param $terminal
+     * @param int $userId
+     * @param string $terminal
      * @return array|false|mixed
      * @throws \DateMalformedStringException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public static function setToken($userId, $terminal)
+    public static function setToken(int $userId, int $terminal): mixed
     {
         $time = time();
         $userSession = UserSession::where([['user_id', '=', $userId], ['terminal', '=', $terminal]])->find();
@@ -55,16 +59,16 @@ class UserTokenService
 
     /**
      * 延长token过期时间
-     * @param $token
+     * @param string $token
      * @return array|false|mixed
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @throws \DateMalformedStringException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public static function overtimeToken($token)
+    public static function overtimeToken(string $token): mixed
     {
         $time = time();
         $userSession = UserSession::where('token', '=', $token)->find();
@@ -81,15 +85,15 @@ class UserTokenService
 
     /**
      * 设置token为过期
-     * @param $token
+     * @param string $token
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @author LZH
      * @date 2025/2/20
      */
-    public static function expireToken($token)
+    public static function expireToken(string $token): bool
     {
         $userSession = UserSession::where('token', '=', $token)
             ->find();

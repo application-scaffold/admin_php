@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -21,7 +22,7 @@ class AppSettingLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         $config = [
             'ios_download_url' => ConfigService::get('app', 'ios_download_url', ''),
@@ -34,12 +35,12 @@ class AppSettingLogic extends BaseLogic
 
     /**
      * App设置
-     * @param $params
+     * @param array $params
      * @return void
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setConfig($params)
+    public static function setConfig(array $params): void
     {
         ConfigService::set('app', 'ios_download_url', $params['ios_download_url'] ?? '');
         ConfigService::set('app', 'android_download_url', $params['android_download_url'] ?? '');

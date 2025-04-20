@@ -4,6 +4,8 @@ declare (strict_types=1);
 
 namespace app\admin_api\http\middleware;
 
+use think\Request;
+
 /**
  * 演示环境数据加密
  * @class EncryDemoDataMiddleware
@@ -15,7 +17,7 @@ class EncryDemoDataMiddleware
 {
 
     // 需要过滤的接口
-    protected $needCheck = [
+    protected array $needCheck = [
         // 存储配置
         'setting.storage/detail',
         // 短信配置
@@ -31,7 +33,7 @@ class EncryDemoDataMiddleware
     ];
 
     // 可以排除字段
-    protected $excludeParams = [
+    protected array $excludeParams = [
         'name',
         'icon',
         'image',
@@ -41,7 +43,7 @@ class EncryDemoDataMiddleware
     ];
 
 
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         $response = $next($request);
 
@@ -81,13 +83,13 @@ class EncryDemoDataMiddleware
 
     /**
      * 加密配置
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      * @return mixed|string
      * @author LZH
      * @date 2025/2/19
      */
-    protected function getEncryData($key, $value)
+    protected function getEncryData(string $key, mixed $value): mixed
     {
         // 非隐藏字段
         if (in_array($key, $this->excludeParams)) {

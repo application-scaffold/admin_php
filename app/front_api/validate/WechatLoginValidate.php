@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\front_api\validate;
 
@@ -38,7 +39,7 @@ class WechatLoginValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneOa()
+    public function sceneOa(): WechatLoginValidate
     {
         return $this->only(['code']);
     }
@@ -49,7 +50,7 @@ class WechatLoginValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneMnpLogin()
+    public function sceneMnpLogin(): WechatLoginValidate
     {
         return $this->only(['code']);
     }
@@ -59,7 +60,7 @@ class WechatLoginValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneWechatAuth()
+    public function sceneWechatAuth(): WechatLoginValidate
     {
         return $this->only(['code']);
     }
@@ -70,7 +71,7 @@ class WechatLoginValidate extends BaseValidate
      * @author LZH
      * @date 2025/2/20
      */
-    public function sceneUpdateUser()
+    public function sceneUpdateUser(): WechatLoginValidate
     {
         return $this->only(['nickname', 'avatar']);
     }

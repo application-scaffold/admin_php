@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\cache;
 
-use app\adminapi\logic\auth\AuthLogic;
+use app\admin_api\logic\auth\AuthLogic;
 
 /**
  * 管理员权限缓存
@@ -14,25 +15,25 @@ use app\adminapi\logic\auth\AuthLogic;
 class AdminAuthCache extends BaseCache
 {
     // 缓存前缀
-    private $prefix = 'admin_auth_';
+    private string $prefix = 'admin_auth_';
     // 权限配置列表
-    private $authConfigList = [];
+    private mixed $authConfigList = [];
     // 权限文件MD5的缓存键
-    private $cacheMd5Key = '';
+    private string $cacheMd5Key = '';
     // 全部权限的缓存键
-    private $cacheAllKey = '';
+    private string $cacheAllKey = '';
     // 管理员的权限缓存键
-    private $cacheUrlKey = '';
+    private string $cacheUrlKey = '';
     // 权限文件的MD5值
-    private $authMd5 = '';
+    private string $authMd5 = '';
     // 管理员ID
-    private $adminId = '';
+    private string $adminId = '';
 
     /**
      * 构造函数
      * @param string $adminId 管理员ID
      */
-    public function __construct($adminId = '')
+    public function __construct(string $adminId = '')
     {
         parent::__construct();
 
@@ -64,7 +65,7 @@ class AdminAuthCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function getAdminUri()
+    public function getAdminUri(): mixed
     {
         // 从缓存中获取管理员的权限URI
         $urisAuth = $this->get($this->cacheUrlKey);
@@ -91,7 +92,7 @@ class AdminAuthCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function getAllUri()
+    public function getAllUri(): mixed
     {
         // 从缓存中获取全部权限URI
         $cacheAuth = $this->get($this->cacheAllKey);
@@ -116,7 +117,7 @@ class AdminAuthCache extends BaseCache
      * @author LZH
      * @date 2025/2/18
      */
-    public function clearAuthCache()
+    public function clearAuthCache(): bool
     {
         // 清理管理员的URL缓存
         return $this->clear($this->cacheUrlKey);

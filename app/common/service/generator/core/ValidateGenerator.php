@@ -21,7 +21,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function replaceVariables()
+    public function replaceVariables(): void
     {
         // 需要替换的变量
         $needReplace = [
@@ -72,7 +72,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuleContent()
+    public function getRuleContent(): string
     {
         $content = "'" . $this->getPkContent() . "' => 'require'," . PHP_EOL;
         foreach ($this->tableColumn as $column) {
@@ -91,7 +91,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getAddParamsContent()
+    public function getAddParamsContent(): string
     {
         $content = "";
         foreach ($this->tableColumn as $column) {
@@ -118,7 +118,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getEditParamsContent()
+    public function getEditParamsContent(): string
     {
         $content = "'" . $this->getPkContent() . "'," ;
         foreach ($this->tableColumn as $column) {
@@ -140,7 +140,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getFiledContent()
+    public function getFiledContent(): string
     {
         $content = "'" . $this->getPkContent() . "' => '" . $this->getPkContent() . "'," . PHP_EOL;
         foreach ($this->tableColumn as $column) {
@@ -163,7 +163,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getNameSpaceContent()
+    public function getNameSpaceContent(): string
     {
         if (!empty($this->classDir)) {
             return "namespace app\\" . $this->moduleName . "\\validate\\" . $this->classDir . ';';
@@ -178,7 +178,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getClassCommentContent()
+    public function getClassCommentContent(): string
     {
         if (!empty($this->tableData['class_comment'])) {
             $tpl = $this->tableData['class_comment'] . '验证器';
@@ -195,7 +195,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getPackageNameContent()
+    public function getPackageNameContent(): string
     {
         return !empty($this->classDir) ? '\\' . $this->classDir : '';
     }
@@ -207,7 +207,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getModuleGenerateDir()
+    public function getModuleGenerateDir(): string
     {
         $dir = $this->basePath . $this->moduleName . '/validate/';
         if (!empty($this->classDir)) {
@@ -224,7 +224,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getRuntimeGenerateDir()
+    public function getRuntimeGenerateDir(): string
     {
         $dir = $this->generatorDir . 'php/app/' . $this->moduleName . '/validate/';
         $this->checkDir($dir);
@@ -242,7 +242,7 @@ class ValidateGenerator extends BaseGenerator implements GenerateInterface
      * @author LZH
      * @date 2025/2/19
      */
-    public function getGenerateName()
+    public function getGenerateName(): string
     {
         return $this->getUpperCamelName() . 'Validate.php';
     }

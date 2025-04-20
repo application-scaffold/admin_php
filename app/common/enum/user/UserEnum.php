@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\common\enum\user;
 
@@ -25,12 +26,12 @@ class UserEnum
 
     /**
      * 性别描述
-     * @param $from
+     * @param bool $from
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSexDesc($from = true)
+    public static function getSexDesc(bool $from = true): array|string
     {
         $desc = [
             self::SEX_OTHER => '未知',

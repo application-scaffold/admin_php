@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\channel;
 
@@ -22,7 +23,7 @@ class MnpSettingsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         $domainName = $_SERVER['SERVER_NAME'];
         $qrCode = ConfigService::get('mnp_setting', 'qr_code', '');
@@ -51,7 +52,7 @@ class MnpSettingsLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public function setConfig($params)
+    public function setConfig(array $params): void
     {
         $qrCode = isset($params['qr_code']) ? FileService::setFileUrl($params['qr_code']) : '';
 

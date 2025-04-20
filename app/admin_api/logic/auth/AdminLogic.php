@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace app\admin_api\logic\auth;
 
@@ -14,6 +15,7 @@ use app\common\cache\AdminTokenCache;
 use app\common\service\FileService;
 use think\facade\Config;
 use think\facade\Db;
+use think\model\contract\Modelable;
 
 
 /**
@@ -184,7 +186,7 @@ class AdminLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function expireToken($token): bool
+    public static function expireToken(string $token): bool
     {
         $adminSession = AdminSession::where('token', '=', $token)
             ->with('admin')
@@ -205,7 +207,7 @@ class AdminLogic extends BaseLogic
     /**
      * 查看管理员详情
      * @param $params
-     * @param $action
+     * @param string $action
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
@@ -213,7 +215,7 @@ class AdminLogic extends BaseLogic
      * @author LZH
      * @date 2025/2/19
      */
-    public static function detail($params, $action = 'detail'): array
+    public static function detail(array $params, string $action = 'detail'): array
     {
         $admin = Admin::field([
             'id', 'account', 'name', 'disable', 'root',
@@ -235,11 +237,11 @@ class AdminLogic extends BaseLogic
     /**
      * 编辑超级管理员
      * @param $params
-     * @return Admin|\think\model\contract\Modelable
+     * @return Admin|Modelable
      * @author LZH
      * @date 2025/2/19
      */
-    public static function editSelf($params)
+    public static function editSelf(array $params): Modelable|Admin
     {
         $data = [
             'id' => $params['admin_id'],
@@ -258,14 +260,13 @@ class AdminLogic extends BaseLogic
 
     /**
      * 新增角色
-     * @param $adminId
-     * @param $roleIds
+     * @param string $adminId
+     * @param array $roleIds
      * @return void
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function insertRole($adminId, $roleIds)
+    public static function insertRole(string $adminId, array $roleIds): void
     {
         if (!empty($roleIds)) {
             // 角色
@@ -283,14 +284,13 @@ class AdminLogic extends BaseLogic
 
     /**
      * 新增部门
-     * @param $adminId
-     * @param $deptIds
+     * @param string $adminId
+     * @param array $deptIds
      * @return void
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function insertDept($adminId, $deptIds)
+    public static function insertDept(string $adminId, array $deptIds): void
     {
         // 部门
         if (!empty($deptIds)) {
@@ -308,14 +308,13 @@ class AdminLogic extends BaseLogic
 
     /**
      * 新增岗位
-     * @param $adminId
-     * @param $jobsIds
+     * @param string $adminId
+     * @param array $jobsIds
      * @return void
-     * @throws \Exception
      * @author LZH
      * @date 2025/2/19
      */
-    public static function insertJobs($adminId, $jobsIds)
+    public static function insertJobs(string $adminId, array $jobsIds): void
     {
         // 岗位
         if (!empty($jobsIds)) {
