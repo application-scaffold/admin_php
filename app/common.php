@@ -5,6 +5,7 @@ declare(strict_types=1);
 // 应用公共文件
 use app\common\service\FileService;
 use think\helper\Str;
+use think\model\Collection;
 
 /**
  * 生成密码加密密钥

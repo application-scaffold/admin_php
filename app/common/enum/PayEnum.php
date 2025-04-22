@@ -35,12 +35,12 @@ class PayEnum
 
     /**
      * 获取支付类型
-     * @param bool $value
+     * @param mixed $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayDesc(bool $value = true): array|string
+    public static function getPayDesc(mixed $value = true): array|string
     {
         $data = [
             self::BALANCE_PAY => '余额支付',
@@ -56,12 +56,12 @@ class PayEnum
 
     /**
      * 支付状态
-     * @param bool $value
+     * @param mixed $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPayStatusDesc(bool $value = true): array|string
+    public static function getPayStatusDesc(mixed $value = true): array|string
     {
         $data = [
             self::UNPAID => '未支付',
@@ -75,12 +75,12 @@ class PayEnum
 
     /**
      * 支付场景
-     * @param bool|string $value
+     * @param mixed $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getPaySceneDesc(bool|string $value = true): array|string
+    public static function getPaySceneDesc(mixed $value = true): array|string
     {
         $data = [
             self::SCENE_H5 => 'H5',

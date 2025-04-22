@@ -19,12 +19,12 @@ class DecoratePageLogic extends BaseLogic
 
     /**
      * 获取详情
-     * @param string $id
+     * @param int $id
      * @return array
      * @author LZH
      * @date 2025/2/19
      */
-    public static function getDetail(string $id): array
+    public static function getDetail(int $id): array
     {
         return DecoratePage::findOrEmpty($id)->toArray();
     }

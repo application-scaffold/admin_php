@@ -1,47 +1,26 @@
 = admin_php
 
+== 命名规范
+
+`admin_php` 遵循 PSR-2 命名规范和 PSR-4 自动加载规范。
+
 == 技术
 
 使用目前最流行的技术：
 
 - PHP8
-- TypeScript
 - ThinkPHP8
-- Vue3
-- vite5
-- element-plus 2（ElementUI）
+- mysql
+- swagger3
 
 == 文档
 
-[完全开发手册](https://doc.thinkphp.cn)
+https://doc.thinkphp.cn[完全开发手册]
 
-== 安装
+== 部署安装
 
-~~~
-composer create-project topthink/think tp
-~~~
 
-启动服务
-
-~~~
-cd tp
-php think run
-~~~
-
-然后就可以在浏览器中访问
-
-~~~
-http://localhost:8000
-~~~
-
-如果需要更新框架使用
-~~~
-composer update topthink/framework
-~~~
-
-== 命名规范
-
-`ThinkPHP`遵循PSR-2命名规范和PSR-4自动加载规范。
+== 代码生成器
 
 == 生成文档
 
@@ -59,8 +38,531 @@ composer update topthink/framework
 
 前端 api：
 
-* php vendor/zircote/swagger-php/bin/openapi app/front_api/controller -o public/swagger-ui/front_api-swagger.json --format json
+[source, bash]
+----
+php vendor/zircote/swagger-php/bin/openapi app/front_api/controller -o public/swagger-ui/front.json --format json
+----
 
 后端 api：
 
-* php vendor/zircote/swagger-php/bin/openapi app/admin_api/controller -o public/swagger-ui/admin_api-swagger.json --format json
+[source, bash]
+----
+php vendor/zircote/swagger-php/bin/openapi app/admin_api/controller -o public/swagger-ui/admin.json --format json
+----
+
+== 各端后台
+
+=== 请求流程
+
+    接口请求-->进入模块 --> 中间件 --> 控制器 --> 验证类 --> [逻辑层\列表类\服务层] --> 返回结果
+
+应用使用前后端分离，服务端只提供数据接口，默认访问方式为 "http://域名/模块名称/控制器名称/控制器方法"。
+
+代码执行流程如下：
+
+1. 先根据接口 url 找到模块，进入模块中间件，中间件顺序在 [admin_api/front_api]/config/route.php 中配置。
+2. 然后进入控制器，一般控制器类型为查看数据的操作，不会有验证类，数据提交类型有验证类。
+3. 接着按需求执行逻辑层或列表类或服务层，然后返回结果。
+
+=== 模块
+
+根据 thinkphp 开发规范，一般模块放在 server/app 目录下，根据业务定义模块。
+
+- admin_api 目前针对管理后台定义 server/app/admin_api 模块
+- front_api 目前针对前端后台定义 server/app/front_api 模块
+- 后续会小程序模块等。
+
+=== 中间件
+
+中间件配置在 [admin_api/front_api]/config/route.php 文件，按顺序运行初始化中间件，登录验证中间件，权限认证中间件。
+
+==== 初始化
+
+初始化中间件路径为 http/middleware/InitMiddleware.php，用于模块初始化，一般情况下不需求修改。
+
+==== 登录验证
+
+登录验证中间件路径为 [admin_api/front_api]/http/middleware/LoginMiddleware.php，用于验证用户是否登录，登录的用户会在请求的 header 里面放有效的 token 参数，通过 token 参数可以知道用户信息，这些信息可以在控制器等其他地方使用。
+
+有这些接口是不需要验证用户是否登录（比如登录接口），可以在控制器中设置，参考控制器相当关文档。
+
+[source, php]
+----
+<?php
+namespace app\adminapi\controller;
+class LoginController extends BaseAdminController
+{
+    public array $notNeedLogin = ['account', 'logout'];
+    public function account(){}
+    public function logout(){}
+}
+----
+
+==== 权限认证
+
+权限认证的中间件路径为 [admin_api]/http/middleware/AuthMiddleware.php，用户验证登录账号的角色是否拥有该接口的访问权限。
+
+=== 控制器
+
+==== 访问
+
+控制器目录在 [模块/controller]，可以直接在 controller 目录新增控制器类，访问为 "http://域名/模块/控制器类名称/控制器方法"，也可以在 controller 再新建控制器目录，再新建控制器，访问为 "http://域名/模块/控制器目录.控制器名称/控制器方法"。
+
+==== 继承
+
+一般情况下，控制器需要继承模块的基础控制器。
+
+管理后台模块的控制器继承 BaseAdminController 控制器，用户登录状态下，可以通过 `+$this->adminId+` 获取管理员 id，`+$this->adminInfo+` 获取管理员信息。
+
+[source, php]
+----
+<?php
+namespace app\adminapi\controller;
+
+use app\adminapi\controller\BaseAdminController;
+
+class TestController extends BaseAdminController
+{
+    //登录接口
+    public function index()
+    {
+        $this->adminId; //管理员id
+        $this->adminInfo; //管理员属性
+    }
+}
+----
+
+==== 登录
+
+默认情况下，控制器方法需要登录才能访问。也可以设置控制器的 $notNeedLogin 属性，增加多个不需要登录验证的控制器方法名称。
+
+[source, php]
+----
+<?php
+namespace app\adminapi\controller;
+
+use app\adminapi\controller\BaseAdminController;
+
+class LoginController extends BaseAdminController
+{
+    public array $notNeedLogin = ['account', 'logout'];
+
+    //登录接口
+    public function account()
+    {
+        //……
+    }
+
+    //退出登录接口
+    public function logout()
+    {
+        //……
+    }
+}
+----
+
+==== 响应
+
+为了规范接口返回值，接口的数据格式与前端约定，格式和说明如下。
+
+[source, json]
+----
+{
+    "code": 1,
+    "show": 0,
+    "msg": "",
+    "data": {
+        "lists": [],
+        "count": 0,
+        "page_no": 1,
+        "page_size": 15,
+        "extend": []
+    }
+}
+----
+
+[cols="2,2,1,1,4"]
+|===
+|字段|名称|类型|必需|说明
+
+|code
+|状态码
+|int
+|是
+|1-业务正常;0-业务验证不通过
+
+|show
+|提示状态
+|int
+|是
+|1-显示提示语内容；0-不显示提示内容
+
+|msg
+|提示语
+|string
+|是
+|轻弹窗出提示
+
+|data
+|数据
+|object
+|是
+|业务数据
+
+|-list
+|列表数组
+|array
+|否
+|数据列表数组内容
+
+|-count
+|记录数
+|int
+|否
+|数据列表总记录数
+
+|-page_no
+|页面序号
+|int
+|否
+|当前页序号
+
+|-page_size
+|每页记录数
+|int
+|否
+|当前每页记录数
+
+|-extend
+|额外参数
+|array
+|否
+|额外参数，根据需要使用
+|===
+
+接口返回一般会使用控制器的几个方法：
+
+- success：方法表示业务正常，也可以用于返回接口数据。
+- data：方法用于返回数据。
+- dataLists：方法专门用于返回列表数据，包含列表导出。
+
+[cols="2,3,5"]
+|===
+|方法名称|调用说明|参数
+
+|success()
+|返回业务正常或数据
+|$msg:提示语;$data:数据;$code:状态码;$show:提示语
+
+|fail()
+|返回数据
+|$data:数据
+
+|data()
+|返回数据
+|$lists: 列表类
+
+|lists()
+|返回列表数据
+|$msg:提示语;验证码 拦截后会自动处理，一般情况下不需要使用
+|===
+
+[source, php]
+----
+<?php
+namespace app\adminapi\controller;
+
+use app\adminapi\controller\BaseAdminController;
+
+class TestController extends BaseAdminController
+{
+    //登录接口
+    public function index()
+    {
+        return $this->success();//成功
+        return $this->fail(); //失败
+        return $this->data(); //返回数据
+        return $this->dataLists(); //返回数据列表
+    }
+}
+----
+
+=== 验证类
+
+在获取请求参数后做简单的参数校验
+
+实现步骤：
+
+1. 业务验证类继承 BaseValidate 验证基类
+2. 业务控制器实例化业务验证类，调用 goCheck($scene, $validateData) 方法。
+
+示例：
+
+[source, php]
+----
+<?php
+namespace app\adminapi\validate\auth;
+
+use app\common\validate\BaseValidate;
+
+// 验证器
+class AdminValidate extends BaseValidate
+{
+
+    protected $rule = [
+        'name' => 'require',
+    ];
+
+    protected $message = [
+        'name.require' => '名称不能为空',
+    ];
+
+    // 添加场景
+    public function sceneAdd()
+    {
+        return $this->only(['name']);
+    }
+
+}
+
+<?php
+namespace app\adminapi\controller\auth;
+
+use app\adminapi\controller\BaseAdminController;
+use app\adminapi\validate\auth\AdminValidate;
+
+// 控制器
+class AdminController extends BaseAdminController
+{
+    public function add()
+    {
+        // gocheck($scene, $validateData)
+        // $scene => 场景 $validateData => 验证参数(可追加或覆盖接收到的请求参数)
+        // post
+        $params = (new AdminValidate())->post()->goCheck('add');
+        // get
+        // $params = (new AdminValidate())->goCheck('detail');
+        //……
+    }
+}
+----
+
+=== 列表类
+
+实现步骤：
+
+1. 新建列表类继承列表基类 BaseAdminDataLists
+2. 控制器中继承控制器基类 BaseAdminController，调用 dataLists()
+
+其他：
+
+1. 分页使用 limit() 方法
+2. 提供了几个接口加强列表类的应用
+
+- ListsSearchInterface - 搜索
+- ListsExtendInterface - 扩展参数
+- ListsSortInterface - 排序
+- ListsExcelInterface - 导出 Excel
+
+示例：
+
+[source, php]
+----
+<?php
+
+namespace app\adminapi\lists\auth;
+
+use app\adminapi\lists\BaseAdminDataLists;
+use app\common\lists\ListsSearchInterface;
+
+// 列表类
+class AdminLists extends BaseAdminDataLists implements ListsSearchInterface
+{
+    // 搜索条件
+    public function setSearch(): array
+    {
+        return [
+            '%like%' => ['name', 'account'],
+        ];
+    }
+
+    // 查询列表数据
+    public function lists(): array
+    {
+        return Admin::where($this->searchWhere)
+            ->limit($this->limitOffset, $this->limitLength)
+            ->select()
+            ->toArray();
+    }
+
+    // 获取数量
+    public function count(): int
+    {
+        return Admin::where($this->searchWhere)->count();
+    }
+}
+
+<?php
+namespace app\adminapi\controller;
+
+use app\adminapi\controller\BaseAdminController;
+use app\adminapi\lists\DemoLists;
+
+// 控制器
+class AdminController extends BaseAdminController
+{
+    public function lists()
+    {
+        return $this->dataLists(new AdminLists());
+    }
+}
+----
+
+==== 列表导出
+
+实现步骤：
+
+1. 业务列表类实现 ListsExcelInterface 接口.该接口必须实现setExcelFields() 和 setFileName() 方法
+
+- setExcelFields()用于设置导出字段
+- setFileName()用于设置默认导出文件名
+
+2. 前端请求列表接口时带上导出所需参数
+
+其他：
+
+1. 导出目录为 server/runtime/file/export/
+2. 导出具体逻辑参考 app/common/lists/ListsExcelTrait.php
+
+前端接口请求参数：
+
+[cols="2,1,1,6"]
+|===
+|参数名|必选|类型|说明
+
+|export
+|是
+|int
+|导出 excel
+
+|file_name
+|否
+|string
+|导出文件名; 若不传递，使用后端设置的默认文件名
+
+|page_type
+|否
+|int
+|导出数据类型 0-导出全部数据 1(默认)-导出指定分页的数据(例：导出第2页至第5页数据时，同时要传递page_start = 2,page_end=5)
+
+|page_size
+|否
+|int
+|当 page_type=1 时有效，代表每页的数量， 默认值25
+
+|page_start
+|否
+|int
+|当 page_type=1 时有效，代表导出的起始页码， 默认值1
+
+|page_end
+|否
+|int
+|当 page_type=1 时有效，代表导出的结束页码， 默认值200
+|===
+
+示例：
+
+[source, php]
+----
+<?php
+namespace app\adminapi\lists;
+
+use app\adminapi\lists\BaseAdminDataLists;
+use app\common\lists\ListsExcelInterface;
+
+// 列表类
+class DemoLists extends BaseAdminDataLists implements ListsExcelInterface
+{
+    // 查询列表数据
+    public function lists(): array
+    {
+        //……
+    }
+
+    // 查询数量
+    public function count(): int
+    {
+        //……
+    }
+
+    // 设置导出字段
+    public function setExcelFields(): array
+    {
+        return [
+            'nickname' => '昵称',
+            'mobile' => '手机号',
+        ];
+    }
+
+    // 设置导出文件默认名称
+    public function setFileName(): string
+    {
+        return '用户记录';
+    }
+}
+
+<?php
+namespace app\adminapi\controller;
+
+use app\adminapi\controller\BaseAdminController;
+use app\adminapi\lists\DemoLists;
+
+// 前端请求列表接口 /adminapi/demo/lists?export=2&page_type=1&page_start=1&page_end=2.即可获得excel下载地址。
+class DemoController extends BaseAdminController
+{
+    public function lists()
+    {
+        return $this->dataLists(new DemoLists());
+    }
+}
+----
+
+=== 定时任务
+
+在系统中添加好业务所需定时任务，运行 crontab 定时任务来处理各子任务。 以下示例中 www/wwwroot/admin_php/think 为项目的 think 文件绝对路径，根据自己项目实际路径处理。
+
+各环境配置定时任务：
+
+1. 宝塔。在计划任务页面中添加 crontab 定时任务。设置脚本内容: php /www/wwwroot/admin_php/think crontab。
+
+2. LINUX。执行 crontab -e，设置脚本内容： */1 * * * * php /www/wwwroot/admin_php/think crontab。
+
+3. docker。进行 php 容器，设置脚本内容： */1 * * * * docker exec php-7.2.4-fpm php /admin_php/think crontab。
+
+=== admin 后台
+
+==== 目录
+
+[source, text]
+----
+├─📂 admin_php  //服务端根目录（管理后台、接口）
+│  ├─📂 app  //应用目录
+│  │  ├─📂 admin_api  //管理后台接口
+│  │  │  ├─📂config //配置
+│  │  │  ├─📂controller //控制器
+│  │  │  ├─📂http
+│  │  │  │  ├─📂middleware //中间件
+│  │  │  ├─📂listener //事件监听
+│  │  │  ├─📂lists //列表类
+│  │  │  ├─📂logic //逻辑类
+│  │  │  ├─📂service //服务类
+│  │  │  ├─📂validate //验证类
+│
+│  ├─📂 public  //WEB目录（对外访问目录）
+│  │  ├─📄 index.php  //php入口文件
+│  │  ├─📂 admin  //已编译的后台前端代码入口（上线运行）
+│  │  ├─📂 install  //安装程序目录
+│  ├─📄 .env  //项目环境配置文件（最优化读取配置）
+----
+

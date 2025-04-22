@@ -40,10 +40,10 @@ class LoginLogic extends BaseLogic
         $admin->save();
 
         //设置token
-        $adminInfo = AdminTokenService::setToken($admin->id, $params['terminal'], $admin->multipoint_login);
+        $adminInfo = AdminTokenService::setToken($admin->id, intval($params['terminal']), $admin->multipoint_login);
 
         //返回登录信息
-        $avatar = $admin->avatar ? $admin->avatar : Config::get('project.default_image.admin_avatar');
+        $avatar = $admin->avatar ?: Config::get('project.default_image.admin_avatar');
         $avatar = FileService::getFileUrl($avatar);
         return [
             'name' => $adminInfo['name'],

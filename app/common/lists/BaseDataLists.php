@@ -80,12 +80,12 @@ abstract class BaseDataLists implements ListsInterface
     {
         $this->pageSizeMax = Config::get('project.lists.page_size_max');
         $this->pageSize = Config::get('project.lists.page_size');
-        $this->pageType = $this->request->get('page_type', 1);
+        $this->pageType = $this->request->get('page_type/d', 1);
 
         if ($this->pageType == 1) {
             //分页
-            $this->pageNo = $this->request->get('page_no', 1) ?: 1;
-            $this->pageSize = $this->request->get('page_size', $this->pageSize) ?: $this->pageSize;
+            $this->pageNo = $this->request->get('page_no/d', 1) ?: 1;
+            $this->pageSize = $this->request->get('page_size/d', $this->pageSize) ?: $this->pageSize;
         } else {
             //不分页
             $this->pageNo = 1;//强制到第一页

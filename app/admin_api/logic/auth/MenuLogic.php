@@ -52,7 +52,7 @@ class MenuLogic extends BaseLogic
             ->order(['sort' => 'desc', 'id' => 'asc'])
             ->select();
 
-        return linear_to_tree($menu, 'children');
+        return linear_to_tree($menu->toArray(), 'children');
     }
 
     /**

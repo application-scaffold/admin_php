@@ -48,7 +48,7 @@ class DeptLogic extends BaseLogic
 
         $pid = 0;
         if (!empty($lists)) {
-            $pid = min(array_column($lists, 'pid'));
+            $pid = intval(min(array_column($lists, 'pid')));
         }
         return self::getTree($lists, $pid);
     }

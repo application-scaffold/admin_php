@@ -23,18 +23,18 @@ class AdminTokenService
 
     /**
      * 设置或更新管理员token
-     * @param string $adminId
-     * @param string $terminal
+     * @param int $adminId
+     * @param int $terminal
      * @param int $multipointLogin
      * @return array|false|mixed
-     * @throws \DateMalformedStringException
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
+     * @throws \DateMalformedStringException
      * @author LZH
      * @date 2025/2/19
      */
-    public static function setToken(string $adminId, string $terminal, int $multipointLogin = 1): mixed
+    public static function setToken(int $adminId, int $terminal, int $multipointLogin = 1): mixed
     {
         $time = time();
         $adminSession = AdminSession::where([['admin_id', '=', $adminId], ['terminal', '=', $terminal]])->find();

@@ -6,6 +6,9 @@ namespace app\common\cache;
 use app\common\model\auth\Admin;
 use app\common\model\auth\AdminSession;
 use app\common\model\auth\SystemRole;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 管理员token缓存
@@ -23,9 +26,9 @@ class AdminTokenCache extends BaseCache
      * 通过token获取缓存管理员信息
      * @param string $token 管理员token
      * @return array|false|mixed 管理员信息，如果不存在则返回false
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      * @throws \DateMalformedStringException
      * @author LZH
      * @date 2025/2/18

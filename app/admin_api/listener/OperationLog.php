@@ -70,7 +70,7 @@ class OperationLog
         $systemLog->account = $request->adminInfo['account'] ?? '';
         $systemLog->url = $request->url(true);
         $systemLog->type = $request->isGet() ? 'GET' : 'POST';
-        $systemLog->params = json_encode($params, true);
+        $systemLog->params = json_encode($params);
         $systemLog->ip = $request->ip();
         $systemLog->result = $response->getContent();
         return $systemLog->save();

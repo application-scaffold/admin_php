@@ -48,12 +48,12 @@ class NoticeEnum
 
     /**
      * 通知类型
-     * @param bool $value
+     * @param mixed $value
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getTypeDesc(bool $value = true): array|string
+    public static function getTypeDesc(mixed $value = true): array|string
     {
         $data = [
             self::BUSINESS_NOTIFICATION => '业务通知',
@@ -68,13 +68,13 @@ class NoticeEnum
 
     /**
      * 获取场景描述
-     * @param $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return string|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSceneDesc($sceneId, bool $flag = false): array|string
+    public static function getSceneDesc(mixed $sceneId, bool $flag = false): array|string
     {
         $desc = [
             self::LOGIN_CAPTCHA => '登录验证码',
@@ -98,7 +98,7 @@ class NoticeEnum
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSceneByTag(string $tag): int|string
+    public static function getSceneByTag(mixed $tag): int|string
     {
         $scene = [
             // 手机验证码登录
@@ -116,13 +116,13 @@ class NoticeEnum
 
     /**
      * 获取场景变量
-     * @param string $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return array|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getVars(string $sceneId, bool $flag = false): array
+    public static function getVars(mixed $sceneId, bool $flag = false): array
     {
         $desc = [
             self::LOGIN_CAPTCHA => '验证码:code',
@@ -140,13 +140,13 @@ class NoticeEnum
 
     /**
      * 获取系统通知示例
-     * @param string $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return array
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSystemExample(string $sceneId, bool $flag = false): array
+    public static function getSystemExample(mixed $sceneId, bool $flag = false): array
     {
         $desc = [];
 
@@ -161,13 +161,13 @@ class NoticeEnum
 
     /**
      * 获取短信通知示例
-     * @param string $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return array|string[]
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getSmsExample(string $sceneId, bool $flag = false): array
+    public static function getSmsExample(mixed $sceneId, bool $flag = false): array
     {
         $desc = [
             self::LOGIN_CAPTCHA => '您正在登录，验证码${code}，切勿将验证码泄露于他人，本条验证码有效期5分钟。',
@@ -185,13 +185,13 @@ class NoticeEnum
 
     /**
      * 获取公众号模板消息示例
-     * @param string $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getOaExample(string $sceneId, bool $flag = false): mixed
+    public static function getOaExample(mixed $sceneId, bool $flag = false): mixed
     {
         $desc = [];
 
@@ -206,13 +206,13 @@ class NoticeEnum
 
     /**
      * 获取小程序订阅消息示例
-     * @param string $sceneId
+     * @param mixed $sceneId
      * @param bool $flag
      * @return array|mixed
      * @author LZH
      * @date 2025/2/18
      */
-    public static function getMnpExample(string $sceneId, bool $flag = false): mixed
+    public static function getMnpExample(mixed $sceneId, bool $flag = false): mixed
     {
         $desc = [];
 
