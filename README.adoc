@@ -19,8 +19,102 @@ https://doc.thinkphp.cn[完全开发手册]
 
 == 部署安装
 
+=== 环境要求
+
+[cols="4,3,3"]
+|===
+|运行环境|要求版本|推荐版本
+
+|PHP
+|>=8.0
+|8.0
+
+|Mysql
+|>=5.7
+|5.7
+
+|nginx 或 apache
+|无限制
+|-
+|===
+
+=== 部署
+
+项目入口文件：server/public/index.php
+
+==== nginx配置
+
+[source, conf]
+----
+server {
+    listen 80;
+    server_name  demo.myadmin.cn;
+    access_log /logs/demo.myadmin.cnt_access_nginx.log;
+    error_log /logs/demo.myadmin.cn_error_nginx.log;
+    client_max_body_size 5M;
+    location / {
+        root  admin_php/public;#入口文件目录
+        index  index.html index.htm index.php;
+        if (!-e $request_filename)
+        {
+            rewrite ^/(.*)$ /index.php?s=$1 last;
+            break;
+        }
+    }
+    location ~ /.*\.php/ {
+        rewrite ^(.*?/?)(.*\.php)(.*)$ /$2?s=$3 last;
+        break;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /var/www/html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  admin_php/public$fastcgi_script_name; #入口文件目录
+        include        fastcgi_params;
+    }
+    location = /favicon.ico {
+            log_not_found off;
+            access_log off;
+        }
+}
+----
+
+nginx 伪静态：
+
+[source, conf]
+----
+if (!-e $request_filename)
+{
+    rewrite ^/(.*)$ /index.php?s=$1 last;
+    break;
+}
+----
+
+==== apache配置
+
+[source, conf]
+----
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+----
+
+==== 访问地址
+
+部署安装以后管理后台入口地址： http://域名/admin_api
 
 == 代码生成器
+
+* TODO
 
 == 生成文档
 
@@ -28,11 +122,11 @@ https://doc.thinkphp.cn[完全开发手册]
 
 前端 api：
 
-* 访问 doc/generate/front
+* 访问 [域名]/doc/generate/front
 
 后端 api：
 
-* 访问 doc/generate/admin
+* 访问 [域名]/doc/generate/admin
 
 === 手动生成文档
 
