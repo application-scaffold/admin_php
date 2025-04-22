@@ -127,17 +127,6 @@ server {
 }
 ----
 
-nginx 伪静态：
-
-[source, conf]
-----
-if (!-e $request_filename)
-{
-    rewrite ^/(.*)$ /index.php?s=$1 last;
-    break;
-}
-----
-
 ==== apache配置
 
 [source, conf]
